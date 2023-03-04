@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../buildMultiTargeting/CPSC481CourseScheduler.props" />
+</Project>
