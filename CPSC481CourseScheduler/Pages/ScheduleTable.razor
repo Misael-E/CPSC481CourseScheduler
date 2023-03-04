@@ -1,0 +1,77 @@
+﻿@page "/share"
+
+<h1>Schedule Planner</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 8; i <= 18; i++)
+        {
+            <tr>
+                <td>@GetTime(i)</td>
+                @for (int j = 0; j < 5; j++)
+                {
+                    <td>
+                        @foreach (var course in Courses)
+                        {
+                            var startHours = int.Parse(course.StartTime.Split(':')[0]);
+                            var startMinutes = int.Parse(course.StartTime.Split(':')[1]);
+                            var startTimeSpan = TimeSpan.FromHours(startHours) + TimeSpan.FromMinutes(startMinutes);
+                            if (startTimeSpan == TimeSpan.FromHours(i) &&
+                            (course.DaysOfWeek.Contains((DayOfWeek)j)))
+                            {
+                                <div>@course.Name</div>
+                            }
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    
+
+    public class Course
+    {
+        public string Name { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public List<DayOfWeek> DaysOfWeek { get; set; }
+
+    }
+
+    private List<Course> Courses = new List<Course>
+    {
+        new Course { Name = "CPSC 571", StartTime = "9:30", EndTime = "10:45", DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday } },
+        new Course { Name = "CPSC 481", StartTime = "10:00", EndTime = "10:50", DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday } },
+        new Course { Name = "SOCI 201", StartTime = "1:00", EndTime = "2:15", DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday } },
+    };
+
+
+    private string GetTime(int hour)
+    {
+        if (hour == 12)
+        {
+            return "12 PM";
+        }
+        else if (hour > 12)
+        {
+            return (hour - 12).ToString() + " PM";
+        }
+        else
+        {
+            return hour.ToString() + " AM";
+        }
+    }
+}
