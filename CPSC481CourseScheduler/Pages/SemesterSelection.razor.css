@@ -1,0 +1,18 @@
+﻿body {
+  
+}
+
+
+.sem {
+    margin-top: 40%;
+
+}
+
+.sembox {
+    margin: 20%, auto;
+    border-style: solid;
+    border-radius: 10px;
+    height: 100px;
+    width: 50px;
+    background-color: #AED6F1;
+}

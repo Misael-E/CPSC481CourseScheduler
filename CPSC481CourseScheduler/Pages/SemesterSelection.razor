@@ -1,0 +1,60 @@
+﻿@page "/selection"
+
+<style>
+	h1 {
+		text-align:center; 
+		font-size:larger;
+		font-style: italic;
+		font-weight:bold;
+		font-size: 3rem;
+		margin: 10% auto"
+	}
+
+	.sem {
+		margin: 2% auto;
+	}
+
+	.sembox {
+		margin: auto;
+		border-style: solid;
+		border-radius: 10px;
+		height: 400px;
+		width: 300px;
+		background-color: #784212;
+		display: flex;
+		flex-direction:column;
+		justify-content:center;
+		gap:1%;
+	}
+
+	.butbox {
+		margin: 2% auto;
+	}
+
+</style>
+
+<body style="background-color:#F4F6F7">
+	<div>
+	<h1 >Choose Your Semester</h1>
+	</div>
+	<div class="sem">
+		<div class="sembox">
+			<div class="butbox">
+				<button class="btn btn-lg btn-primary">Winter 2023</button>
+			</div>
+			<div class="butbox">
+				<button class="btn btn-lg btn-primary">Spring/Summer 2023</button>
+			</div>
+			<div class="butbox">
+				<button class="btn btn-lg btn-primary">Fall 2023</button>
+			</div>
+			<div class="butbox">
+				<button class="btn btn-lg btn-primary">Winter 2024</button>
+			</div>
+		</div>
+	</div>
+</body>
+
+@code {
+
+}
