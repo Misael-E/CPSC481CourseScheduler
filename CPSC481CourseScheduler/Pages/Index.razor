@@ -7,7 +7,6 @@
 		flex-direction: column;
 		align-items: center;
 		margin: auto;
-		gap: 5%;
 	}
 
 	.searchform-control {
@@ -22,6 +21,14 @@
 		border-radius:8px;
 	}
 
+	.recommended h1 {
+		text-align: center;
+	}
+
+	.srch-btn {
+		margin-top: 10px;
+	}
+
 	.search {
 		margin-top: 3%;
 	}
@@ -33,7 +40,7 @@
 	}
 </style>
 
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-8">
 			<div class="search">
@@ -42,7 +49,7 @@
 					<input class="search-input" type="text" placeholder="Search Courses" aria-label="Search">
 					</div>
 					<div>
-					<button class="btn btn-info btn-md" type="submit">Search</button>
+					<button class="btn btn-info btn-md srch-btn" type="submit">Search</button>
 					</div>
 				</form>
 			</div>
@@ -54,9 +61,9 @@
 
 				<div class="container">
 					<div class="row">
-					@for(int i=0; i < 6; i++)
+						@foreach (var course in courses)
 					{
-					<CourseRecommeded></CourseRecommeded>
+					<CourseRecommeded CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq"></CourseRecommeded>
 					}
 					</div>
 				</div>
@@ -71,6 +78,55 @@
 
 
 @code {
+	private List<RecommendedCourses> courses;
 
-
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		courses = new List<RecommendedCourses>
+		{
+			new RecommendedCourses
+			{
+				CourseName = "Human Computer Interaction",
+				CourseCode = "CPSC 481",
+				Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces",
+				prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311"
+			},
+			new RecommendedCourses
+			{
+				CourseName = "Distributed Systems",
+				CourseCode = "CPSC 559",
+				Description = "Designing and implementing distributed systems that overcome challenges due to concurrent computation, ailure of components in the system",
+				prereq = "Computer Science 441 and 457"
+			},
+			new RecommendedCourses
+			{
+				CourseName = "Web-Based Systems",
+				CourseCode = "SENG 513",
+				Description = "An overview of software engineering methods and technologies for developing web-based software systems.",
+				prereq = "3 units from Software Engineering 300, 301 or ENSF 480"
+			},
+			new RecommendedCourses
+			{
+				CourseName = "Software Project Management",
+				CourseCode = "SENG 511",
+				Description = "Analysis of methods, tools, and techniques for software project management as an effort to achieve quality software products.",
+				prereq = "3 units from Software Engineering 300, 301, 403 or ENSF 480"
+			},
+			new RecommendedCourses
+			{
+				CourseName = "Programming Paradigms",
+				CourseCode = "CPSC 449",
+				Description = "Examination of the basic principles of the major programming language paradigms. Focus on declarative paradigms.",
+				prereq = "Computer Science 319 or 331; and Philosophy 279 or 377."
+			},
+			new RecommendedCourses
+			{
+				CourseName = "Artificial Intelligence",
+				CourseCode = "CPSC 433",
+				Description = "An examination of the objectives, key techniques and achievements of work on artificial intelligence in Computer Science.",
+				prereq = "Computer Science 313 or 351; and Philosophy 279 or 377"
+			}
+		};
+	}
 }
