@@ -15,9 +15,9 @@ html, body {
 .nav-bar-items {
     display: flex;
     flex-direction: row;
-    width: 100%;
     justify-content: flex-end;
     align-content: center;
+    flex: 30%;
 }
 
 .title {
@@ -26,6 +26,19 @@ html, body {
     text-align: center;
     width: 14rem;
     align-self: center;
+    padding: 1rem;
+}
+
+.semester-select {
+    padding: 5px 0 5px 10px;
+    width: 40rem;
+    flex: 40%;
+    font-size: 18px;
+    margin-top: .5rem;
+    text-align: left;
+}
+
+.semester-option {
 }
 
 .nav-button {
