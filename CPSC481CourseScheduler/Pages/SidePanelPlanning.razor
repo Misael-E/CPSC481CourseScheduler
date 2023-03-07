@@ -1,0 +1,213 @@
+﻿@page "/side-panel"
+
+  
+<div class="side-panel">
+    <div class="tab">
+        <button style="@(tab1?"background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(1)"> <h3 style="font-size:1vw"> Selected Courses </h3> </button>
+        <button style="@(tab2?"background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(2)"> <h3 style="font-size:1vw"> Bookmarks </h3> </button>
+    </div>
+    @if(tab1) {
+        <div class="tab-content">
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">SOCI 201 - Introduction to Sociology</h5>
+                <p class="card-text"> 
+                    Section: L02 <br>
+			        Time: MWF 10:00 - 11:00 <br>
+			        Instructor: Ehud Sharlin <br>
+			        Location: ST 140 <br>
+			        Seats Available: 45/90
+                </p>
+                <button type="button" class="btn btn-outline-info">Show Location</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">CPSC 571 - Design and Implementation of Database Systems</h5>
+                <p class="card-text">
+                    Section: L01 <br>
+			        Time: TR 14:00 - 15:15 <br>
+			        Instructor: Tamer Jarada <br>
+			        Location: MS 217 <br>
+			        Seats Available: 40/90
+                </p>
+                <button type="button" class="btn btn-outline-info">Show Location</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">SENG 513 - Web-Based Systems</h5>
+                <p class="card-text">
+                    Section: L01 <br>
+			        Time: TR 12:30 - 13:45 <br>
+			        Instructor: Ahmad Nasri <br>
+			        Location: ICT 122 <br>
+			        Seats Available: 20/50
+                </p>
+                <button type="button" class="btn btn-outline-info">Show Location</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">CPSC 583 - Introduction to Information Visualization</h5>
+                <p class="card-text">
+                    Section: L01 <br>
+			        Time: MWF 14:00 - 14:50 <br>
+			        Instructor: Emma Towlson <br>
+			        Location: SB 148 <br>
+			        Seats Available: 33/50
+                </p>
+                <button type="button" class="btn btn-outline-info">Show Location</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">GLGY 305 - Introduction to Dinosaurs</h5>
+                <p class="card-text">
+                    Section: L01 <br>
+			        Time: MF 12:00 - 12:50 <br>
+			        Instructor: Darla Zelenitsky <br>
+			        Location: CHC 119 <br>
+			        Seats Available: 40/100
+                </p>
+                <button type="button" class="btn btn-outline-info">Show Location</button>
+                </div>
+            </div>
+        </div>
+    }
+
+        
+    @if(tab2) {
+        <div class="tab-content">
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">KINES 373 - Exercise Physiology</h5>
+                <p class="card-text"> 
+                    Section: L01 <br>
+			        Time: MW 11:00 - 11:50 <br>
+			        Instructor: Martin MacInnis <br>
+			        Location: SA 104 <br>
+			        Seats Available: 20/90
+                </p>
+                <button type="button" class="btn btn-outline-info">Show Location</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">CPSC 571 - Design and Implementation of Database Systems</h5>
+                <p class="card-text">
+                    Section: L01 <br>
+			        Time: TR 14:00 - 15:15 <br>
+			        Instructor: Tamer Jarada <br>
+			        Location: MS 217 <br>
+			        Seats Available: 40/90
+                </p>
+                <button type="button" class="btn btn-outline-info">Show Location</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">SENG 513 - Web-Based Systems</h5>
+                <p class="card-text">
+                    Section: L01 <br>
+			        Time: TR 12:30 - 13:45 <br>
+			        Instructor: Ahmad Nasri <br>
+			        Location: ICT 122 <br>
+			        Seats Available: 20/50
+                </p>
+                <button type="button" class="btn btn-outline-info">Show Location</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">CPSC 583 - Introduction to Information Visualization</h5>
+                <p class="card-text">
+                    Section: L01 <br>
+			        Time: MWF 14:00 - 14:50 <br>
+			        Instructor: Emma Towlson <br>
+			        Location: SB 148 <br>
+			        Seats Available: 33/50
+                </p>
+                <button type="button" class="btn btn-outline-info">Show Location</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">GLGY 305 - Introduction to Dinosaurs</h5>
+                <p class="card-text">
+                    Section: L01 <br>
+			        Time: MF 12:00 - 12:50 <br>
+			        Instructor: Darla Zelenitsky <br>
+			        Location: CHC 119 <br>
+			        Seats Available: 40/100
+                </p>
+                <button type="button" class="btn btn-outline-info">Show Location</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+<style>
+  .tab {
+    background-color: orange;
+    padding-top:10px;
+    }
+ .card {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+    }
+.tab button{
+    background-color: orange;
+    border: none;
+    outline: none;
+    }
+.tab:hover{
+    background-color: orange;
+}
+.tab-content {
+    background-color: #ffd16b;
+    padding: 10px;
+    overflow-y: scroll;
+    max-height: 70vh;
+    display:flex;
+    flex-direction: column;
+    scroll-behavior: smooth;
+    border: thick double #ffd16b;
+}
+
+
+h5 {
+    font-weight: bold;
+    }
+p    {color: black;}
+</style>
+
+@code {
+    private bool tab1 = true;
+    private bool tab2 = false;
+
+    public void ActiveTab(int TabNumber) {
+        switch(TabNumber) {
+            case 1:
+                this.tab1 = true;
+                this.tab2 = false;
+                break;
+            case 2:
+                this.tab1 = false;
+                this.tab2 = true;
+                break;
+        }
+    }
+}
