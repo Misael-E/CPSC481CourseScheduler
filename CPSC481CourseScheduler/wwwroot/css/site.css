@@ -28,6 +28,17 @@ html, body {
     align-self: center;
 }
 
+.semester-select {
+    padding: 3px;
+    background-color: blueviolet;
+    color: white;
+    width: 10rem;
+}
+
+.semester-option {
+    color: white;
+}
+
 .nav-button {
     padding: 3px 0 3px 0;
     height: 100%;
