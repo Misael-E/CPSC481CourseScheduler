@@ -76,39 +76,39 @@
 					<button class="btn btn-info btn-md srch-btn" type="submit">Search</button>
 					</div>
 				</form>
-				@if (searchClicked)
+				@if(searchClicked)
 				{
-						<div class="search-results">
-							<div>
-								<p><b>@course.CourseName</b></p>
-								<p><b>@course.CourseCode</b></p>
-								<div class="container">
-									<div class="row">
-										<div class="col-6">
-											<p><b>Time: </b> @course.CourseTime</p>
-										</div>
-										<div class="col-6">
-											<p><b>Instructor: </b>@course.InstructorName</p>
-										</div>
-										<div class="col-6">
-											<p><b>Location: </b>@course.LectureInfo</p>
-										</div>
-										<div class="col-6">
-											<p><b>Seats: </b>@course.Seats</p>
-										</div>
-										<div class="col-6 add-btn">
-											<button class="srch-btn btn-primary btn-sm">Add to Bookmarks</button>
-										</div>
-										<div class="col-6 add-btn">
-											<button class="srch-btn btn-primary btn-sm">Add to Selections</button>
-										</div>
+					<div class="search-results">
+						<div>
+							<p><b>@course.CourseName</b></p>
+							<p><b>@course.CourseCode</b></p>
+							<div class="container">
+								<div class="row">
+									<div class="col-6">
+										<p><b>Time: </b> @course.CourseTime</p>
+									</div>
+									<div class="col-6">
+										<p><b>Instructor: </b>@course.InstructorName</p>
+									</div>
+									<div class="col-6">
+										<p><b>Location: </b>@course.LectureInfo</p>
+									</div>
+									<div class="col-6">
+										<p><b>Seats: </b>@course.Seats</p>
+									</div>
+									<div class="col-6 add-btn">
+										<button class="srch-btn btn-primary btn-sm">Add to Bookmarks</button>
+									</div>
+									<div class="col-6 add-btn">
+										<button class="srch-btn btn-primary btn-sm">Add to Selections</button>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="clear-btn">
-							<button class="btn btn-danger  btn-md" onclick="@(searchResultsOff)">Clear Results</button>
-						</div>
+					</div>
+					<div class="clear-btn">
+						<button class="btn btn-danger  btn-md" onclick="@(searchResultsOff)">Clear Results</button>
+					</div>
 				}
 		</div>
 			<div class="recommended">
@@ -119,9 +119,9 @@
 				<div class="container">
 					<div class="row">
 						@foreach (var course in courses)
-						{
-						<CourseRecommeded CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq"></CourseRecommeded>
-						}
+					{
+					<CourseRecommeded CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq"></CourseRecommeded>
+					}
 					</div>
 				</div>
 				</div>
