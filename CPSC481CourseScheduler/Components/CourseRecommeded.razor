@@ -1,0 +1,58 @@
+﻿
+
+<style>
+	.card-recommended {
+		height: 250px;
+		width: 250px;
+		background-color: orange;
+		border-radius: 5px;
+		margin: 2% auto;
+	}
+		.card-recommended .card-heading {
+			border: 2px black solid;
+			border-radius: 5px;
+			height: 50px;
+			width: 250px;
+			background-color: #C0392B;
+		}
+
+	.card-heading h6 {
+		text-align: center;
+	}
+
+	.text {
+		font-size: 12px;
+	}
+</style>
+
+<div class="col-4">
+	<div class="card-recommended">
+		<div class="card-heading">
+			<h6><b>@CourseName</b></h6>
+			<h6>@CourseCode</h6>
+		</div>
+		<div>
+			<div class="card-body">
+				<p><b>Description</b><p class="text">@Description</p> </p>
+				<p><b>Prerequisites</b> <p class="text">@Prereq</p></p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@code{
+
+	[Parameter]
+	public string CourseName { get; set; }
+
+	[Parameter]
+	public string CourseCode { get; set; }
+
+	[Parameter]
+	public string Description { get; set; }
+
+	[Parameter]
+	public string Prereq { get; set;}
+
+}

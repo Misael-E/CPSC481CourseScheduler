@@ -1,0 +1,211 @@
+﻿@page "/"
+<PageTitle>Browsing</PageTitle>
+
+<style>
+	.searchform {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin: auto;
+	}
+
+	.searchform-control {
+		width: 500px;
+		height: 100px;
+	}
+
+	.search-input {
+		width: 500px;
+		height: 40px;
+		border: 3px solid black;
+		border-radius:8px;
+	}
+
+	.recommended h1 {
+		text-align: center;
+	}
+
+	.srch-btn {
+		margin-top: 10px;
+	}
+
+	.search {
+		margin-top: 3%;
+	}
+
+	.recommended {
+		margin-top: 3%;
+	}
+
+	.search-results {
+		width: 400px;
+		height: 220px;
+		background-color: lightblue;
+		border: 2px solid black;
+		border-radius: 5px;
+		margin: auto;
+	}
+
+	div p {
+		text-align: center;
+	}
+
+	.add-btn {
+		text-align: center;
+	}
+
+	.clear-btn {
+		margin-top:1%;
+		text-align: center;
+	}
+
+	.display-nothing {
+		display:
+	}
+</style>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-8">
+			<div class="search">
+				<form class="searchform-control searchform" onsubmit="@(searchResults)">
+					<div>
+					<input class="search-input" type="text" placeholder="Search Courses" aria-label="Search">
+					</div>
+					<div>
+					<button class="btn btn-info btn-md srch-btn" type="submit">Search</button>
+					</div>
+				</form>
+				@if(searchClicked)
+				{
+					<div class="search-results">
+						<div>
+							<p><b>@course.CourseName</b></p>
+							<p><b>@course.CourseCode</b></p>
+							<div class="container">
+								<div class="row">
+									<div class="col-6">
+										<p><b>Time: </b> @course.CourseTime</p>
+									</div>
+									<div class="col-6">
+										<p><b>Instructor: </b>@course.InstructorName</p>
+									</div>
+									<div class="col-6">
+										<p><b>Location: </b>@course.LectureInfo</p>
+									</div>
+									<div class="col-6">
+										<p><b>Seats: </b>@course.Seats</p>
+									</div>
+									<div class="col-6 add-btn">
+										<button class="srch-btn btn-primary btn-sm">Add to Bookmarks</button>
+									</div>
+									<div class="col-6 add-btn">
+										<button class="srch-btn btn-primary btn-sm">Add to Selections</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clear-btn">
+						<button class="btn btn-danger  btn-md" onclick="@(searchResultsOff)">Clear Results</button>
+					</div>
+				}
+		</div>
+			<div class="recommended">
+				<div>
+					<h1>Recommended Courses (Based on degree)</h1>
+				</div>
+
+				<div class="container">
+					<div class="row">
+						@foreach (var course in courses)
+					{
+					<CourseRecommeded CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq"></CourseRecommeded>
+					}
+					</div>
+				</div>
+				</div>
+		</div>
+		<div class="col-4">
+			<h1>BookMarks and Selections</h1>
+		</div>
+	</div>
+
+</div>
+
+
+@code {
+	private List<RecommendedCourses> courses;
+	private bool searchClicked = false;
+
+
+	private void searchResults()
+	{
+		searchClicked = true;
+	}
+
+	private void searchResultsOff()
+	{
+		searchClicked = false;
+	}
+
+	private SearchCourse course = new SearchCourse
+		{
+			CourseName = "Human Computer Interaction",
+			CourseCode = "CPSC 481",
+			CourseTime = "MWF 10 - 11",
+			InstructorName = "Dr. Sharlin",
+			LectureInfo = "ENE 239",
+			Seats = "45/90"
+		};
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		courses = new List<RecommendedCourses>
+		{
+			new RecommendedCourses
+			{
+				CourseName = "Human Computer Interaction",
+				CourseCode = "CPSC 481",
+				Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces",
+				prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311"
+			},
+			new RecommendedCourses
+			{
+				CourseName = "Distributed Systems",
+				CourseCode = "CPSC 559",
+				Description = "Designing and implementing distributed systems that overcome challenges due to concurrent computation, ailure of components in the system",
+				prereq = "Computer Science 441 and 457"
+			},
+			new RecommendedCourses
+			{
+				CourseName = "Web-Based Systems",
+				CourseCode = "SENG 513",
+				Description = "An overview of software engineering methods and technologies for developing web-based software systems.",
+				prereq = "3 units from Software Engineering 300, 301 or ENSF 480"
+			},
+			new RecommendedCourses
+			{
+				CourseName = "Software Project Management",
+				CourseCode = "SENG 511",
+				Description = "Analysis of methods, tools, and techniques for software project management as an effort to achieve quality software products.",
+				prereq = "3 units from Software Engineering 300, 301, 403 or ENSF 480"
+			},
+			new RecommendedCourses
+			{
+				CourseName = "Programming Paradigms",
+				CourseCode = "CPSC 449",
+				Description = "Examination of the basic principles of the major programming language paradigms. Focus on declarative paradigms.",
+				prereq = "Computer Science 319 or 331; and Philosophy 279 or 377."
+			},
+			new RecommendedCourses
+			{
+				CourseName = "Artificial Intelligence",
+				CourseCode = "CPSC 433",
+				Description = "An examination of the objectives, key techniques and achievements of work on artificial intelligence in Computer Science.",
+				prereq = "Computer Science 313 or 351; and Philosophy 279 or 377"
+			}
+		};
+	}
+}
