@@ -1,0 +1,81 @@
+﻿<div class="card bg-warning">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Friends</h2>
+            <button class="btn btn-primary" @onclick="ToggleEditMode">
+                @if (IsEditMode)
+                {
+                    <span>Done</span>
+                }
+                else
+                {
+                    <span>Edit</span>
+                }
+            </button>
+        </div>
+
+        <ul class="list-group list-group-flush">
+            @foreach (var friend in friends)
+            {
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="@friend.Id" value="@friend.Name" checked="@friend.IsSelected" @onchange="e => SelectFriend(friend, e)">
+                            <label class="form-check-label" for="friend-@friend.Id">
+                                @friend.Name
+                            </label>
+                        </div>
+                        @if (IsEditMode)
+                        {
+                            <span class="remove-friend-icon ml-2 cursor-pointer" @onclick="() => RemoveFriend(friend)">
+                                <i class="fas fa-times"></i>
+                            </span>
+                        }
+                    </div>
+                </li>
+            }
+        </ul>
+
+        <div class="mt-3 d-flex justify-content-center">
+            <button class="btn btn-success" @onclick="AddFriend">Add Friend</button>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    private int nextId = 4;
+    private bool IsEditMode = false;
+
+    private List<Friend> friends = new List<Friend> {
+        new Friend { Id = 1, Name = "Kyle", IsSelected = true},
+        new Friend { Id = 2, Name = "Victor", IsSelected = false},
+        new Friend { Id = 3, Name = "James", IsSelected = true }
+    };
+
+    private void ToggleEditMode()
+    {
+        IsEditMode = !IsEditMode;
+    }
+
+    private void SelectFriend(Friend friend, ChangeEventArgs e)
+    {
+        friend.IsSelected = (bool)e.Value;
+    }
+
+    private void AddFriend()
+    {
+        friends.Add(new Friend { Id = nextId++, Name = "New Friend", IsSelected = false});
+    }
+    private void RemoveFriend(Friend friend)
+    {
+        friends.Remove(friend);
+    }
+
+    private class Friend
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool IsSelected { get; set; }
+    }
+}
