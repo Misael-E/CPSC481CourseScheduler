@@ -3,6 +3,14 @@
 	<div class="title">
 		<span>Schedule Builder</span>
 	</div>
+		<select class="semester-select">
+
+			@foreach (var semester in SemesterList)
+			{
+				<option class="semester-option" value="@semester.Season+@semester.Year"> @semester.Season @semester.Year    </option>
+			}
+
+		</select>
 	<nav class="nav-bar-items">
 		<div class="nav-button">
 			<NavLink class="nav-button-link" title="Search Recommended Courses and Add them to Selections/Bookmarks" href="" Match="NavLinkMatch.All">
@@ -24,12 +32,33 @@
 
 
 @code {
-	private bool collapseNavMenu = true;
-
-	private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-	private void ToggleNavMenu()
+	List<Semester> SemesterList = new List<Semester>()
 	{
-		// collapseNavMenu = !collapseNavMenu;
+		new Semester("Winter", "2023"),
+		new Semester("Fall", "2023")
+	};
+
+	string selectedSemesterID;
+
+	string SelectedSemesterID
+	{
+		get => selectedSemesterID;
+		set
+		{
+			Console.WriteLine("hello");
+			selectedSemesterID = value;
+		}
 	}
+
+	public class Semester {
+		public Semester(string season, string year)
+		{
+			Season = season;
+			Year = year;
+		}
+		
+	public string Season { get; set; }
+	public string Year { get; set; }
+	}
+
 }
