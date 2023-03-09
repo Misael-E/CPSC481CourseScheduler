@@ -1,0 +1,112 @@
+﻿<div class="modal-container">
+		<div class="list-header">You are dropping the following courses:</div>
+
+	<div class="list-container">
+		@foreach (var course in coursesToDrop)
+		{
+			<div class="list-item" >
+				@course
+			</div>
+		}
+		
+	</div>
+	</br>
+		<div class="list-header">You are enrolling in the following courses:</div>
+
+	<div class="list-container">
+		@foreach (var course in coursesToEnrollIn)
+		{
+			<div class="list-item" >
+				@course
+			</div>
+		}
+	</div>
+	<div class="buttons-container">
+		<button class="white-button-1">CANCEL</button>
+		<button class="orange-button-1">CONFIRM</button>
+	</div>
+</div>
+
+@code {
+	private List<string> coursesToDrop = new List<string> {
+		"CPSC 449",
+		"CPSC 433"
+	};
+
+	private List<string> coursesToEnrollIn = new List<string> {
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+		"SOC 201",
+		"CPSC 481",
+	};
+
+}
+
+<style>
+	.modal-container {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.list-header {
+		font-weight: bold;
+		font-size: 20px;
+		margin-bottom: .5rem;
+	}
+
+	.list-container {
+		display: flex;
+		flex-direction: column;
+		border: 2px solid orange;
+		padding: 1rem;
+		max-height: 15rem;
+		overflow: auto;
+		border-radius: 5px;
+	}
+
+	.buttons-container {
+		display: flex;
+		flex-direction: row;
+		margin-top: 2rem;
+		justify-content: flex-end;
+		column-gap: .5rem;
+	}
+</style>

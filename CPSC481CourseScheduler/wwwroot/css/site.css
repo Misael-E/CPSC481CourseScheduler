@@ -4,6 +4,33 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+
+.orange-button-1 {
+    background-color: #ff8511;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px 1px #d66b00;
+    color: white;
+    padding: 8px 14px 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.white-button-1 {
+    background-color: white;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px 1px #dbdbdb;
+    padding: 8px 14px 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+    .white-button-1:hover {
+        background: #f5f4f2;
+    }
+
+
 .nav-bar {
     background-color: orange;
     width: 100%;
