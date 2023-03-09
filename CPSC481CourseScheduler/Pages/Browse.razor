@@ -38,9 +38,8 @@
 	}
 
 	.search-results {
-		width: 400px;
-		height: 220px;
-		background-color: lightblue;
+		width: 80%;
+		background-color: #85C1E9;
 		border: 2px solid black;
 		border-radius: 5px;
 		margin: auto;
@@ -52,6 +51,7 @@
 
 	.add-btn {
 		text-align: center;
+		margin-bottom: 2%;
 	}
 
 	.clear-btn {
@@ -63,6 +63,15 @@
 		overflow-y: scroll;
 		overflow-x: hidden;
 		height: 90vh;
+	}
+
+	.search-heading {
+		border: 3px solid black;
+		background-color: #2E86C1;
+	}
+
+	.search-heading h3 {
+		text-align: center;
 	}
 
 </style>
@@ -83,28 +92,26 @@
 				{
 					<div class="search-results">
 						<div>
-							<p><b>@course.CourseName</b></p>
-							<p><b>@course.CourseCode</b></p>
+							<div class="search-heading"> 
+							<h3>@course.CourseName</h3>
+							<p style="font-size:1.3rem"><b>@course.CourseCode</b></p>
+							</div>
 							<div class="container">
 								<div class="row">
-									<div class="col-6">
-										<p><b>Time: </b> @course.CourseTime</p>
+									<div class="col-12">
+										<p><b>Description: </b> @course.Description</p>
 									</div>
-									<div class="col-6">
-										<p><b>Instructor: </b>@course.InstructorName</p>
+									<div class="col-12">
+										<p><b>Prerequisites: </b>@course.prereq</p>
 									</div>
-									<div class="col-6">
-										<p><b>Location: </b>@course.LectureInfo</p>
-									</div>
-									<div class="col-6">
-										<p><b>Seats: </b>@course.Seats</p>
-									</div>
-									<div class="col-6 add-btn">
+									<div class=col-3></div>
+									<div class="col-3 add-btn">
 										<button class="srch-btn btn-primary btn-sm">Add to Bookmarks</button>
 									</div>
-									<div class="col-6 add-btn">
+									<div class="col-3 add-btn">
 										<button class="srch-btn btn-primary btn-sm">Add to Selections</button>
 									</div>
+									<div class=col-3></div>
 								</div>
 							</div>
 						</div>
@@ -152,14 +159,12 @@
 		searchClicked = false;
 	}
 
-	private SearchCourse course = new SearchCourse
+	private RecommendedCourses course = new RecommendedCourses
 		{
 			CourseName = "Human Computer Interaction",
 			CourseCode = "CPSC 481",
-			CourseTime = "MWF 10 - 11",
-			InstructorName = "Dr. Sharlin",
-			LectureInfo = "ENE 239",
-			Seats = "45/90"
+			Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces. Topics include: principles of design; methods for evaluating interfaces with or without user involvement; techniques for prototyping and implementing graphical user interfaces.",
+			prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311."
 		};
 
 	protected override void OnInitialized()
