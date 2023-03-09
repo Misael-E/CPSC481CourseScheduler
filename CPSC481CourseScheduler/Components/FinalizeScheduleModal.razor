@@ -10,7 +10,7 @@
 		}
 		
 	</div>
-	</br>
+	<br />
 		<div class="list-header">You are enrolling in the following courses:</div>
 
 	<div class="list-container">
@@ -22,8 +22,8 @@
 		}
 	</div>
 	<div class="buttons-container">
-		<button class="white-button-1">CANCEL</button>
-		<button class="orange-button-1">CONFIRM</button>
+		<button class="white-button-1" @onclick="Cancel">CANCEL</button>
+		<button class="orange-button-1" @onclick="SubmitForm">CONFIRM</button>
 	</div>
 </div>
 
@@ -36,47 +36,10 @@
 	private List<string> coursesToEnrollIn = new List<string> {
 		"SOC 201",
 		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
-		"SOC 201",
-		"CPSC 481",
 	};
+	[CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+	private async Task SubmitForm() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
+	private async Task Cancel() => await BlazoredModal.CancelAsync();
 
 }
 

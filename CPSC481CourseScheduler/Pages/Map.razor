@@ -213,7 +213,9 @@ p    {color: black;}
     private ModalOptions options = new ModalOptions()
         {
             Position = ModalPosition.Middle,
-            Size = ModalSize.Large
+            Size = ModalSize.Large,
+            HideCloseButton = true,
+            DisableBackgroundCancel = true
         };
 
     public void ActiveTab(int TabNumber) {
