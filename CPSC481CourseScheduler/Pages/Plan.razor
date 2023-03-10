@@ -1,27 +1,41 @@
 ﻿@page "/plan"
-<h1>Planning</h1>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-6">     
-        </div>
-        <div class="col-6">
-            <label class="switch">
-                <input type="checkbox">
-                <span class="slider round"></span> 
-            </label>
-            Map View
-        </div>
-    </div>
-</div>
+
 <div class="map-and-cards">
     <div class="container-fluid">
         <div class="row">
             <div class="col-8">
-                <Map />
+                <div>
+                    <form class="searchform-control searchform" onsubmit="">
+                        <div>
+                            <input onkeydown="@setSearchInput" role="combobox" class="search-input" list="browsers" type="text" placeholder="Search Courses" aria-label="Search">
+                            @if(setSearch)
+                            {
+                                <datalist id="browsers" style="height:50px; overflow-y:auto">
+                                    <option style="width:100%" value="Cpsc 481">Cpsc 481</option>
+                                    <option value="Cpsc 411">Cpsc 411 </option>
+                                    <option  value="Cpsc 409">Cpsc 409 </option>
+                                    <option  value="SENG 501"> SENG 501 </option>
+                                    <option value="SENG 533"> SENG 533 </option>
+                                </datalist>
+                            }
+                        </div>
+                        <div>
+                            <button class="btn btn-info btn-md srch-btn" type="submit">Search</button>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <label class="switch" style="align-items:right; margin:1%">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                    Map View
+                </div>
+                    <Map />
             </div>
 
-            <div class="col-4">
+            <div class="col-4" style="margin:auto">
                 <SidePanelPlanning />
             </div>
         </div>
@@ -36,7 +50,7 @@
         </div>
         <div class="col-4" style="text-align: center">
             <!-- Move this button wherever -->
-            <button class="orange-button-1" @onclick="@(() => Modal.Show<FinalizeScheduleModal>("Summary", options))">FINALIZE</button>
+            <button type="button" class="orange-button-1 btn btn-sm" @onclick="@(() => Modal.Show<FinalizeScheduleModal>("Summary", options))">FINALIZE</button>
         </div>
 
     </div>
@@ -59,6 +73,7 @@
   display: inline-block;
   width: 50px;
   height: 26px;
+  margin:auto;
 }
 .switch input {
     opacity:0;
@@ -128,6 +143,52 @@ input:checked + .slider:before {
   -webkit-transform: rotate(135deg);
 }
 
+    .searchform {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: auto;
+        gap: 2%;
+    }
+
+    .searchform-control {
+        width: 500px;
+        height: 100px;
+    }
+
+    .search-input {
+        width: 500px;
+        height: 40px;
+        dd border: 3px solid black;
+        border-radius: 8px;
+    }
+
+    datalist {
+        position: absolute;
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 0 0 5px 5px;
+        border-top: none;
+        font-family: sans-serif;
+        width: 350px;
+        padding: 5px;
+        max-height: 10rem;
+        overflow-y: auto
+    }
+
+    option {
+        background-color: white;
+        padding: 4px;
+        color: blue;
+        margin-bottom: 1px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+      option:hover, .active {
+            background-color: lightblue;
+        }
+
 }
 
 
@@ -141,6 +202,12 @@ input:checked + .slider:before {
 
 </style>
 @code {
+    private bool setSearch = false;
+    private void setSearchInput ()
+    {
+        setSearch = true;
+    }
+
     [CascadingParameter] public IModalService Modal { get; set; }
     private ModalOptions options = new ModalOptions()
         {
