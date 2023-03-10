@@ -158,7 +158,7 @@ p
         private bool tab1 = true;
         private bool tab2 = false;
 
-        private List<RecommendedCourses> BookmarkedCourses;
+        private List<BasicCourse> BookmarkedCourses;
         private List<SelectCourse> courses;
 
         public void ActiveTab(int TabNumber) {
@@ -176,19 +176,19 @@ p
 
         protected override void OnInitialized() {
             base.OnInitialized();
-            BookmarkedCourses = new List<RecommendedCourses> {
-            new RecommendedCourses {
+            BookmarkedCourses = new List<BasicCourse> {
+            new BasicCourse {
                 CourseName = "Discrete Mathematics ",
                 CourseCode = "MATH 271",
                 Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
              },
-            new RecommendedCourses
+            new BasicCourse
             {
                 CourseName = "Discrete Mathematics ",
                 CourseCode = "MATH 271",
                 Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
             },
-            new RecommendedCourses
+            new BasicCourse
             {
                 CourseName = "Principles of Software Design",
                 CourseCode = "ENSF 480",
