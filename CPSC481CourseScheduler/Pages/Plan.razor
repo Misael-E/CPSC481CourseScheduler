@@ -1,15 +1,19 @@
 ﻿@page "/plan"
 <h1>Planning</h1>
 
-<!-- Move this button wherever -->
-<button class="orange-button-1" @onclick="@(() => Modal.Show<FinalizeScheduleModal>("Summary", options))">FINALIZE</button>
-<!-- Default switch -->
-<label class="switch">
-  <input type="checkbox">
-  <span class="slider round"></span> 
-</label>
-Map View
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">     
+        </div>
+        <div class="col-6">
+            <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span> 
+            </label>
+            Map View
+        </div>
+    </div>
+</div>
 <div class="map-and-cards">
     <div class="container-fluid">
         <div class="row">
@@ -23,8 +27,19 @@ Map View
         </div>
 
     </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-8" style="text-align: center">     
+            <button title="Previous Schedule" class="btn btn-warning"><i class="arrow left" style="margin-top:20%"></i></button>
+            <button title="Next Schedule" class="btn btn-warning"><i class="arrow right" style="margin-top:20%"></i></button>
+        </div>
+        <div class="col-4" style="text-align: center">
+            <!-- Move this button wherever -->
+            <button class="orange-button-1" @onclick="@(() => Modal.Show<FinalizeScheduleModal>("Summary", options))">FINALIZE</button>
+        </div>
 
-
+    </div>
 </div>
 
 
@@ -95,6 +110,34 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.arrow {
+  border: solid black;
+  border-width: 0 10px 10px 0px;
+  display: inline-block;
+  padding: 10px;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+}
+
+
+
+
+
+
+
+
+
 
 </style>
 @code {
