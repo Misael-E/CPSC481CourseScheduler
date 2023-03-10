@@ -17,7 +17,7 @@
     border-radius: 10px;
     height: 400px;
     width: 300px;
-    background-color: #784212;
+    background-color: #85929E;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,4 +26,9 @@
 
 .butbox {
     margin: 2% auto;
+}
+
+.selection-container 
+{
+    margin-top: 10%;
 }

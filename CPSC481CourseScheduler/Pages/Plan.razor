@@ -1,30 +1,75 @@
 ﻿@page "/plan"
-<h1>Planning</h1>
 
-<!-- Move this button wherever -->
-<button class="orange-button-1" @onclick="@(() => Modal.Show<FinalizeScheduleModal>("Summary", options))">FINALIZE</button>
-<!-- Default switch -->
-<label class="switch">
-  <input type="checkbox">
-  <span class="slider round"></span> 
-</label>
-Map View
 
 <div class="map-and-cards">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" style="height: 80vh">
             <div class="col-8">
-                <Map />
+                <div>
+                    <form class="searchform-control searchform" onsubmit="">
+                        <div>
+                            <input onkeydown="@setSearchInput" role="combobox" class="search-input" list="browsers" type="text" placeholder="Search Courses" aria-label="Search">
+                            @if(setSearch)
+                            {
+                                <datalist id="browsers">
+                                    <option style="font-size:30px">Cpsc 481</option>
+                                    <option value="Cpsc 411">Cpsc 411 </option>
+                                    <option  value="Cpsc 409">Cpsc 409 </option>
+                                    <option  value="SENG 501"> SENG 501 </option>
+                                    <option value="SENG 533"> SENG 533 </option>
+                                </datalist>
+                            }
+                        </div>
+                        <div>
+                            <button class="btn btn-info btn-md srch-btn" type="submit">Search</button>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <label class="switch" style="align-items:right; margin:1%">
+                        <input type="checkbox" onclick="@(() => {mapView = !mapView;})">
+                        <span class="slider round"></span>
+                    </label>
+                    Map View
+                </div>
+                   @if(mapView)
+                   {
+                    <Map />
+                }
+                else
+                {
+                    <div> 
+                        TimeTable View
+                    </div>
+                }
             </div>
 
-            <div class="col-4">
-                <SidePanel />
+            <div class="col-4" style="margin:auto">
+                <SidePanelPlanning />
             </div>
         </div>
 
     </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        @if (!mapView)
+        {
+            <div class="col-8" style="text-align: center">     
+                <button title="Previous Schedule" class="btn btn-warning"><i class="arrow left" style="margin-top:20%"></i></button>
+            <button title="Next Schedule" class="btn btn-warning"><i class="arrow right" style="margin-top:20%"></i></button>
+            </div>
+        }
+        else
+        {
+            <div class="col-8"> </div>
+        }
+        <div class="col-4" style="text-align: center">
+            <!-- Move this button wherever -->
+            <button type="button" class="orange-button-1 btn btn-sm" @onclick="@(() => Modal.Show<FinalizeScheduleModal>("Summary", options))">FINALIZE</button>
+        </div>
 
-
+    </div>
 </div>
 
 
@@ -44,6 +89,7 @@ Map View
   display: inline-block;
   width: 50px;
   height: 26px;
+  margin:auto;
 }
 .switch input {
     opacity:0;
@@ -96,8 +142,89 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+.arrow {
+  border: solid black;
+  border-width: 0 10px 10px 0px;
+  display: inline-block;
+  padding: 10px;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+    .searchform {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: auto;
+        gap: 2%;
+    }
+
+    .searchform-control {
+        width: 500px;
+        height: 100px;
+    }
+
+    .search-input {
+        width: 500px;
+        height: 40px;
+        dd border: 3px solid black;
+        border-radius: 8px;
+    }
+
+    datalist {
+        position: absolute;
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 0 0 5px 5px;
+        border-top: none;
+        font-family: sans-serif;
+        width: 350px;
+        padding: 5px;
+        max-height: 10rem;
+        overflow-y: auto
+    }
+
+    option {
+        background-color: white;
+        padding: 4px;
+        color: blue;
+        margin-bottom: 1px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+      option:hover, .active {
+            background-color: lightblue;
+        }
+
+}
+
+
+
+
+
+
+
+
+
+
 </style>
 @code {
+    private bool setSearch = false;
+    private bool mapView = false;
+    private void setSearchInput ()
+    {
+        setSearch = true;
+    }
+
     [CascadingParameter] public IModalService Modal { get; set; }
     private ModalOptions options = new ModalOptions()
         {
