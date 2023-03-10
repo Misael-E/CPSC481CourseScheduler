@@ -21,7 +21,7 @@
         <div class="tab-content">
             @foreach (var course in courses)
             {
-                <div class="card border-secondary" style="width: 70vh;">
+                <div class="card border-secondary">
                     <div class="card-header " style="background-color:#DC7633;">
                         <div class="container-fluid" style="padding:0">
                             <div class="row">
@@ -57,7 +57,7 @@
                                     <button class="btn btn-info" >
                                         Show Location
                                     </button>
-                                </div>
+                                    </div>
                                 </div>
                             </div>
                         </p>
@@ -72,7 +72,7 @@
   <div class="tab-content">
     @foreach (var course in BookmarkedCourses)
     {
-        <div class="card border-secondary" style="width: 70vh;">
+        <div class="card border-secondary" >
             <div class="card-header " style="background-color:#DC7633;">
                 <div class="container-fluid" style="padding:0">
                     <div class="row">
@@ -122,6 +122,7 @@
 .tab:hover{
     background-color: orange;
 }
+
 .tab-content {
     background-color: #ffd16b;
     padding: 10px;
