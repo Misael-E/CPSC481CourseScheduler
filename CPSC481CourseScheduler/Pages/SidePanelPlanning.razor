@@ -1,170 +1,110 @@
 ﻿@page "/side-panel"
-
   
 <div class="side-panel">
-    <div class="tab">
-        <button style="@(tab1?"background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(1)"> <h3 style="font-size:1vw"> Selected Courses </h3> </button>
-        <button style="@(tab2?"background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(2)"> <h3 style="font-size:1vw"> Bookmarks </h3> </button>
+  <div class="tab">
+    <div class="row">
+      <div class="col-6">
+        <button class="top-button" style="@(tab1?" background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(1)">
+          <h5 style="font-size:1vw"> Selected Courses </h5>
+        </button>
+      </div>
+      <div class="col-6">
+        <button class="top-button" style="@(tab2?" background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(2)">
+          <h5 style="font-size:1vw"> Bookmarks </h5>
+        </button>
+      </div>
     </div>
-    @if(tab1) {
+  </div>
+
+    @if (tab1)
+    {
         <div class="tab-content">
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">SOCI 201 - Introduction to Sociology</h5>
-                <p class="card-text"> 
-                    Section: L02 <br>
-			        Time: MWF 10:00 - 11:00 <br>
-			        Instructor: Ehud Sharlin <br>
-			        Location: ST 140 <br>
-			        Seats Available: 45/90
-                </p>
-                <button type="button" class="btn btn-info" @onclick="ShowLocation">Show Location</button>
+            @foreach (var course in courses)
+            {
+                <div class="card border-secondary" style="width: 70vh;">
+                    <div class="card-header " style="background-color:#DC7633;">
+                        <div class="container-fluid" style="padding:0">
+                            <div class="row">
+                                <div class="col-auto">
+                                    @course.CourseCode
+                                </div>
+                                <div class="col-auto">
+                                    @course.CourseName
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text" style="text-align:left; font-size:small">
+                            <div class="container-fluid" style="padding:0;" >
+                                <div class="row">
+                                    <div class="col-6" style="margin-bottom:1%">
+                                        <b>Section: </b>@course.LectureNumber
+                                    </div>
+                                    <div class="col-6" style="margin-bottom:1%">
+                                        <b>Instructor: </b>@course.InstructorName
+                                    </div>
+                                    <div class="col-6" style="margin-bottom:1%">
+                                        <b>Timings:</b> @course.Days @course.CourseTime
+                                    </div>
+                                    <div class="col-6" style="margin-bottom:1%">
+                                        <b>Location: </b>@course.LectureLocation
+                                    </div>
+                                    <div class="col-6" style="margin-bottom:3%">
+                                        <b>Seats: </b>@course.Seats
+                                    </div>
+                                    <div>
+                                    <button class="btn btn-info" >
+                                        Show Location
+                                    </button>
+                                </div>
+                                </div>
+                            </div>
+                        </p>
+                    </div>
                 </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">CPSC 571 - Design and Implementation of Database Systems</h5>
-                <p class="card-text">
-                    Section: L01 <br>
-			        Time: TR 14:00 - 15:15 <br>
-			        Instructor: Tamer Jarada <br>
-			        Location: MS 217 <br>
-			        Seats Available: 40/90
-                </p>
-                <button type="button" class="btn btn-info">Show Location</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">SENG 513 - Web-Based Systems</h5>
-                <p class="card-text">
-                    Section: L01 <br>
-			        Time: TR 12:30 - 13:45 <br>
-			        Instructor: Ahmad Nasri <br>
-			        Location: ICT 122 <br>
-			        Seats Available: 20/50
-                </p>
-                <button type="button" class="btn btn-info">Show Location</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">CPSC 583 - Introduction to Information Visualization</h5>
-                <p class="card-text">
-                    Section: L01 <br>
-			        Time: MWF 14:00 - 14:50 <br>
-			        Instructor: Emma Towlson <br>
-			        Location: SB 148 <br>
-			        Seats Available: 33/50
-                </p>
-                <button type="button" class="btn btn-info">Show Location</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">GLGY 305 - Introduction to Dinosaurs</h5>
-                <p class="card-text">
-                    Section: L01 <br>
-			        Time: MF 12:00 - 12:50 <br>
-			        Instructor: Darla Zelenitsky <br>
-			        Location: CHC 119 <br>
-			        Seats Available: 40/100
-                </p>
-                <button type="button" class="btn btn-info">Show Location</button>
-                </div>
-            </div>
+            }
         </div>
     }
 
-        
-    @if(tab2) {
-        <div class="tab-content">
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">KINES 373 - Exercise Physiology</h5>
-                <p class="card-text"> 
-                    Section: L01 <br>
-			        Time: MW 11:00 - 11:50 <br>
-			        Instructor: Martin MacInnis <br>
-			        Location: SA 104 <br>
-			        Seats Available: 20/90
-                </p>
-                <button type="button" class="btn btn-info">Show Location</button>
-                <button type="button" class="btn btn-warning">Select Course</button>
+  @if(tab2)
+  {
+  <div class="tab-content">
+    @foreach (var course in BookmarkedCourses)
+    {
+        <div class="card border-secondary" style="width: 70vh;">
+            <div class="card-header " style="background-color:#DC7633;">
+                <div class="container-fluid" style="padding:0">
+                    <div class="row">
+                        <div class="col-auto">
+                            @course.CourseCode
+                        </div>
+                        <div class="col-auto">
+                            @course.CourseName
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">CPSC 571 - Design and Implementation of Database Systems</h5>
-                <p class="card-text">
-                    Section: L01 <br>
-			        Time: TR 14:00 - 15:15 <br>
-			        Instructor: Tamer Jarada <br>
-			        Location: MS 217 <br>
-			        Seats Available: 40/90
+            <div class="card-body">
+                <p class="card-text" style="text-align:left; font-size:small">
+                    <div class="container-fluid" style="padding:0; margin-bottom: 3%" >
+                        <b>Description</b>
+                        <p class="card-text"> @course.Description </p>
+                    </div>
+                    <button class="btn btn-info" >
+                        Add to Selection
+                    </button>
                 </p>
-                <button type="button" class="btn btn-info">Show Location</button>
-                <button type="button" class="btn btn-warning">Select Course</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">SENG 513 - Web-Based Systems</h5>
-                <p class="card-text">
-                    Section: L01 <br>
-			        Time: TR 12:30 - 13:45 <br>
-			        Instructor: Ahmad Nasri <br>
-			        Location: ICT 122 <br>
-			        Seats Available: 20/50
-                </p>
-                <button type="button" class="btn btn-info">Show Location</button>
-                <button type="button" class="btn btn-warning">Select Course</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">CPSC 583 - Introduction to Information Visualization</h5>
-                <p class="card-text">
-                    Section: L01 <br>
-			        Time: MWF 14:00 - 14:50 <br>
-			        Instructor: Emma Towlson <br>
-			        Location: SB 148 <br>
-			        Seats Available: 33/50
-                </p>
-                <button type="button" class="btn btn-info">Show Location</button>
-                <button type="button" class="btn btn-warning">Select Course</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                <h5 class="card-title">GLGY 305 - Introduction to Dinosaurs</h5>
-                <p class="card-text">
-                    Section: L01 <br>
-			        Time: MF 12:00 - 12:50 <br>
-			        Instructor: Darla Zelenitsky <br>
-			        Location: CHC 119 <br>
-			        Seats Available: 40/100
-                </p>
-                <button type="button" class="btn btn-info">Show Location</button>
-                <button type="button" class="btn btn-warning">Select Course</button>
-                </div>
             </div>
         </div>
-    }
+   }
 </div>
+}
 
 
 
 <style>
-  .tab {
+   .tab {
     background-color: orange;
     padding-top:10px;
     }
@@ -192,31 +132,128 @@
     border: thick double #ffd16b;
 }
 
+.top-button {
+    width: 100%;
+}
 
+.top-button:hover {
+    background-color: #FAD7A0 ;
+}
+
+ .no-padding {
+        padding: 0 3%;
+  }
+    
 h5 {
     font-weight: bold;
     }
-p    {color: black;}
+
+p 
+{color: black;}
 </style>
 
 @code {
-    private bool tab1 = true;
-    private bool tab2 = false;
+        private bool tab1 = true;
+        private bool tab2 = false;
 
-    public void ActiveTab(int TabNumber) {
-        switch(TabNumber) {
-            case 1:
-                this.tab1 = true;
-                this.tab2 = false;
-                break;
-            case 2:
-                this.tab1 = false;
-                this.tab2 = true;
-                break;
+        private List<RecommendedCourses> BookmarkedCourses;
+        private List<SelectCourse> courses;
+
+        public void ActiveTab(int TabNumber) {
+            switch(TabNumber) {
+                case 1:
+                    this.tab1 = true;
+                    this.tab2 = false;
+                    break;
+                case 2:
+                    this.tab1 = false;
+                    this.tab2 = true;
+                    break;
+            }
         }
-    }
 
-private void ShowLocation(MouseEventArgs args){
-    Console.WriteLine(ShowLocation);
-    }
+        protected override void OnInitialized() {
+            base.OnInitialized();
+            BookmarkedCourses = new List<RecommendedCourses> {
+            new RecommendedCourses {
+                CourseName = "Discrete Mathematics ",
+                CourseCode = "MATH 271",
+                Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
+             },
+            new RecommendedCourses
+            {
+                CourseName = "Discrete Mathematics ",
+                CourseCode = "MATH 271",
+                Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
+            },
+            new RecommendedCourses
+            {
+                CourseName = "Principles of Software Design",
+                CourseCode = "ENSF 480",
+                Description = "Brief overview of typical software development lifecycles. Systematic methods for designing large-scale, quality software. Concepts such as abstraction, modularity, and software modelling will be covered. Designing for non-functional properties of software will be introduced. Emphasis on individual skills."
+
+            }
+        };
+
+            courses = new List<SelectCourse>
+        {
+            new SelectCourse
+            {
+                CourseName = "Introduction to Sociology",
+                CourseCode = "SOCI 201",
+                LectureLocation = "ST 140",
+                LectureNumber = "Lec 01",
+                InstructorName = "Dr Ehud Sharlin",
+                Days = "MWF",
+                CourseTime = "10:00 - 10:50",
+                Seats = "45/90"
+            },
+            new SelectCourse
+            {
+                CourseName = "Design and Implementation of Database Systems",
+                CourseCode = "CPSC 571",
+                LectureLocation = "MS 217",
+                LectureNumber = "Lec 01",
+                InstructorName = "Tamer Jarada",
+                Days = "TR",
+                CourseTime = "14:00 - 15:15",
+                Seats = "40/90"
+            },
+            new SelectCourse
+            {
+                CourseName = "Web-Based Systems",
+                CourseCode = "SENG 513",
+                LectureLocation = "ICT 122",
+                LectureNumber = "Lec 01",
+                InstructorName = "Ahmad Nasri",
+                Days = "TR",
+                CourseTime = "12:30 - 13:45",
+                Seats = "20/50"
+            },
+            new SelectCourse
+            {
+                CourseName = "Introduction to Information Visualization",
+                CourseCode = "CPSC 583",
+                LectureLocation = "SB 148",
+                LectureNumber = "Lec 01",
+                InstructorName = "Emma Towlson",
+                Days = "MWF",
+                CourseTime = "14:00 - 14:50",
+                Seats = "33/50"
+            },
+            new SelectCourse
+            {
+                CourseName = "Introduction to Dinosaurs",
+                CourseCode = "GLGT 305",
+                LectureLocation = "CHC 119",
+                LectureNumber = "Lec 01",
+                InstructorName = "Darla Zelenitsky",
+                Days = "MF",
+                CourseTime = "12:00 - 12:50",
+                Seats = "10/100"
+            }
+        };
+        }
+        
+
 }
