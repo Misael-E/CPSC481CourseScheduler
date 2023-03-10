@@ -33,6 +33,12 @@ html, body {
     margin-right: .5rem;
 }
 
+.standard-card {
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px 2px lightgray;
+}
+
 .white-button-1 {
     background-color: #f5f4f2;
     border: none;

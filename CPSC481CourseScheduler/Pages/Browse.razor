@@ -134,9 +134,9 @@
 		<form class="flex-row search-bar" onsubmit="@(searchResults)">
 			<input class="search-input" type="text" placeholder="Search Courses" aria-label="Search">
 			<button class="util-button-1 small-margin-right " type="submit">Search</button>
-			@if(searchClicked)
+			@if (searchClicked)
 			{
-					<button class="white-button-1" type="button" onclick="@(searchResultsOff)">Clear Results</button>
+							<button class="white-button-1" type="button" onclick="@(searchResultsOff)">Clear Results</button>
 			}
 		</form>
 		@if(searchClicked)
@@ -149,7 +149,7 @@
 			</div>
 		}
 		
-		<div class="flex-column">
+		<div class="flex-column standard-card">
 			<div class="recommended-courses-title">
 					Recommended Courses (Based on degree)
 				</div>
