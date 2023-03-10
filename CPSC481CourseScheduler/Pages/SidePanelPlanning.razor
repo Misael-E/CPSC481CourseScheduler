@@ -18,7 +18,7 @@
 			        Location: ST 140 <br>
 			        Seats Available: 45/90
                 </p>
-                <button type="button" class="btn btn-outline-info">Show Location</button>
+                <button type="button" class="btn btn-info" @onclick="ShowLocation">Show Location</button>
                 </div>
             </div>
 
@@ -32,7 +32,7 @@
 			        Location: MS 217 <br>
 			        Seats Available: 40/90
                 </p>
-                <button type="button" class="btn btn-outline-info">Show Location</button>
+                <button type="button" class="btn btn-info">Show Location</button>
                 </div>
             </div>
 
@@ -46,7 +46,7 @@
 			        Location: ICT 122 <br>
 			        Seats Available: 20/50
                 </p>
-                <button type="button" class="btn btn-outline-info">Show Location</button>
+                <button type="button" class="btn btn-info">Show Location</button>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
 			        Location: SB 148 <br>
 			        Seats Available: 33/50
                 </p>
-                <button type="button" class="btn btn-outline-info">Show Location</button>
+                <button type="button" class="btn btn-info">Show Location</button>
                 </div>
             </div>
 
@@ -74,7 +74,7 @@
 			        Location: CHC 119 <br>
 			        Seats Available: 40/100
                 </p>
-                <button type="button" class="btn btn-outline-info">Show Location</button>
+                <button type="button" class="btn btn-info">Show Location</button>
                 </div>
             </div>
         </div>
@@ -93,7 +93,8 @@
 			        Location: SA 104 <br>
 			        Seats Available: 20/90
                 </p>
-                <button type="button" class="btn btn-outline-info">Show Location</button>
+                <button type="button" class="btn btn-info">Show Location</button>
+                <button type="button" class="btn btn-warning">Select Course</button>
                 </div>
             </div>
 
@@ -107,7 +108,8 @@
 			        Location: MS 217 <br>
 			        Seats Available: 40/90
                 </p>
-                <button type="button" class="btn btn-outline-info">Show Location</button>
+                <button type="button" class="btn btn-info">Show Location</button>
+                <button type="button" class="btn btn-warning">Select Course</button>
                 </div>
             </div>
 
@@ -121,7 +123,8 @@
 			        Location: ICT 122 <br>
 			        Seats Available: 20/50
                 </p>
-                <button type="button" class="btn btn-outline-info">Show Location</button>
+                <button type="button" class="btn btn-info">Show Location</button>
+                <button type="button" class="btn btn-warning">Select Course</button>
                 </div>
             </div>
 
@@ -135,7 +138,8 @@
 			        Location: SB 148 <br>
 			        Seats Available: 33/50
                 </p>
-                <button type="button" class="btn btn-outline-info">Show Location</button>
+                <button type="button" class="btn btn-info">Show Location</button>
+                <button type="button" class="btn btn-warning">Select Course</button>
                 </div>
             </div>
 
@@ -149,7 +153,8 @@
 			        Location: CHC 119 <br>
 			        Seats Available: 40/100
                 </p>
-                <button type="button" class="btn btn-outline-info">Show Location</button>
+                <button type="button" class="btn btn-info">Show Location</button>
+                <button type="button" class="btn btn-warning">Select Course</button>
                 </div>
             </div>
         </div>
@@ -209,5 +214,9 @@ p    {color: black;}
                 this.tab2 = true;
                 break;
         }
+    }
+
+private void ShowLocation(MouseEventArgs args){
+    Console.WriteLine(ShowLocation);
     }
 }
