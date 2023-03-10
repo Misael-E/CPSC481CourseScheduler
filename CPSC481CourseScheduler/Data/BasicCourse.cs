@@ -1,6 +1,6 @@
 ﻿namespace CPSC481CourseScheduler.Data
 {
-	public class RecommendedCourses
+	public class BasicCourse
 	{
 		public string CourseName { get; set; }
 		public string CourseCode { get; set; }
@@ -8,3 +8,5 @@
 		public string prereq { get; set; }
 	}
 }
+
+
