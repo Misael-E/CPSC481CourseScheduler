@@ -1,7 +1,8 @@
 ﻿@page "/plan"
 <h1>Planning</h1>
 
-
+<!-- Move this button wherever -->
+<button class="orange-button-1" @onclick="@(() => Modal.Show<FinalizeScheduleModal>("Summary", options))">FINALIZE</button>
 <!-- Default switch -->
 <label class="switch">
   <input type="checkbox">
@@ -97,5 +98,12 @@ input:checked + .slider:before {
 
 </style>
 @code {
-
+    [CascadingParameter] public IModalService Modal { get; set; }
+    private ModalOptions options = new ModalOptions()
+        {
+            Position = ModalPosition.Middle,
+            Size = ModalSize.Large,
+            HideCloseButton = true,
+            DisableBackgroundCancel = true
+        };
 }
