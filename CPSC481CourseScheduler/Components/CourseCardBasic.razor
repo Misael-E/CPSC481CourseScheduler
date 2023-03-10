@@ -1,0 +1,122 @@
+﻿<style>
+	.course-card-container {
+		width: 21rem;
+		height: 15rem;
+		box-shadow: 1px 1px 2px 1px gray;
+		margin: 1rem;
+		border-radius: 8px;
+	}
+
+	.header-container {
+		border-radius: 8px 8px 0 0;
+		background-color: orange;
+		padding: .5rem .5rem 3px .5rem;
+	}
+
+	.course-code {
+		font-weight: bold;
+		flex: 75%;
+	}
+
+	.course-name {
+		font-weight: 600;
+		font-size: 14px;
+	}
+
+	.content-container {
+		padding: .5rem;
+		overflow: auto;
+		max-height: 10rem;
+	}
+
+	.text-container {
+		margin-bottom: .5rem;
+		font-size: 14px;
+	}
+
+	.shiny {
+		background: rgb(255,214,108);
+background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 27%, rgba(233,255,255,1) 83%);
+	}
+
+	.icon-buttons-container {
+		justify-content: flex-end;
+	}
+	.action-icon {
+		color: white;
+		font-size: 14px;
+		padding: 6px;
+		background-color: #01C5C4;
+		border-radius: 25px;
+		margin-left: 5px;
+	}
+	.action-icon:hover {
+		cursor: pointer;
+		background-color: #1ddbda;
+	}
+</style>
+
+
+<div class="course-card-container">
+	<div class="header-container @(Recommended ? "shiny" : "")">
+		<div class="flex-row">
+			<div class="course-code">
+				@CourseCode
+			</div>
+			<div class=icons-container>
+				@if (showBookmarkButton)
+				{
+					<div title="Add to selected courses" class="oi oi-plus action-icon" aria-hidden="true"></div>
+
+				}
+
+				@if (showSelectCourseButton)
+				{
+					<div title="Add to bookmarks" class="oi oi-star action-icon" aria-hidden="true"></div>
+
+				}
+			</div>
+		</div>
+		
+		<div class="course-name">
+			@CourseName
+		</div>
+	</div>
+	<div class="content-container">
+		<div class="text-container">
+			<b>Description: </b> @Description
+		</div>
+		<div class="text-container">
+			<b>Prerequisites: </b> @Prereq
+		</div>
+	</div>
+</div>
+
+
+
+
+@code {
+	[Parameter]
+	public string CourseName { get; set; }
+
+	[Parameter]
+	public string CourseCode { get; set; }
+
+	[Parameter]
+	public string Description { get; set; }
+
+	[Parameter]
+	public string Prereq { get; set; }
+
+	[Parameter]
+	public bool Recommended { get; set; } = false;
+
+	[Parameter]
+	public bool showBookmarkButton { get; set; } = false;
+
+	[Parameter]
+	public bool showSelectCourseButton { get; set; } = false;
+
+	[Parameter]
+	public bool bookmarked { get; set; } = false;
+}

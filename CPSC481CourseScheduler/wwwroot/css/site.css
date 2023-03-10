@@ -9,15 +9,32 @@ html, body {
     background-color: #ff8511;
     border: none;
     border-radius: 3px;
-    box-shadow: 0 1px 1px 1px #d66b00;
     color: white;
     padding: 8px 14px 8px 14px;
     font-size: 14px;
     font-weight: 600;
 }
 
+.util-button-1 {
+    background-color: #01C5C4;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    padding: 8px 14px 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+    .util-button-1:hover {
+        background-color: #1ddbda;
+    }
+
+.small-margin-right {
+    margin-right: .5rem;
+}
+
 .white-button-1 {
-    background-color: white;
+    background-color: #f5f4f2;
     border: none;
     border-radius: 3px;
     box-shadow: 0 1px 2px 1px #dbdbdb;
@@ -27,7 +44,7 @@ html, body {
 }
 
     .white-button-1:hover {
-        background: #f5f4f2;
+        background: white;
     }
 
 
