@@ -1,22 +1,36 @@
-﻿<table class="table table-bordered">
+﻿@using System.Globalization
+
+<style>
+    .table th,
+    .table td {
+        border-right: 1px solid #ccc;
+    }
+</style>
+
+<table class="table">
     <thead>
         <tr>
             <th></th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
+            <th class="text-center">Monday</th>
+            <th class="text-center">Tuesday</th>
+            <th class="text-center">Wednesday</th>
+            <th class="text-center">Thursday</th>
+            <th class="text-center">Friday</th>
         </tr>
     </thead>
     <tbody>
-        @for (int i = 8; i < 18; i++)
+        @for (int i = 8; i <= 18; i++)
         {
             <tr>
-                <th>@GetTime(i)</th>
-                @for (int j = 1; j <= 5; j++)
+                <td class="text-center">@FormatTime(i)</td>
+                @foreach (DayOfWeek dayOfWeek in Enum.GetValues(typeof(DayOfWeek)))
                 {
-                   @((MarkupString)GetCourse(i,j))
+                    if (dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday)
+                    {
+
+                        @((MarkupString)GetCourseCell(dayOfWeek, i))
+                    }
+                    
                 }
             </tr>
         }
@@ -28,82 +42,83 @@
 
     public class Course
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public List<DayOfWeek> DaysOfWeek { get; set; }
-
     }
 
     private List<Course> Courses = new List<Course>
     {
-        new Course { Name = "CPSC 571", StartTime = new TimeSpan(9,30,0), EndTime = new TimeSpan(10,45,0), DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday } },
-        new Course { Name = "CPSC 481", StartTime = new TimeSpan(10,0,0), EndTime = new TimeSpan(10,50,0), DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday } },
-        new Course { Name = "SOCI 201", StartTime = new TimeSpan(13,0,0), EndTime = new TimeSpan(14,15,0), DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday } },
+        new Course { 
+            Name = "CPSC 571", 
+            StartTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(30)), 
+            EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(45)),
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday } 
+        },
+        new Course { 
+            Name = "CPSC 481", 
+            StartTime = TimeSpan.FromHours(8),
+            EndTime = TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50)),
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday } 
+        },
+        new Course {
+            Name = "SOCI 201", 
+            StartTime = TimeSpan.FromHours(13),
+            EndTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(15)), 
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday } 
+        },
+        new Course {
+            Name = "CPSC 559",
+            StartTime = TimeSpan.FromHours(12),
+            EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50)),
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+        },
     };
 
-
-    private string GetTime(int hour)
+    private string FormatTime(int hour)
     {
         if (hour == 12)
-        {
             return "12 PM";
-        }
         else if (hour > 12)
-        {
-            return (hour - 12).ToString() + " PM";
-        }
+            return $"{hour - 12} PM";
         else
-        {
-            return hour.ToString() + " AM";
-        }
+            return $"{hour} AM";
     }
 
-    // Method to get the course name for a given time and day
-    string GetCourse(int hour, int day)
+    private string GetCourseCell(DayOfWeek day, int row)
     {
-        TimeSpan startTime = new TimeSpan(hour, 0, 0);
-        TimeSpan endTime = new TimeSpan(hour + 1, 0, 0);
-        DayOfWeek dayOfWeek = (DayOfWeek)day;
         StringBuilder sb = new StringBuilder();
+        var coursesOnDay = Courses.Where(c => c.DaysOfWeek.Contains(day));
 
-        // Check if any courses are scheduled during this time and day
-        foreach (Course course in Courses)
+        foreach (var course in coursesOnDay)
         {
-            if (course.DaysOfWeek.Contains(dayOfWeek) && course.StartTime <= startTime && course.EndTime > startTime)
+            var startRow = (int)course.StartTime.TotalHours;
+            var endRow = (int)course.EndTime.TotalHours;
+
+            for (int j = startRow; j <= endRow; j++)
             {
-                TimeSpan courseStartTime = course.StartTime;
-                TimeSpan courseEndTime = course.EndTime;
-
-                // Adjust course start time and end time if they fall outside of the current hour
-                if (courseStartTime < startTime)
+                if (row == j)
                 {
-                    courseStartTime = startTime;
-                }
+                    int rowspan = endRow - startRow + 1;
 
-                if (courseEndTime > endTime)
-                {
-                    courseEndTime = endTime;
-                }
-
-                int rowspan = (int)(courseEndTime - courseStartTime).TotalMinutes / 30;
-                
-
-                // If the course spans multiple rows, adjust the rowspan and colspan accordingly
-                if (rowspan >= 1)
-                {
-                    rowspan += (int)(courseStartTime - startTime).TotalMinutes / 30;
-                    sb.Append($"<td style='background-color: #FFD16B;' rowspan={rowspan} colspan='1'>{course.Name}</td>");
+                    if (j == startRow)
+                    {
+                        sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle;' rowspan={rowspan}>{course.Name}</td>");
+                    }
+                    else
+                    {
+                        sb.Append("<td></td>");
+                    }
+                    break;
                 }
             }
         }
 
         if (sb.Length == 0)
         {
-            sb.Append("<td rowspan='1' colspan='1'></td>");
+            sb.Append("<td></td>");
         }
-
-        // If no course is scheduled during this time and day, return an empty cell
         return sb.ToString();
     }
 }
