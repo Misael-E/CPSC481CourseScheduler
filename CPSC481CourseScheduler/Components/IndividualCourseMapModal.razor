@@ -1,5 +1,5 @@
 ﻿<div class="modal-container">
-	<div class="list-header"> @Location</div>
+	<div class="list-header"> @Building </div>
 	<div class="column">
 		<div class="list-container">
 			<img src= "@Location" alt="Campus Map">
@@ -15,6 +15,7 @@
 
 	[CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 	[Parameter] public string? Location {get; set;}
+	[Parameter] public string? Building {get; set;}
 	
 	private async Task SubmitForm() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
 	private async Task Cancel() => await BlazoredModal.CancelAsync();
