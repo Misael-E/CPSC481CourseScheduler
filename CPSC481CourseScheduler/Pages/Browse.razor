@@ -15,27 +15,22 @@
 		height: 100px;
 	}
 
-	.search-input {
-		width: 500px;
-		height: 40px; +
-		border: 3px solid black;
-		border-radius:8px;
-		margin-right: .5rem;
-		padding-left: 1rem;
-	}
+
 
 
 	.recommended-courses-title {
 		font-weight: bold;
 		font-size: 20px;
-		margin: .5rem 0 0 1rem;
+		padding: .5rem 0 .5rem 1rem;
+		border: 3px solid orange;
+		border-radius: 8px 8px 0 0;
 	}
 
 	.courses-container {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		justify-content: center;
+		justify-content: left;
 	}
 
 	.srch-btn {
@@ -81,7 +76,7 @@
 		text-align: center;
 	}
 
-	.flex-container {
+	.page-container {
 		display: flex;
 		flex-direction: row;
 		margin-top: 1rem;
@@ -92,11 +87,7 @@
 		flex-direction: column;
 	}
 
-	.side-panel-container {
-		flex: 35%;
-		padding: 1rem 1rem 0 0;
-		max-width: 25rem;
-	}
+
 
 	.browse-section-container {
 		display: flex;
@@ -104,22 +95,10 @@
 		flex-direction: column;
 		max-height: 90vh;
 		overflow: auto;
+		margin-left: 1rem;
 	}
 
-	.search-bar {
-		justify-content: center;
-		margin: 1rem 1rem 1rem 1rem;
-	}
 
-	.flex-row {
-		display: flex;
-		flex-direction: row;
-	}
-
-	.flex-column {
-		display: flex;
-		flex-direction: column;
-	}
 
 
 	.block {
@@ -129,11 +108,11 @@
 
 </style>
 
-<div class="flex-container">
+<div class="page-container">
 	<div class="browse-section-container">
 		<form class="flex-row search-bar" onsubmit="@(searchResults)">
 			<input class="search-input" type="text" placeholder="Search Courses" aria-label="Search">
-			<button class="util-button-1 small-margin-right " type="submit">Search</button>
+			<button class="util-button-1 small-margin-right" type="submit">Search</button>
 			@if (searchClicked)
 			{
 							<button class="white-button-1" type="button" onclick="@(searchResultsOff)">Clear Results</button>
@@ -144,12 +123,12 @@
 			<div class="courses-container">
 				@foreach (var course in coursesFromSearch)
 				{
-									<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
+					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
 				}
 			</div>
 		}
 		
-		<div class="flex-column standard-card">
+		<div class="flex-column standard-card med-top-margin">
 			<div class="recommended-courses-title">
 					Recommended Courses (Based on degree)
 				</div>
@@ -239,6 +218,7 @@
 				Description = "Analysis of methods, tools, and techniques for software project management as an effort to achieve quality software products.",
 				prereq = "3 units from Software Engineering 300, 301, 403 or ENSF 480"
 			},
+			/*
 			new BasicCourse
 			{
 				CourseName = "Programming Paradigms",
@@ -252,7 +232,7 @@
 				CourseCode = "CPSC 433",
 				Description = "An examination of the objectives, key techniques and achievements of work on artificial intelligence in Computer Science.",
 				prereq = "Computer Science 313 or 351; and Philosophy 279 or 377"
-			}
+			}*/
 		};
 	}
 }

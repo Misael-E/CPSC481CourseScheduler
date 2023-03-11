@@ -1,83 +1,4 @@
 ﻿@page "/plan"
-
-
-<div class="map-and-cards">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-6">
-                <form class="searchform-control searchform" onsubmit="">
-                    <div>
-                        <input onkeydown="@setSearchInput" role="combobox" class="search-input" list="browsers" type="text" placeholder="Search Courses" aria-label="Search">
-                        @if (setSearch)
-                        {
-                            <datalist id="browsers">
-                                <option value="Cpsc 481">Cpsc 481</option>
-                                <option value="Cpsc 411">Cpsc 411 </option>
-                                <option value="Cpsc 409">Cpsc 409 </option>
-                                <option value="SENG 501"> SENG 501 </option>
-                                <option value="SENG 533"> SENG 533 </option>
-                            </datalist>
-                        }
-                    </div>
-                    <div>
-                        <button class="btn btn-info btn-md srch-btn" type="submit">Search</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-6">
-            </div>
-            <div class="col-8" >
-                <div>
-                    <label class="switch" style="align-items:right; margin:1%">
-                        <input type="checkbox" onclick="@(() => {mapView = !mapView;})">
-                        <span class="slider round"></span>
-                    </label>
-                    Map View
-                </div>
-                   @if(mapView)
-                   {
-                    <Map />
-                }
-                else
-                {
-                    <div> 
-                        TimeTable View
-                    </div>
-                }
-            </div>
-
-            <div class="col-4" style="margin:auto">
-                <SidePanelPlanning />
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container-fluid">
-    <div class="row" style="margin-top: 0.5%">
-        @if (!mapView)
-        {
-            <div class="col-8" style="text-align: center">     
-                <button title="Previous Schedule" class="btn btn-warning"><i class="arrow left" style="margin-top:20%"></i></button>
-            <button title="Next Schedule" class="btn btn-warning"><i class="arrow right" style="margin-top:20%"></i></button>
-            </div>
-        }
-        else
-        {
-            <div class="col-8"> </div>
-        }
-        <div class="col-4" style="text-align: center">
-            <!-- Move this button wherever -->
-            <button type="button" class="orange-button-1 btn btn-sm" @onclick="@(() => Modal.Show<FinalizeScheduleModal>("Summary", options))">FINALIZE</button>
-        </div>
-
-    </div>
-</div>
-
-
-
-
-
-
 <style>
 .map-and-cards {
     display:flex;
@@ -87,10 +8,10 @@
 <!-- toggle -->
 .switch {
   position: relative;
-  display: inline-block;
   width: 50px;
   height: 26px;
-  margin:auto;
+  margin: 4px 0 .5rem 0;
+
 }
 .switch input {
     opacity:0;
@@ -173,12 +94,6 @@ input:checked + .slider:before {
         height: 100px;
     }
 
-    .search-input {
-        width: 500px;
-        height: 40px;
-        dd border: 3px solid black;
-        border-radius: 8px;
-    }
 
     datalist {
         position: absolute;
@@ -202,36 +117,162 @@ input:checked + .slider:before {
         cursor: pointer;
     }
 
-      option:hover, .active {
+      option:hover {
             background-color: lightblue;
         }
 
-}
+    .plan-section-container {
+        display: flex;
+        flex: 65%;
+        flex-direction: column;
+        max-height: 90vh;
+        overflow: auto;
+    }
 
+    .bottom-row-container {
+        display: flex;
+        flex-direction: horizontal;
+        justify-content: center;
+    }
 
+    .arrow-buttons-container {
+        margin-left: auto;
+        padding-left: 8rem;
+    }
 
+    .schedule-container {
+        margin: 0 1rem 1rem 1rem;
+    }
 
+    .switch-container {
+        margin-left: 1rem;
+        font-size: 16px;
+    }
 
+    .finalize-button {
+        margin-left: auto;
+        margin-right: 1rem;
+    }
+    .switch-title {
+        font-weight: bold;
+    }
 
-
-
-
-
+    .plan-page-container {
+        margin: 1rem 0 0 1rem;
+        display: flex;
+        flex-direction: row;
+    }
 </style>
+
+<div class="plan-page-container">
+    <div class="plan-section-container">
+        <form class="flex-row search-bar" onsubmit="">
+                        <div>
+                            <input onkeydown="@setSearchInput" role="combobox" class="search-input" list="browsers" type="text" placeholder="Search Courses" aria-label="Search">
+                @if (setSearch)
+                {
+                                    <datalist id="browsers">
+                                        <option style="font-size:30px">Cpsc 481</option>
+                                        <option value="Cpsc 411">Cpsc 411 </option>
+                                        <option  value="Cpsc 409">Cpsc 409 </option>
+                                        <option  value="SENG 501"> SENG 501 </option>
+                                        <option value="SENG 533"> SENG 533 </option>
+                                    </datalist>
+                }
+                        </div>
+                        <div>
+                            <button class="util-button-1 small-margin-right" type="submit">Search</button>
+                        </div>
+        </form>
+        <div class="switch-container">
+            <div class="switch-title">Map view</div>
+            <label class="switch">
+                <input type="checkbox" @onclick="toggleMapViewSwitch">
+                <span class="slider round"></span>
+            </label>
+            @toggleSwitchText
+        </div>
+        <div class="schedule-container">
+            @if (mapView)
+            {
+                <Map />
+            }
+            else
+            {
+                <ScheduleTable>
+
+                </ScheduleTable>
+            }
+        </div>
+        <div class="bottom-row-container">
+            @if (!mapView)
+                {
+                <div class="arrow-buttons-container">
+                    <button title="Previous Schedule" class="btn btn-warning"><i class="arrow left" style="margin-top:20%"></i></button>
+                    <button title="Next Schedule" class="btn btn-warning"><i class="arrow right" style="margin-top:20%"></i></button>
+                </div>
+                <button type="button" class="orange-button-1 finalize-button" @onclick="ShowFinalizeModal">FINALIZE SCHEDULE</button>
+            }
+
+        </div>
+    </div>
+    <div class=side-panel-container>
+        <SidePanelPlanning></SidePanelPlanning>
+    </div>
+   
+</div>
+
+<Snackbar @ref="finalizeSuccessSnackBar" Color="Blazorise.Snackbar.SnackbarColor.Success">
+    <SnackbarBody>
+        Success!
+    </SnackbarBody>
+</Snackbar>
+
+
 @code {
     private bool setSearch = false;
     private bool mapView = false;
+    private string toggleSwitchText = "Off";
+
     private void setSearchInput ()
     {
         setSearch = true;
     }
 
-    [CascadingParameter] public IModalService Modal { get; set; }
+    private void toggleMapViewSwitch()
+    {
+        mapView = !mapView;
+        if (mapView) {
+            toggleSwitchText = "On";
+        } else
+        {
+            toggleSwitchText = "Off";
+        }
+    }
+
+    [CascadingParameter] public Blazored.Modal.Services.IModalService Modal { get; set; }
+    Snackbar? finalizeSuccessSnackBar;
+
     private ModalOptions options = new ModalOptions()
         {
             Position = ModalPosition.Middle,
-            Size = ModalSize.Large,
+            Size = Blazored.Modal.ModalSize.Large,
             HideCloseButton = true,
             DisableBackgroundCancel = true
         };
+
+    private async Task ShowFinalizeModal()
+    {
+        var modal = Modal.Show<FinalizeScheduleModal>("Summary", options);
+        var result = await modal.Result;
+
+        if (result.Cancelled)
+        {
+            Console.WriteLine("Cancelled");
+        } else if (result.Confirmed)
+        {
+            Console.WriteLine("Modal was closed");
+            await finalizeSuccessSnackBar.Show();
+        }
+    }
 }
