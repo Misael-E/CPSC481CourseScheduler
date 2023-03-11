@@ -1,18 +1,14 @@
 ﻿@page "/side-panel"
   
-<div class="side-panel">
+<div>
   <div class="container-fluid tab no-padding">
-    <div class="row">
-      <div class="col-6">
+    <div class="tab-bar">
         <button class="top-button" style="@(tab1?" background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(1)">
-          <h3 style="font-size:1vw"> Selected Courses </h3>
+           Selected Courses
         </button>
-      </div>
-      <div class="col-6">
         <button class="top-button" style="@(tab2?" background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(2)">
-          <h3 style="font-size:1vw"> Bookmarks </h3>
+          Bookmarks
         </button>
-      </div>
     </div>
   </div>
 
@@ -95,8 +91,16 @@
 
 
 <style>
+    .side-panel {
+        border-radius: 10px important;
+    }
   .tab {
     background-color: orange;
+    }
+
+    .tab-bar {
+        display: flex;
+        flex-direction: row;
     }
  .card {
     padding: 10px;
@@ -107,7 +111,11 @@
     background-color: orange;
     border: none;
     outline: none;
+    padding: 8px;
+    font-weight: bold;
+    font-size: 12px;
     }
+
 .tab:hover{
     background-color: orange;
 }
@@ -132,20 +140,17 @@
 }
 
  .no-padding {
-        padding: 0 3%;
+        padding: 0;
   }
 
 
-
-p 
-{color: black;}
 </style>
 
 @code {
         private bool tab1 = true;
         private bool tab2 = false;
 
-        private List<RecommendedCourses> BookmarkedCourses;
+        private List<BasicCourse> BookmarkedCourses;
         private List<SelectCourse> courses;
 
         public void ActiveTab(int TabNumber) {
@@ -164,21 +169,21 @@ p
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            BookmarkedCourses = new List<RecommendedCourses>
+            BookmarkedCourses = new List<BasicCourse>
         {
-            new RecommendedCourses
+            new BasicCourse
             {
                 CourseName = "Principles of Operating Systems ",
                 CourseCode = "CPSC 457",
                 Description = "An introduction to operating systems principles. Performance measurement; concurrent programs; the management of information, memory and processor resources."
             },
-            new RecommendedCourses
+            new BasicCourse
             {
                 CourseName = "Discrete Mathematics ",
                 CourseCode = "MATH 271",
                 Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
             },
-            new RecommendedCourses
+            new BasicCourse
             {
                 CourseName = "Principles of Software Design",
                 CourseCode = "ENSF 480",

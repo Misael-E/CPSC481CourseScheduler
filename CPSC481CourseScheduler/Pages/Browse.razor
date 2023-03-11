@@ -1,7 +1,8 @@
-﻿@page "/"
+﻿@page "/browse"
 <PageTitle>Browsing</PageTitle>
 
 <style>
+	
 	.searchform {
 		display: flex;
 		flex-direction: column;
@@ -16,13 +17,25 @@
 
 	.search-input {
 		width: 500px;
-		height: 40px;dd 
+		height: 40px; +
 		border: 3px solid black;
 		border-radius:8px;
+		margin-right: .5rem;
+		padding-left: 1rem;
 	}
 
-	.recommended h1 {
-		text-align: center;
+
+	.recommended-courses-title {
+		font-weight: bold;
+		font-size: 20px;
+		margin: .5rem 0 0 1rem;
+	}
+
+	.courses-container {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
 	}
 
 	.srch-btn {
@@ -59,12 +72,6 @@
 		text-align: center;
 	}
 
-	.search-recom {
-		overflow-y: scroll;
-		overflow-x: hidden;
-		height: 90vh;
-	}
-
 	.search-heading {
 		border: 3px solid black;
 		background-color: #2E86C1;
@@ -74,86 +81,110 @@
 		text-align: center;
 	}
 
-	.bookmarks {
-		margin:10% 5% 0 5%;
-		border: 1px solid black;
+	.flex-container {
+		display: flex;
+		flex-direction: row;
+		margin-top: 1rem;
+	}
+
+	.search-container {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.side-panel-container {
+		flex: 35%;
+		padding: 1rem 1rem 0 0;
+		max-width: 25rem;
+	}
+
+	.browse-section-container {
+		display: flex;
+		flex: 65%;
+		flex-direction: column;
+		max-height: 90vh;
+		overflow: auto;
+	}
+
+	.search-bar {
+		justify-content: center;
+		margin: 1rem 1rem 1rem 1rem;
+	}
+
+	.flex-row {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.flex-column {
+		display: flex;
+		flex-direction: column;
+	}
+
+
+	.block {
+		width: 300px;
+		height: 100px;
 	}
 
 </style>
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-8 search-recom">
-			<div class="search">
-				<form class="searchform-control searchform" onsubmit="@(searchResults)">
-					<div>
-					<input class="search-input" type="text" placeholder="Search Courses" aria-label="Search">
-					</div>
-					<div>
-					<button class="btn btn-info btn-md srch-btn" type="submit">Search</button>
-					</div>
-				</form>
-				@if(searchClicked)
+<div class="flex-container">
+	<div class="browse-section-container">
+		<form class="flex-row search-bar" onsubmit="@(searchResults)">
+			<input class="search-input" type="text" placeholder="Search Courses" aria-label="Search">
+			<button class="util-button-1 small-margin-right " type="submit">Search</button>
+			@if (searchClicked)
+			{
+							<button class="white-button-1" type="button" onclick="@(searchResultsOff)">Clear Results</button>
+			}
+		</form>
+		@if(searchClicked)
+		{
+			<div class="courses-container">
+				@foreach (var course in coursesFromSearch)
 				{
-					<div class="search-results">
-						<div>
-							<div class="search-heading"> 
-							<h3>@course.CourseName</h3>
-							<p style="font-size:1.3rem"><b>@course.CourseCode</b></p>
-							</div>
-							<div class="container">
-								<div class="row">
-									<div class="col-12">
-										<p><b>Description: </b> @course.Description</p>
-									</div>
-									<div class="col-12">
-										<p><b>Prerequisites: </b>@course.prereq</p>
-									</div>
-									<div class=col-3></div>
-									<div class="col-3 add-btn">
-										<button class="srch-btn btn-primary btn-sm">Add to Bookmarks</button>
-									</div>
-									<div class="col-3 add-btn">
-										<button class="srch-btn btn-primary btn-sm">Add to Selections</button>
-									</div>
-									<div class=col-3></div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="clear-btn">
-						<button class="btn btn-danger  btn-md" onclick="@(searchResultsOff)">Clear Results</button>
-					</div>
+									<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
 				}
-		</div>
-			<div class="recommended">
-				<div>
-					<h1>Recommended Courses (Based on degree)</h1>
+			</div>
+		}
+		
+		<div class="flex-column standard-card">
+			<div class="recommended-courses-title">
+					Recommended Courses (Based on degree)
 				</div>
-
-				<div class="container">
-					<div class="row">
-						@foreach (var course in courses)
-					{
-					<CourseRecommeded CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq"></CourseRecommeded>
-					}
-					</div>
-				</div>
-				</div>
-		</div>
-		<div class="col-4">
-
-			<div class="bookmarks">
-			<SidePanel />
+				<div class="courses-container">
+				@foreach (var course in courses)
+				{
+					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" Recommended="true" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
+				}
 			</div>
 		</div>
 	</div>
-
+	<div class=side-panel-container>
+		<SidePanel></SidePanel>
+	</div>
 </div>
 
-
 @code {
-	private List<RecommendedCourses> courses;
+	private List<BasicCourse> courses;
+	private List<BasicCourse> coursesFromSearch = new List<BasicCourse>
+		{
+			new BasicCourse
+			{
+				CourseName = "Human Computer Interaction",
+				CourseCode = "CPSC 481",
+				Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces",
+				prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311"
+			},
+			new BasicCourse
+			{
+				CourseName = "Distributed Systems",
+				CourseCode = "CPSC 559",
+				Description = "Designing and implementing distributed systems that overcome challenges due to concurrent computation, ailure of components in the system",
+				prereq = "Computer Science 441 and 457"
+			},
+		};
 	private bool searchClicked = false;
 
 
@@ -167,7 +198,7 @@
 		searchClicked = false;
 	}
 
-	private RecommendedCourses course = new RecommendedCourses
+	private BasicCourse course = new BasicCourse
 		{
 			CourseName = "Human Computer Interaction",
 			CourseCode = "CPSC 481",
@@ -178,44 +209,44 @@
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
-		courses = new List<RecommendedCourses>
+		courses = new List<BasicCourse>
 		{
-			new RecommendedCourses
+			new BasicCourse
 			{
 				CourseName = "Human Computer Interaction",
 				CourseCode = "CPSC 481",
 				Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces",
 				prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311"
 			},
-			new RecommendedCourses
+			new BasicCourse
 			{
 				CourseName = "Distributed Systems",
 				CourseCode = "CPSC 559",
 				Description = "Designing and implementing distributed systems that overcome challenges due to concurrent computation, ailure of components in the system",
 				prereq = "Computer Science 441 and 457"
 			},
-			new RecommendedCourses
+			new BasicCourse
 			{
 				CourseName = "Web-Based Systems",
 				CourseCode = "SENG 513",
 				Description = "An overview of software engineering methods and technologies for developing web-based software systems.",
 				prereq = "3 units from Software Engineering 300, 301 or ENSF 480"
 			},
-			new RecommendedCourses
+			new BasicCourse
 			{
 				CourseName = "Software Project Management",
 				CourseCode = "SENG 511",
 				Description = "Analysis of methods, tools, and techniques for software project management as an effort to achieve quality software products.",
 				prereq = "3 units from Software Engineering 300, 301, 403 or ENSF 480"
 			},
-			new RecommendedCourses
+			new BasicCourse
 			{
 				CourseName = "Programming Paradigms",
 				CourseCode = "CPSC 449",
 				Description = "Examination of the basic principles of the major programming language paradigms. Focus on declarative paradigms.",
 				prereq = "Computer Science 319 or 331; and Philosophy 279 or 377."
 			},
-			new RecommendedCourses
+			new BasicCourse
 			{
 				CourseName = "Artificial Intelligence",
 				CourseCode = "CPSC 433",
