@@ -1,6 +1,8 @@
-﻿@page "/side-panel-planning"
+﻿@inject IJSRuntime JSRuntime;
+
+@page "/side-panel-planning"
   
-<div class="side-panel">
+<div class="side-panel border rounded">
   <div class="tab">
     <div class="row">
       <div class="col-6">
@@ -156,28 +158,28 @@ p
 </style>
 
 @code {
-        private bool tab1 = true;
-        private bool tab2 = false;
+    private bool tab1 = true;
+    private bool tab2 = false;
 
-        private List<BasicCourse> bookmarkedCourses;
-        private List<SelectCourse> courses;
+    private List<BasicCourse> bookmarkedCourses;
+    private List<SelectCourse> courses;
 
-        public void ActiveTab(int TabNumber) {
-            switch(TabNumber) {
-                case 1:
-                    this.tab1 = true;
-                    this.tab2 = false;
-                    break;
-                case 2:
-                    this.tab1 = false;
-                    this.tab2 = true;
-                    break;
-            }
+    public void ActiveTab(int TabNumber) {
+        switch(TabNumber) {
+            case 1:
+                this.tab1 = true;
+                this.tab2 = false;
+                break;
+            case 2:
+                this.tab1 = false;
+                this.tab2 = true;
+                break;
         }
+    }
 
-        protected override void OnInitialized() {
-            base.OnInitialized();
-            bookmarkedCourses = new List<BasicCourse> {
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        bookmarkedCourses = new List<BasicCourse> {
             new BasicCourse {
                 CourseName = "Discrete Mathematics ",
                 CourseCode = "MATH 271",
@@ -198,7 +200,7 @@ p
             }
         };
 
-            courses = new List<SelectCourse>
+        courses = new List<SelectCourse>
         {
             new SelectCourse
             {
@@ -261,7 +263,16 @@ p
                 Map = "/MapImages/CHC.png"
             }
         };
-        }
+
+        SaveCourses(courses);
+
+    }
+
+    public async Task SaveCourses(List<SelectCourse> courses)
+    {
+        string serializedData = JsonSerializer.Serialize(courses);
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem", "selectedCourses", serializedData);
+    }
 
 
         
