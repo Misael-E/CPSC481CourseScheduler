@@ -1,6 +1,7 @@
 ﻿@using System.Net.Http
 @using System.Text
 @using System.Collections.Generic
+@using System.Text.Json
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
@@ -14,3 +15,5 @@
 @using CPSC481CourseScheduler.Data
 @using Blazored.Modal
 @using Blazored.Modal.Services
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage ProtectedSessionStore
