@@ -271,7 +271,7 @@ p
 
     private void MapModal(string mapPath, string building) {
         var parameters = new ModalParameters();
-        
+        parameters.Add(nameof(IndividualCourseMapModal.Building), building);
         parameters.Add(nameof(IndividualCourseMapModal.Location), mapPath);
         Modal.Show<IndividualCourseMapModal>("Course Location", parameters);
 
@@ -284,8 +284,6 @@ p
             Size = ModalSize.Large,
             HideCloseButton = true,
             DisableBackgroundCancel = true
-
-            
         };
 
 

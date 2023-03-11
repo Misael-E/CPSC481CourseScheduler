@@ -1,13 +1,11 @@
 ﻿<div class="modal-container">
-	<div class="list-header"> @Location</div>
-	<div class="column">
-		<div class="list-container">
-			<img src= "@Location" alt="Campus Map">
+	<div class="map-header"> @Building </div>
+	<div class="map-container">
+		<img src= "@Location" alt="Campus Map">
 			
-		</div>
-		<div class="buttons-container">
-				<button class="white-button-1" @onclick="Cancel">Close</button>
-		</div>
+	</div>
+	<div class="buttons-container">
+			<button class="white-button-1" @onclick="Cancel">Close</button>
 	</div>
 </div>
 
@@ -15,6 +13,7 @@
 
 	[CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
 	[Parameter] public string? Location {get; set;}
+	[Parameter] public string? Building {get; set;}
 	
 	private async Task SubmitForm() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
 	private async Task Cancel() => await BlazoredModal.CancelAsync();
@@ -25,20 +24,20 @@
 	.modal-container {
 		display: flex;
 		flex-direction: column;
+
 	}
 
-	.list-header {
+	.map-header {
 		font-weight: bold;
 		font-size: 20px;
 		margin-bottom: .5rem;
 	}
 
-	.list-container {
+	.map-container {
 		display: flex;
 		flex-direction: column;
 		border: 2px solid orange;
 		padding: 1rem;
-
 		overflow: auto;
 		border-radius: 5px;
 	}
