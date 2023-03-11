@@ -1,10 +1,22 @@
 ﻿@using System.Globalization
 
 <style>
+    .fa-times {
+        color: red;
+    }
 
+    .btn:focus, .btn:active {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    .btn:hover {
+        transform: scale(1.1);
+    }
 </style>
 
-<table class="table">
+<div class="card p-2">
+    <table class="table">
     <thead>
         <tr>
             <th></th>
@@ -32,6 +44,8 @@
         }
     </tbody>
 </table>
+</div>
+
 
 @code {
 
@@ -101,7 +115,8 @@
 
                     if (j == startRow)
                     {
-                        sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle;' rowspan={rowspan}>{course.Name}</td>");
+                        sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>");
+                        sb.Append($"{course.Name}<button class='btn btn-x float-end px-2' style='position: absolute; top: 0; right: 0; padding: 0;'><i class='fa fa-times'></i></button></td>");
                         merged = true;
                     }
                     else
@@ -123,4 +138,5 @@
             return sb.ToString();
         }
     }
+
 }
