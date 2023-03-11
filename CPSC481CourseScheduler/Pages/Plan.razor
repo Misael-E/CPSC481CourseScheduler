@@ -3,28 +3,30 @@
 
 <div class="map-and-cards">
     <div class="container-fluid">
-        <div class="row" style="height: 80vh">
-            <div class="col-8">
-                <div>
-                    <form class="searchform-control searchform" onsubmit="">
-                        <div>
-                            <input onkeydown="@setSearchInput" role="combobox" class="search-input" list="browsers" type="text" placeholder="Search Courses" aria-label="Search">
-                            @if(setSearch)
-                            {
-                                <datalist id="browsers">
-                                    <option style="font-size:30px">Cpsc 481</option>
-                                    <option value="Cpsc 411">Cpsc 411 </option>
-                                    <option  value="Cpsc 409">Cpsc 409 </option>
-                                    <option  value="SENG 501"> SENG 501 </option>
-                                    <option value="SENG 533"> SENG 533 </option>
-                                </datalist>
-                            }
-                        </div>
-                        <div>
-                            <button class="btn btn-info btn-md srch-btn" type="submit">Search</button>
-                        </div>
-                    </form>
-                </div>
+        <div class="row">
+            <div class="col-6">
+                <form class="searchform-control searchform" onsubmit="">
+                    <div>
+                        <input onkeydown="@setSearchInput" role="combobox" class="search-input" list="browsers" type="text" placeholder="Search Courses" aria-label="Search">
+                        @if (setSearch)
+                        {
+                            <datalist id="browsers">
+                                <option style="font-size:30px">Cpsc 481</option>
+                                <option value="Cpsc 411">Cpsc 411 </option>
+                                <option value="Cpsc 409">Cpsc 409 </option>
+                                <option value="SENG 501"> SENG 501 </option>
+                                <option value="SENG 533"> SENG 533 </option>
+                            </datalist>
+                        }
+                    </div>
+                    <div>
+                        <button class="btn btn-info btn-md srch-btn" type="submit">Search</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-6">
+            </div>
+            <div class="col-8" >
                 <div>
                     <label class="switch" style="align-items:right; margin:1%">
                         <input type="checkbox" onclick="@(() => {mapView = !mapView;})">
@@ -48,11 +50,10 @@
                 <SidePanelPlanning />
             </div>
         </div>
-
     </div>
 </div>
 <div class="container-fluid">
-    <div class="row">
+    <div class="row" style="margin-top: 0.5%">
         @if (!mapView)
         {
             <div class="col-8" style="text-align: center">     
