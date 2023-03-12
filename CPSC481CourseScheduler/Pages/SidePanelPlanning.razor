@@ -50,6 +50,22 @@
                                     <div class="col-6" style="margin-bottom:3%">
                                         <b>Seats: </b>@course.Seats
                                     </div>
+                                    <div class="col-6">
+                                        <b>Status:  </b>@if (course.Status == "Enrolled")
+                                        {
+                                            <p style="display:inline-block"><span class="dot-green"></span> Enrolled</p>
+                                        }
+                                        @if (course.Status == "Not-Enrolled")
+                                        {
+                                            <p style="display:inline-block"><span class="dot-grey"></span> Not-Enrolled</p>
+                                        }
+
+                                        @if (course.Status == "Waitlisted")
+                                        {
+                                            <p style="display:inline-block"><span class="dot-blue"></span> Waitlisted</p>
+                                        }
+
+                                    </div>
                                     <div>
                                     <button type="button" class=" btn btn-info" @onclick="@(() => MapModal(@course.Map, @course.LectureLocation))">
                                         Show Location
@@ -156,6 +172,30 @@ h5 {
 
 p 
 {color: black;}
+
+    .dot-green {
+        height: 10px;
+        width: 10px;
+        background-color: green;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .dot-grey {
+        height: 10px;
+        width: 10px;
+        background-color: grey;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .dot-blue {
+        height: 10px;
+        width: 10px;
+        background-color: deepskyblue;
+        border-radius: 50%;
+        display: inline-block;
+    }
 </style>
 
 @code {
@@ -181,14 +221,9 @@ p
     protected override void OnInitialized() {
         base.OnInitialized();
         bookmarkedCourses = new List<BasicCourse> {
-            new BasicCourse {
-                CourseName = "Discrete Mathematics ",
-                CourseCode = "MATH 271",
-                Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
-             },
             new BasicCourse
             {
-                CourseName = "Discrete Mathematics ",
+                CourseName = "Discrete Mathematics",
                 CourseCode = "MATH 271",
                 Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
             },
@@ -213,7 +248,8 @@ p
                 Days = "MWF",
                 CourseTime = "10:00 - 10:50",
                 Seats = "45/90",
-                Map = "/MapImages/ST.png"
+                Map = "/MapImages/ST.png",
+                Status = "Enrolled"
             },
             new SelectCourse
             {
@@ -225,7 +261,8 @@ p
                 Days = "TR",
                 CourseTime = "14:00 - 15:15",
                 Seats = "40/90",
-                Map = "/MapImages/MS.png"
+                Map = "/MapImages/MS.png",
+                Status = "Enrolled"
             },
             new SelectCourse
             {
@@ -237,7 +274,8 @@ p
                 Days = "TR",
                 CourseTime = "12:30 - 13:45",
                 Seats = "20/50",
-                Map = "/MapImages/ICT.png"
+                Map = "/MapImages/ICT.png",
+                Status = "Not-Enrolled"
             },
             new SelectCourse
             {
@@ -249,19 +287,21 @@ p
                 Days = "MWF",
                 CourseTime = "14:00 - 14:50",
                 Seats = "33/50",
-                Map = "/MapImages/SB.png"
+                Map = "/MapImages/SB.png",
+                Status = "Not-Enrolled"
             },
             new SelectCourse
             {
                 CourseName = "Introduction to Dinosaurs",
-                CourseCode = "GLGY 305",
+                CourseCode = "GLGT 305",
                 LectureLocation = "CHC 119",
                 LectureNumber = "Lec 01",
                 InstructorName = "Darla Zelenitsky",
                 Days = "MF",
                 CourseTime = "12:00 - 12:50",
                 Seats = "10/100",
-                Map = "/MapImages/CHC.png"
+                Map = "/MapImages/CHC.png",
+                Status = "Waitlisted"
             }
         };
 
