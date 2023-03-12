@@ -1,4 +1,5 @@
 ﻿@using System.Globalization
+@inject NavigationManager NavigationManager
 
 <style>
     .fa-times {
@@ -48,8 +49,6 @@
 
 
 @code {
-
-
     public class Course
     {
         public string Name { get; set; } = string.Empty;
@@ -92,6 +91,7 @@
         },
     };
 
+
     private string FormatTime(int hour)
     {
         if (hour == 12)
@@ -107,6 +107,8 @@
         StringBuilder sb = new StringBuilder();
         var coursesOnDay = Courses.Where(c => c.DaysOfWeek.Contains(day));
         bool merged = false;
+        string[] location = NavigationManager.Uri.Split('/');
+        string currentPage = location[location.Length - 1];
 
         foreach (var course in coursesOnDay)
         {
@@ -121,8 +123,16 @@
 
                     if (j == startRow)
                     {
-                        sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>");
-                        sb.Append($"{course.Name}<button class='btn btn-x float-end px-2' style='position: absolute; top: 0; right: 0; padding: 0;'><i class='fa fa-times'></i></button></td>");
+                        if (currentPage == "share")
+                        {
+                            sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>{course.Name}</td>");
+                        } 
+                        else
+                        {
+                            sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>");
+                            sb.Append($"{course.Name}<button class='btn btn-x float-end px-2' style='position: absolute; top: 0; right: 0; padding: 0;'><i class='fa fa-times'></i></button></td>");
+                        }
+
                         merged = true;
                     }
                     else
