@@ -33,6 +33,13 @@
 		justify-content: left;
 	}
 
+	.courses-container-search {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
 	.srch-btn {
 		margin-top: 10px;
 	}
@@ -120,7 +127,7 @@
 		</form>
 		@if(searchClicked)
 		{
-			<div class="courses-container">
+			<div class="courses-container-search">
 				@foreach (var course in coursesFromSearch)
 				{
 					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
@@ -155,14 +162,7 @@
 				CourseCode = "CPSC 481",
 				Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces",
 				prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311"
-			},
-			new BasicCourse
-			{
-				CourseName = "Distributed Systems",
-				CourseCode = "CPSC 559",
-				Description = "Designing and implementing distributed systems that overcome challenges due to concurrent computation, ailure of components in the system",
-				prereq = "Computer Science 441 and 457"
-			},
+			}
 		};
 	private bool searchClicked = false;
 
