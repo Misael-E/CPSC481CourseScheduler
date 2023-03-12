@@ -2,7 +2,8 @@
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Friends</h2>
-            <button class="btn btn-primary" style="background-color: orange;" @onclick="ToggleEditMode">
+            <!-- <button class="btn btn-primary" style="background-color: orange;" @onclick="ToggleEditMode"> -->
+                <button class="orange-button-1" @onclick="ToggleEditMode">
                 @if (IsEditMode)
                 {
                     <span>Done</span>
@@ -37,7 +38,8 @@
         </ul>
 
         <div class="mt-3 d-flex justify-content-center">
-            <button class="btn" style="background-color: orange;" @onclick="AddFriend">Add Friend</button>
+            <!--<button class="btn" style="background-color: orange;" @onclick="AddFriend">Add Friend</button> -->
+            <button class="orange-button-1" @onclick="AddFriend">Add Friend</button>
         </div>
     </div>
 </div>
