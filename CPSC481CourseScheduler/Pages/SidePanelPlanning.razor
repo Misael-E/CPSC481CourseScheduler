@@ -1,20 +1,16 @@
-﻿@page "/side-panel-planning"
+﻿@inject IJSRuntime JSRuntime;
+
+@page "/side-panel-planning"
   
-<div class="side-panel">
-  <div class="tab">
-    <div class="row">
-      <div class="col-6">
+<div class="container-fluid tab no-padding">
+  <div class="tab-bar">
         <button class="top-button" style="@(tab1?" background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(1)">
-          <h5 style="font-size:1vw"> Selected Courses </h5>
+           Selected Courses
         </button>
-      </div>
-      <div class="col-6">
         <button class="top-button" style="@(tab2?" background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(2)">
-          <h5 style="font-size:1vw"> Bookmarks </h5>
+          Bookmarks
         </button>
-      </div>
     </div>
-  </div>
 
     @if (tab1)
     {
@@ -23,7 +19,7 @@
             {
                 
                 <div class="card border-secondary">
-                    <div class="card-header " style="background-color:#DC7633;">
+                    <div class="card-header " style="font-size:small; background-color:#DC7633;">
                         <div class="container-fluid" style="padding:0">
                             <div class="row">
                                 <div class="col-auto">
@@ -77,12 +73,12 @@
             <div class="card-header " style="background-color:#DC7633;">
                 <div class="container-fluid" style="padding:0">
                     <div class="row">
-                        <div class="col-auto">
+                        <h6 class="col-auto">
                             @course.CourseCode
-                        </div>
-                        <div class="col-auto">
+                        </h6>
+                        <h6 class="col-auto">
                             @course.CourseName
-                        </div>
+                        </h6>
                     </div>
                 </div>
             </div>
@@ -115,10 +111,17 @@
     margin-bottom: 10px;
     background-color: white;
     }
+    .tab-bar {
+        display: flex;
+        flex-direction: row;
+    }
 .tab button{
     background-color: orange;
     border: none;
     outline: none;
+    padding: 8px;
+    font-weight: bold;
+    font-size: 12px;
     }
 .tab:hover{
     background-color: orange;
@@ -144,7 +147,7 @@
 }
 
  .no-padding {
-        padding: 0 3%;
+        padding: 0;
   }
     
 h5 {
@@ -156,28 +159,28 @@ p
 </style>
 
 @code {
-        private bool tab1 = true;
-        private bool tab2 = false;
+    private bool tab1 = true;
+    private bool tab2 = false;
 
-        private List<BasicCourse> bookmarkedCourses;
-        private List<SelectCourse> courses;
+    private List<BasicCourse> bookmarkedCourses;
+    private List<SelectCourse> courses;
 
-        public void ActiveTab(int TabNumber) {
-            switch(TabNumber) {
-                case 1:
-                    this.tab1 = true;
-                    this.tab2 = false;
-                    break;
-                case 2:
-                    this.tab1 = false;
-                    this.tab2 = true;
-                    break;
-            }
+    public void ActiveTab(int TabNumber) {
+        switch(TabNumber) {
+            case 1:
+                this.tab1 = true;
+                this.tab2 = false;
+                break;
+            case 2:
+                this.tab1 = false;
+                this.tab2 = true;
+                break;
         }
+    }
 
-        protected override void OnInitialized() {
-            base.OnInitialized();
-            bookmarkedCourses = new List<BasicCourse> {
+    protected override void OnInitialized() {
+        base.OnInitialized();
+        bookmarkedCourses = new List<BasicCourse> {
             new BasicCourse {
                 CourseName = "Discrete Mathematics ",
                 CourseCode = "MATH 271",
@@ -198,7 +201,7 @@ p
             }
         };
 
-            courses = new List<SelectCourse>
+        courses = new List<SelectCourse>
         {
             new SelectCourse
             {
@@ -251,7 +254,7 @@ p
             new SelectCourse
             {
                 CourseName = "Introduction to Dinosaurs",
-                CourseCode = "GLGT 305",
+                CourseCode = "GLGY 305",
                 LectureLocation = "CHC 119",
                 LectureNumber = "Lec 01",
                 InstructorName = "Darla Zelenitsky",
@@ -261,7 +264,16 @@ p
                 Map = "/MapImages/CHC.png"
             }
         };
-        }
+
+        SaveCourses(courses);
+
+    }
+
+    public async Task SaveCourses(List<SelectCourse> courses)
+    {
+        string serializedData = JsonSerializer.Serialize(courses);
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem", "selectedCourses", serializedData);
+    }
 
 
         
