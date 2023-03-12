@@ -137,6 +137,7 @@ input:checked + .slider:before {
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: center;
         padding-left: 2rem;
     }
 
@@ -207,7 +208,7 @@ input:checked + .slider:before {
              </div>
             @if (!mapView)
             {
-                    <div class="arrow-buttons-container col-4">
+                <div class="flex justtify-content-center align-items-center pl-5 col-4">
                     <button title="Previous Schedule" class="btn btn-warning"><i class="arrow left" style="margin-top:20%"></i></button>
                     <button title="Next Schedule" class="btn btn-warning"><i class="arrow right" style="margin-top:20%"></i></button>
                 </div>

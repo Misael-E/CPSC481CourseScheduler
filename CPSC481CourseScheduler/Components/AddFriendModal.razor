@@ -1,0 +1,36 @@
+﻿<style>
+
+</style>
+
+<div class="modal-container">
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label style="font-weight: bold" for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" @bind-value="FirstName">
+            </div>
+            <div class="form-group">
+                <label style="font-weight: bold" for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" @bind-value="LastName">
+            </div>
+            <div class="form-group">
+                <label style="font-weight: bold" for="email">Email address</label>
+                <input type="email" class="form-control" id="email" @bind-value="Email">
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="orange-button-1" @onclick="SubmitForm">Save</button>
+        <button type="button" class="white-button-1" @onclick="Cancel">Cancel</button>
+    </div>
+</div>
+
+@code {
+	[CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+	[Parameter] public string? Email { get; set; }
+	[Parameter] public string? FirstName { get; set; }
+	[Parameter] public string? LastName { get; set; }
+
+	private async Task SubmitForm() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
+	private async Task Cancel() => await BlazoredModal.CancelAsync();
+}
