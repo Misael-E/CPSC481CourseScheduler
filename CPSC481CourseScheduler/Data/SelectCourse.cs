@@ -11,5 +11,6 @@
         public string Days { get; set; }
         public string LectureNumber { get; set; }
         public string Map { get; set; }
+        public string Status { get; set; }
     }
 }
