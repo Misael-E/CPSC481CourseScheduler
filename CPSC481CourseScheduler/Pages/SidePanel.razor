@@ -67,10 +67,12 @@
                                             }
 
                                         </div>
-                                        <div>
+                                        <div class="action-buttons-container">
                                             <button title="Click to see campus location on map" type="button" class="util-button-1" @onclick="@(() => MapModal(@course.Map, @course.LectureLocation))">
                                                 Show Location
                                             </button>
+                                            <div class="space"></div>
+                                            <button class="util-button-1" title="Remove course from selected courses"><span class="oi oi-trash" aria-hidden="true"></span></button>
                                         </div>
                                         </div>
                                     </div>
@@ -95,7 +97,18 @@
 </div>
 
 <style>
+    .action-buttons-container {
+        display: flex;
+        height: fit-content;
+    }
+    .space {
+        width: 1rem;
+        margin: auto;
+    }
 
+    .oi-bin {
+        background-color: white;
+    }
     .course-code {
         font-weight: bold;
     }

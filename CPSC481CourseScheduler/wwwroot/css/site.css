@@ -34,9 +34,19 @@ html, body {
     font-weight: 600;
 }
 
-    .util-button-1:hover {
-        background-color: #1ddbda;
-    }
+.util-button-2 {
+    background-color: red;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    padding: 8px 14px 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.util-button-1:hover {
+    background-color: #1ddbda;
+}
 
 .small-margin-right {
     margin-right: .5rem;
