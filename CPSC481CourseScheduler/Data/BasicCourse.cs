@@ -6,6 +6,7 @@
 		public string CourseCode { get; set; }
 		public string Description { get; set; }
 		public string prereq { get; set; }
+		public string Review { get; set; }	
 	}
 }
 

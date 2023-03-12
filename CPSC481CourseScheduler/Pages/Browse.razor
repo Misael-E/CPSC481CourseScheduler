@@ -123,7 +123,7 @@
 			<div class="courses-container">
 				@foreach (var course in coursesFromSearch)
 				{
-					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
+					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" Review="@course.Review" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
 				}
 			</div>
 		}
@@ -135,7 +135,7 @@
 				<div class="courses-container">
 				@foreach (var course in courses)
 				{
-					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" Recommended="true" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
+					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" Review="@course.Review" Recommended="true" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
 				}
 			</div>
 		</div>
@@ -154,14 +154,17 @@
 				CourseName = "Human Computer Interaction",
 				CourseCode = "CPSC 481",
 				Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces",
-				prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311"
+				prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311",
+				Review = "Good course. Gives you good food for thought on the right processes to take as you design things. Engaging prof. Likes to come up with interesting examples and keeps lectures unique and engaging. Ask the prof what technologies you will be allowed to use for your project, since that's a big part of what you will be learning. For us it was C# though I heard that it may be opening up in the future"
 			},
 			new BasicCourse
 			{
 				CourseName = "Distributed Systems",
 				CourseCode = "CPSC 559",
 				Description = "Designing and implementing distributed systems that overcome challenges due to concurrent computation, ailure of components in the system",
-				prereq = "Computer Science 441 and 457"
+				prereq = "Computer Science 441 and 457",
+				Review = "No Reviews"
+				
 			},
 		};
 	private bool searchClicked = false;
@@ -182,7 +185,8 @@
 			CourseName = "Human Computer Interaction",
 			CourseCode = "CPSC 481",
 			Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces. Topics include: principles of design; methods for evaluating interfaces with or without user involvement; techniques for prototyping and implementing graphical user interfaces.",
-			prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311."
+			prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311.",
+			Review = "Good course. Gives you good food for thought on the right processes to take as you design things. Engaging prof. Likes to come up with interesting examples and keeps lectures unique and engaging. Ask the prof what technologies you will be allowed to use for your project, since that's a big part of what you will be learning. For us it was C# though I heard that it may be opening up in the future"
 		};
 
 	protected override void OnInitialized()
@@ -195,28 +199,33 @@
 				CourseName = "Human Computer Interaction",
 				CourseCode = "CPSC 481",
 				Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces",
-				prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311"
+				prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311",
+				Review = "Good course. Gives you good food for thought on the right processes to take as you design things. Engaging prof. Likes to come up with interesting examples and keeps lectures unique and engaging. Ask the prof what technologies you will be allowed to use for your project, since that's a big part of what you will be learning. For us it was C# though I heard that it may be opening up in the future"
 			},
 			new BasicCourse
 			{
 				CourseName = "Distributed Systems",
 				CourseCode = "CPSC 559",
 				Description = "Designing and implementing distributed systems that overcome challenges due to concurrent computation, ailure of components in the system",
-				prereq = "Computer Science 441 and 457"
+				prereq = "Computer Science 441 and 457",
+				Review = "No Review"		
 			},
 			new BasicCourse
 			{
 				CourseName = "Web-Based Systems",
 				CourseCode = "SENG 513",
 				Description = "An overview of software engineering methods and technologies for developing web-based software systems.",
-				prereq = "3 units from Software Engineering 300, 301 or ENSF 480"
+				prereq = "3 units from Software Engineering 300, 301 or ENSF 480",
+				Review = "Mid tier course. Assignments are not super tough to do but can be frustrating to set up. Lots of people struggled on the assignments because they always had you downloading Java packages and some people couldn't bugfix them. Covers some important info on testing, but it's not life changing."		
 			},
 			new BasicCourse
 			{
 				CourseName = "Software Project Management",
 				CourseCode = "SENG 511",
 				Description = "Analysis of methods, tools, and techniques for software project management as an effort to achieve quality software products.",
-				prereq = "3 units from Software Engineering 300, 301, 403 or ENSF 480"
+				prereq = "3 units from Software Engineering 300, 301, 403 or ENSF 480",
+				Review = "Amazing class, prof is extremely passionate and an incredible instructor. The tests were open book and fair."
+
 			},
 			/*
 			new BasicCourse
@@ -224,15 +233,19 @@
 				CourseName = "Programming Paradigms",
 				CourseCode = "CPSC 449",
 				Description = "Examination of the basic principles of the major programming language paradigms. Focus on declarative paradigms.",
-				prereq = "Computer Science 319 or 331; and Philosophy 279 or 377."
+				prereq = "Computer Science 319 or 331; and Philosophy 279 or 377.",
+				Review = "Interesting material but the readings contain a lot of little details that are all fair game for the exams. Very insightful material, somewhat useful. Amazing professor that cares about the input of her students. Explains concepts well and allows for questions. Memorize the little details and pay attention in class. Finish the readings a day or more before an exam so they are still fresh in your brain, but don't read them too soon before that you forget the details. "
 			},
 			new BasicCourse
 			{
 				CourseName = "Artificial Intelligence",
 				CourseCode = "CPSC 433",
 				Description = "An examination of the objectives, key techniques and achievements of work on artificial intelligence in Computer Science.",
-				prereq = "Computer Science 313 or 351; and Philosophy 279 or 377"
+				prereq = "Computer Science 313 or 351; and Philosophy 279 or 377",
+				Review = "Differential equations is very different from normal calc. It requires a lot of memorization of different methods of solving equations. Luckily, in online school we are allowed access to our notes. But also because of the rampant cheating on the midterm, the final was impossibly hard. The best students and even cheaters couldn't score above 80% and most people failed. It's a hard course all around but if you practice a lot then you'll do fine."
 			}*/
 		};
 	}
+	/* Course Reviews are based on ratemycourses.io reviews */
 }
+	
