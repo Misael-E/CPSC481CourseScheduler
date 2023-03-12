@@ -33,6 +33,13 @@
 		justify-content: left;
 	}
 
+	.courses-container-search {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
 	.srch-btn {
 		margin-top: 10px;
 	}
@@ -79,7 +86,7 @@
 	.page-container {
 		display: flex;
 		flex-direction: row;
-		margin-top: 1rem;
+		height: calc(100% - 3rem);
 	}
 
 	.search-container {
@@ -95,10 +102,7 @@
 		flex-direction: column;
 		max-height: 90vh;
 		overflow: auto;
-		margin-left: 1rem;
 	}
-
-
 
 
 	.block {
@@ -120,7 +124,7 @@
 		</form>
 		@if(searchClicked)
 		{
-			<div class="courses-container">
+			<div class="courses-container-search">
 				@foreach (var course in coursesFromSearch)
 				{
 					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" Review="@course.Review" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>

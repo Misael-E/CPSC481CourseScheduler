@@ -65,7 +65,7 @@ input:checked + .slider:before {
 }
 
 .arrow {
-  border: solid black;
+  border: solid white;
   border-width: 0 10px 10px 0px;
   display: inline-block;
   padding: 10px;
@@ -108,7 +108,7 @@ input:checked + .slider:before {
         overflow-y: auto
     }
 
-    option {
+    .search-bar option {
         background-color: white;
         padding: 4px;
         color: blue;
@@ -158,13 +158,13 @@ input:checked + .slider:before {
     }
 
     .plan-page-container {
-        margin: 1rem 0 0 1rem;
         display: flex;
         flex-direction: row;
+        height: 100%;
     }
 </style>
 
-<div class="plan-page-container">
+<div class="page-container">
     <div class="plan-section-container">
         <form class="flex-row search-bar" onsubmit="">
                         <div>
@@ -217,7 +217,7 @@ input:checked + .slider:before {
         </div>
     </div>
     <div class=side-panel-container>
-        <SidePanelPlanning></SidePanelPlanning>
+        <SidePanel></SidePanel>
     </div>
    
 </div>
