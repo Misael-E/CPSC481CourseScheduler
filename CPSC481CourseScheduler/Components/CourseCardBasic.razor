@@ -84,7 +84,7 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 
 				@if (showBookmarkButton)
 				{
-					<div title="Add to bookmarks" class="oi oi-star action-icon @(bookmarked ? "bookmarked" : "") " aria-hidden="true"></div>
+						<div title="@(bookmarked ? "Remove bookmark" : "Add to bookmarks") " class="oi oi-star action-icon @(bookmarked ? "bookmarked" : "") " aria-hidden="true"></div>
 
 				}
 			</div>

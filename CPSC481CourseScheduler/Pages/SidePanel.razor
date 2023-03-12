@@ -17,10 +17,10 @@
                 @foreach (var course in courses)
                 {
                         <div class="card border-secondary">
-                            <div class="card-header " style="font-weight:bold; background-color:#DC7633;">
+                            <div class="card-header " style="font-size:bold; background-color:#ffd66c;">
                                 <div class="container-fluid" style="padding:0">
                                     <div class="row">
-                                        <div class="col-auto">
+                                        <div class="col-auto course-code">
                                         @course.CourseCode
 
                                         </div>
@@ -68,7 +68,7 @@
 
                                         </div>
                                         <div>
-                                            <button title="Click to see campus location on map" type="button" class=" btn btn-info" @onclick="@(() => MapModal(@course.Map, @course.LectureLocation))">
+                                            <button title="Click to see campus location on map" type="button" class="util-button-1" @onclick="@(() => MapModal(@course.Map, @course.LectureLocation))">
                                                 Show Location
                                             </button>
                                         </div>
@@ -85,7 +85,7 @@
           <div class="tab-content">
                     @foreach (var course in BookmarkedCourses)
                     {
-                                <CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" Recommended="true" showBookmarkButton="true" showSelectCourseButton="true" bookmarked="true"></CourseCardBasic>
+                                <CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" showBookmarkButton="true" showSelectCourseButton="true" bookmarked="true"></CourseCardBasic>
                 
                     }
           </div>
@@ -95,6 +95,10 @@
 </div>
 
 <style>
+
+    .course-code {
+        font-weight: bold;
+    }
     .panel-container {
         display: flex;
         justify-content: center;
@@ -174,65 +178,6 @@
     }
 </style>
 
-<!--
-<style>
-    .side-panel-container {
-        background-color: #ededed;
-    }
-    .side-panel {
-        border-radius: 10px important;
-    }
-  .tab {
-    background-color: orange;
-    }
-
-    .tab-bar {
-        display: flex;
-        flex-direction: row;
-    }
- .card {
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: white;
-    }
-.tab button{
-    background-color: orange;
-    border: none;
-    outline: none;
-    padding: 8px;
-    font-weight: bold;
-    font-size: 12px;
-    }
-
-.tab:hover{
-    background-color: orange;
-}
-.tab-content {
-    background-color: #ffd16b;
-    padding: 10px;
-    overflow-y: scroll;
-    max-height: 70vh;
-    display:flex;
-    flex-direction: column;
-    scroll-behavior: smooth;
-    border: thick double #ffd16b;
-    
-}
-
-.top-button {
-    width: 100%;
-}
-
-.top-button:hover {
-    background-color: #FAD7A0 ;
-}
-
- .no-padding {
-        padding: 0;
-  }
-
-</style>
--->
 @code {
     private bool tab1 = true;
     private bool tab2 = false;
