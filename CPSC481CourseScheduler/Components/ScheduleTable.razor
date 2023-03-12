@@ -91,6 +91,28 @@
         },
     };
 
+    private List<Course> FriendCourses = new List<Course>
+    {
+        new Course {
+            Name = "CPSC 413",
+            StartTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(0)),
+            EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(50)),
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+        },
+        new Course {
+            Name = "CPSC 513",
+            StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
+            EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday }
+        },
+        new Course {
+            Name = "ASTR 201",
+            StartTime = TimeSpan.FromHours(9),
+            EndTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(50)),
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+        }
+    };
+
 
     private string FormatTime(int hour)
     {

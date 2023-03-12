@@ -3,33 +3,76 @@
 </style>
 
 <div class="modal-container">
-    <div class="modal-body">
-        <form>
-            <div class="form-group">
-                <label style="font-weight: bold" for="firstName">First Name</label>
-                <input type="text" class="form-control" id="firstName" @bind-value="FirstName">
+    <div class="d-flex d-flex-row">
+        <div class="modal-body w-50 p-4">
+            <form>
+                <div class="form-group">
+                    <label style="font-weight: bold" for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" @bind-value="FirstName">
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold" for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" @bind-value="LastName">
+                </div>
+                <div class="form-group">
+                    <label style="font-weight: bold" for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" @bind-value="Email">
+                </div>
+            </form>
+            <div class="">
+                <button type="button" class="orange-button-1" >Add</button>
+                <button type="button" class="white-button-1" @onclick="Cancel">Cancel</button>
             </div>
-            <div class="form-group">
-                <label style="font-weight: bold" for="lastName">Last Name</label>
-                <input type="text" class="form-control" id="lastName" @bind-value="LastName">
+        </div>
+
+        <div class="standard-card w-25 p-4">
+            <h2>Friends</h2>
+            <ul class="list-group list-group-flush">
+                @foreach (var friend in friends)
+                {
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="@friend.Id" value="@friend.Name" checked="@friend.IsSelected" @onchange="e => SelectFriend(friend, e)">
+                                <label class="form-check-label" for="friend-@friend.Id">
+                                    @friend.Name
+                                </label>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+            <div class="mt-3 d-flex justify-content-center align-bottom">
+                <button class="orange-button-1" @onclick="SubmitForm">Share</button>
             </div>
-            <div class="form-group">
-                <label style="font-weight: bold" for="email">Email address</label>
-                <input type="email" class="form-control" id="email" @bind-value="Email">
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="orange-button-1" @onclick="SubmitForm">Save</button>
-        <button type="button" class="white-button-1" @onclick="Cancel">Cancel</button>
+        </div>
     </div>
 </div>
 
 @code {
-	[CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
-	[Parameter] public string? Email { get; set; }
-	[Parameter] public string? FirstName { get; set; }
-	[Parameter] public string? LastName { get; set; }
+    private class Friend
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public bool IsSelected { get; set; }
+    }
+
+    private List<Friend> friends = new List<Friend> {
+        new Friend { Id = 1, Name = "Kyle", IsSelected = true},
+        new Friend { Id = 2, Name = "Victor", IsSelected = false},
+        new Friend { Id = 3, Name = "James", IsSelected = true }
+    };
+
+    private void SelectFriend(Friend friend, ChangeEventArgs e)
+    {
+        friend.IsSelected = (bool)e.Value;
+    }
+
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+    [Parameter] public string? Email { get; set; }
+    [Parameter] public string? FirstName { get; set; }
+    [Parameter] public string? LastName { get; set; }
+   
 
 	private async Task SubmitForm() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
 	private async Task Cancel() => await BlazoredModal.CancelAsync();
