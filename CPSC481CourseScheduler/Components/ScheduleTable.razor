@@ -18,33 +18,43 @@
 
 <div class="standard-card p-4">
     <table class="table">
-    <thead>
-        <tr>
-            <th></th>
-            <th class="text-center">Monday</th>
-            <th class="text-center">Tuesday</th>
-            <th class="text-center">Wednesday</th>
-            <th class="text-center">Thursday</th>
-            <th class="text-center">Friday</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 8; i <= 18; i++)
-        {
+        <thead>
             <tr>
-                <td class="text-center">@FormatTime(i)</td>
-                @foreach (DayOfWeek dayOfWeek in Enum.GetValues(typeof(DayOfWeek)))
-                {
-                    if (dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday)
-                    {
-                        @((MarkupString)GetCourseCell(dayOfWeek, i))
-                    }
-                    
-                }
+                <th></th>
+                <th class="text-center">Monday</th>
+                <th class="text-center">Tuesday</th>
+                <th class="text-center">Wednesday</th>
+                <th class="text-center">Thursday</th>
+                <th class="text-center">Friday</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @for (int i = 8; i <= 18; i++)
+            {
+                <tr>
+                    <td class="text-center">@FormatTime(i)</td>
+                    @foreach (DayOfWeek dayOfWeek in Enum.GetValues(typeof(DayOfWeek)))
+                    {
+                        if (dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday)
+                        {
+                            @((MarkupString)GetCourseCell(dayOfWeek, i))
+                        }
+                    
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="mr-4">
+            <div class="course-cell friend-cell"></div>
+            <span>Friend's courses</span>
+        </div>
+        <div class="mr-4">
+            <div class="course-cell student-cell"></div>
+            <span>Student's courses</span>
+        </div>
+    </div>
 </div>
 
 
@@ -127,8 +137,11 @@
     private string GetCourseCell(DayOfWeek day, int row)
     {
         StringBuilder sb = new StringBuilder();
-        var coursesOnDay = Courses.Where(c => c.DaysOfWeek.Contains(day));
+        var coursesOnDay = Courses.Where(c => c.DaysOfWeek.Contains(day)).ToList();
+        coursesOnDay.AddRange(FriendCourses.Where(c => c.DaysOfWeek.Contains(day)));
+
         bool merged = false;
+        bool friendCourseAdded = false; // added flag to track whether a friend course has been added to the cell
         string[] location = NavigationManager.Uri.Split('/');
         string currentPage = location[location.Length - 1];
 
@@ -148,21 +161,40 @@
                         if (currentPage == "share")
                         {
                             sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>{course.Name}</td>");
-                        } 
+                        }
                         else
                         {
                             sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>");
                             sb.Append($"{course.Name}<button class='btn btn-x float-end px-2' style='position: absolute; top: 0; right: 0; padding: 0;'><i class='fa fa-times'></i></button></td>");
                         }
 
+                        if (FriendCourses.Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime))
+                        {
+                            // if there is a friend course that overlaps with this course, set the background color of the existing cell to light blue
+                            sb.Replace("#FFD16B", "#BCE5F9");
+                        }
+
                         merged = true;
+                        friendCourseAdded = FriendCourses.Contains(course); // set flag to true if friend course is added to cell
+                        break; // exit inner loop to prevent additional courses from being added to cell
                     }
                     else
                     {
-                        merged = true;
-                    }
+                        if (!friendCourseAdded && FriendCourses.Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime))
+                        {
+                            // if there is a friend course that overlaps with this course, set the background color of the existing cell to light blue
+                            sb.Replace("#FFD16B", "#BCE5F9");
+                        }
 
+                        merged = true;
+                        break;
+                    }
                 }
+            }
+
+            if (merged)
+            {
+                break;
             }
         }
 
