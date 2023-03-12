@@ -5,19 +5,7 @@
     flex-grow: 1;
     }
 
-<!-- toggle -->
-.switch {
-  position: relative;
-  width: 50px;
-  height: 26px;
-  margin: 4px 0 .5rem 0;
 
-}
-.switch input {
-    opacity:0;
-    width:0;
-    height:0;
-}
 .slider {
   position: absolute;
   cursor: pointer;
@@ -147,6 +135,9 @@ input:checked + .slider:before {
     .switch-container {
         margin-left: 1rem;
         font-size: 16px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
     }
 
     .finalize-button {
@@ -155,6 +146,25 @@ input:checked + .slider:before {
     }
     .switch-title {
         font-weight: bold;
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    <!-- toggle -->
+    .switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      margin: 4px 5px .5rem 0;
+
+    }
+    .switch input {
+        opacity:0;
+        width:0;
+        height:0;
+    }
+
+    .switch-text {
+        margin-bottom: 5px;
     }
 
     .plan-page-container {
@@ -190,7 +200,9 @@ input:checked + .slider:before {
                 <input type="checkbox" @onclick="toggleMapViewSwitch">
                 <span class="slider round"></span>
             </label>
-            @toggleSwitchText
+            <div class="switch-text">
+                @toggleSwitchText
+            </div>
         </div>
         <div class="schedule-container">
             @if (mapView)
