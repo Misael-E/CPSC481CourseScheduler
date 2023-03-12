@@ -54,6 +54,18 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 		cursor: pointer;
 		background-color: #1ddbda;
 	}
+
+	.oi-bookmark {
+		width: 25px;
+		text-align: center;
+	}
+
+	.bookmarked {
+		color: #01C5C4 !important;
+		background-color: transparent !important;
+		font-size: 20px;
+		padding: 0;
+	}
 </style>
 
 
@@ -64,15 +76,15 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 				@CourseCode
 			</div>
 			<div class=icons-container>
-				@if (showBookmarkButton)
+				@if (showSelectCourseButton)
 				{
 					<div title="Add to selected courses" class="oi oi-plus action-icon" aria-hidden="true"></div>
 
 				}
 
-				@if (showSelectCourseButton)
+				@if (showBookmarkButton)
 				{
-					<div title="Add to bookmarks" class="oi oi-star action-icon" aria-hidden="true"></div>
+					<div title="Add to bookmarks" class="oi oi-star action-icon @(bookmarked ? "bookmarked" : "") " aria-hidden="true"></div>
 
 				}
 			</div>
@@ -86,9 +98,13 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 		<div class="text-container">
 			<b>Description: </b> @Description
 		</div>
-		<div class="text-container">
-			<b>Prerequisites: </b> @Prereq
-		</div>
+		@if (Prereq != null)
+		{
+			<div class="text-container">
+				<b>Prerequisites: </b> @Prereq
+			</div>
+		}
+		
 	</div>
 </div>
 
@@ -106,7 +122,7 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 	public string Description { get; set; }
 
 	[Parameter]
-	public string Prereq { get; set; }
+	public string Prereq { get; set; } = "";
 
 	[Parameter]
 	public bool Recommended { get; set; } = false;
@@ -119,4 +135,5 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 
 	[Parameter]
 	public bool bookmarked { get; set; } = false;
+
 }
