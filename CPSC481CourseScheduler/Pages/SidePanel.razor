@@ -1,97 +1,145 @@
 ﻿@page "/side-panel"
-  
-<div>
-  <div class="container-fluid tab no-padding">
-    <div class="tab-bar">
-        <button class="top-button" style="@(tab1?" background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(1)">
-           Selected Courses
-        </button>
-        <button class="top-button" style="@(tab2?" background-color:#ffd16b;":"")" @onclick="x=>ActiveTab(2)">
-          Bookmarks
-        </button>
-    </div>
-  </div>
+ 
 
-    @if (tab1)
-    {
-        <div class="tab-content">
-            @foreach (var course in courses)
-            {
-                <div class="card border-secondary">
-                    <div class="card-header " style="font-size:small; background-color:#DC7633;">
-                        <div class="container-fluid" style="padding:0">
-                            <div class="row">
-                                <div class="col-auto">
-                                    @course.CourseCode
-                                    
-                                </div>
-                                <div class="col-auto">
-                                    @course.CourseName
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body" style="padding-bottom:0">
-                        <p class="card-text" style="text-align:left; font-size:small">
-                            <div class="container-fluid" style="padding:0" >
-                                <div class="row">
-                                    <div class="col-4" style="margin-bottom:1%">
-                                        <b>Section: </b>@course.LectureNumber
-                                    </div>
-                                   <div class="col-4">
-
-                                    </div>
-                                    <div class="col-4" style="margin-bottom:1%">
-                                        <b>Instructor: </b>@course.InstructorName
-                                    </div>
-                                    <div class="col-12" style="margin-bottom:1%">
-                                        <b>Timings:</b> @course.Days @course.CourseTime
-                                    </div>
-                                    <div class="col-6">
-                                        <b>Location: </b>@course.LectureLocation
-                                    </div>
-                                    <div class="col-2">
-                                    </div>
-                                    <div class="col-4">
-                                        <b>Seats: </b>@course.Seats
-                                    </div>
-                                </div>
-                            </div>
-                        </p>
-                    </div>
-                </div>
-            }
-        </div>
-    }
-
-  @if(tab2)
-  {
-  <div class="tab-content">
-    @foreach (var course in BookmarkedCourses)
-    {
-    <div class="card">
-      <div class="card-header bg-warning" style="text-align:center">
-        @course.CourseCode
-      </div>
-      <div class="card-body">
-        <h5 class="card-title">@course.CourseName</h5>
-        <b>Description </b>
-        <p class="card-text" style="text-align:left; font-size:small">@course.Description</p>
-        <div>
-                            <button class="btn btn-info" >
-                Add to Selection
+<div class="panel-container">
+    <div class="side-panel">
+        <div class="tab-bar">
+            <button class="tab-button left-tab-button @(tab1 ? "active-tab" : "")" @onclick="x=>ActiveTab(1)">
+               Selected Courses
+            </button>
+            <button class="tab-button right-tab-button @(tab2 ? "active-tab" : "")" @onclick="x=>ActiveTab(2)">
+              Bookmarks
             </button>
         </div>
-      </div>
+        @if (tab1)
+        {
+            <div class="tab-content">
+                @foreach (var course in courses)
+                {
+                        <div class="card border-secondary">
+                            <div class="card-header " style="font-size:small; background-color:#DC7633;">
+                                <div class="container-fluid" style="padding:0">
+                                    <div class="row">
+                                        <div class="col-auto">
+                                        @course.CourseCode
+
+                                        </div>
+                                        <div class="col-auto">
+                                        @course.CourseName
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body" style="padding-bottom:0">
+                                <p class="card-text" style="text-align:left; font-size:small">
+                                    <div class="container-fluid" style="padding:0" >
+                                        <div class="row">
+                                            <div class="col-4" style="margin-bottom:1%">
+                                                <b>Section: </b>@course.LectureNumber
+                                            </div>
+                                           <div class="col-4">
+
+                                            </div>
+                                            <div class="col-4" style="margin-bottom:1%">
+                                                <b>Instructor: </b>@course.InstructorName
+                                            </div>
+                                            <div class="col-12" style="margin-bottom:1%">
+                                                <b>Timings:</b> @course.Days @course.CourseTime
+                                            </div>
+                                            <div class="col-6">
+                                                <b>Location: </b>@course.LectureLocation
+                                            </div>
+                                            <div class="col-2">
+                                            </div>
+                                            <div class="col-4">
+                                                <b>Seats: </b>@course.Seats
+                                            </div>
+                                            <button type="button" class=" btn btn-info" @onclick="@(() => MapModal(@course.Map, @course.LectureLocation))">
+                                                Show Location
+                                            </button>
+                                        </div>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                }
+            </div>
+        }
+        @if (tab2)
+        {
+          <div class="tab-content">
+                    @foreach (var course in BookmarkedCourses)
+                    {
+                                <CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" Recommended="true" showBookmarkButton="true" showSelectCourseButton="true" bookmarked="true"></CourseCardBasic>
+                
+                    }
+          </div>
+        }
     </div>
-    }
-  </div>
-  }
+    
 </div>
 
-
-
 <style>
+    .panel-container {
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        padding-top: 2rem;
+    }
+
+    .active-tab {
+        background-color: white !important;
+    }
+
+    .side-panel {
+        background-color: white;
+        border-radius: 5px;
+        width: 100%;
+        margin: 0 1rem 1rem 1rem;
+        border: 2px solid orange;
+        
+    }
+
+    .tab-bar {
+        display: flex;
+        flex-direction: row;
+        background-color: orange;
+    }
+
+    .tab-button {
+        background-color: orange;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .left-tab-button {
+        border-radius: 5px 0 0 0;
+    }
+
+    .right-tab-button {
+        border-radius: 0 5px 0 0;
+    }
+
+    .tab-content {
+        padding: 1rem;
+        max-height: calc(100% - 4rem);
+        overflow: auto;
+    }
+
+    .card {
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: white;
+    }
+</style>
+
+<!--
+<style>
+    .side-panel-container {
+        background-color: #ededed;
+    }
     .side-panel {
         border-radius: 10px important;
     }
@@ -144,40 +192,39 @@
         padding: 0;
   }
 
-
 </style>
-
+-->
 @code {
-        private bool tab1 = true;
-        private bool tab2 = false;
+    private bool tab1 = true;
+    private bool tab2 = false;
 
-        private List<BasicCourse> BookmarkedCourses;
-        private List<SelectCourse> courses;
+    private List<BasicCourse> BookmarkedCourses;
+    private List<SelectCourse> courses;
 
-        public void ActiveTab(int TabNumber) {
-            switch(TabNumber) {
-                case 1:
-                    this.tab1 = true;
-                    this.tab2 = false;
-                    break;
-                case 2:
-                    this.tab1 = false;
-                    this.tab2 = true;
-                    break;
-            }
+    public void ActiveTab(int TabNumber)
+    {
+        switch (TabNumber)
+        {
+            case 1:
+                this.tab1 = true;
+                this.tab2 = false;
+                break;
+            case 2:
+                this.tab1 = false;
+                this.tab2 = true;
+                break;
         }
+    }
 
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
-            BookmarkedCourses = new List<BasicCourse>
-        {
-            new BasicCourse
-            {
-                CourseName = "Principles of Operating Systems ",
-                CourseCode = "CPSC 457",
-                Description = "An introduction to operating systems principles. Performance measurement; concurrent programs; the management of information, memory and processor resources."
-            },
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        BookmarkedCourses = new List<BasicCourse> {
+            new BasicCourse {
+                CourseName = "Discrete Mathematics ",
+                CourseCode = "MATH 271",
+                Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
+             },
             new BasicCourse
             {
                 CourseName = "Discrete Mathematics ",
@@ -193,45 +240,94 @@
             }
         };
 
-            courses = new List<SelectCourse>
+        courses = new List<SelectCourse>
         {
             new SelectCourse
             {
-                CourseName = "Human Computer Interaction",
-                CourseCode = "CPSC 481",
-                LectureLocation = "ENE 239",
+                CourseName = "Introduction to Sociology",
+                CourseCode = "SOCI 201",
+                LectureLocation = "ST 140",
                 LectureNumber = "Lec 01",
                 InstructorName = "Dr Ehud Sharlin",
                 Days = "MWF",
                 CourseTime = "10:00 - 10:50",
-                Seats = "45/90"
+                Seats = "45/90",
+                Map = "/MapImages/ST.png"
             },
             new SelectCourse
             {
-                CourseName = "Computer Networks",
-                CourseCode = "CPSC 441",
-                LectureLocation = "ICT 121",
+                CourseName = "Design and Implementation of Database Systems",
+                CourseCode = "CPSC 571",
+                LectureLocation = "MS 217",
                 LectureNumber = "Lec 01",
-                InstructorName = "Dr Ahmad Nasri",
-                Days = "MWF",
-                CourseTime = "12:00-12:50",
-                Seats = "100/110"
+                InstructorName = "Tamer Jarada",
+                Days = "TR",
+                CourseTime = "14:00 - 15:15",
+                Seats = "40/90",
+                Map = "/MapImages/MS.png"
             },
             new SelectCourse
             {
-                CourseName = "Differential Equations",
-                CourseCode = "MATH 375",
-                LectureLocation = "EDC 179",
+                CourseName = "Web-Based Systems",
+                CourseCode = "SENG 513",
+                LectureLocation = "ICT 122",
                 LectureNumber = "Lec 01",
-                InstructorName = "Dr Braverman",
+                InstructorName = "Ahmad Nasri",
+                Days = "TR",
+                CourseTime = "12:30 - 13:45",
+                Seats = "20/50",
+                Map = "/MapImages/ICT.png"
+            },
+            new SelectCourse
+            {
+                CourseName = "Introduction to Information Visualization",
+                CourseCode = "CPSC 583",
+                LectureLocation = "SB 148",
+                LectureNumber = "Lec 01",
+                InstructorName = "Emma Towlson",
                 Days = "MWF",
-                CourseTime = "10:00-10:50",
-                Seats = "40/60"
+                CourseTime = "14:00 - 14:50",
+                Seats = "33/50",
+                Map = "/MapImages/SB.png"
+            },
+            new SelectCourse
+            {
+                CourseName = "Introduction to Dinosaurs",
+                CourseCode = "GLGT 305",
+                LectureLocation = "CHC 119",
+                LectureNumber = "Lec 01",
+                InstructorName = "Darla Zelenitsky",
+                Days = "MF",
+                CourseTime = "12:00 - 12:50",
+                Seats = "10/100",
+                Map = "/MapImages/CHC.png"
             }
         };
-        }
+    }
 
 
-        
+
+    [CascadingParameter] public Blazored.Modal.Services.IModalService Modal { get; set; }
+
+
+
+    private void MapModal(string mapPath, string building)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(IndividualCourseMapModal.Building), building);
+        parameters.Add(nameof(IndividualCourseMapModal.Location), mapPath);
+        Modal.Show<IndividualCourseMapModal>("Course Location", parameters, options);
+
+    }
+
+
+    private ModalOptions options = new ModalOptions()
+        {
+            Position = ModalPosition.Middle,
+            Size = Blazored.Modal.ModalSize.Large,
+            HideCloseButton = true,
+            DisableBackgroundCancel = true
+        };
+
 
 }

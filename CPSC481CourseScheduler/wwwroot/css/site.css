@@ -4,6 +4,9 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.full-screen {
+    height: 100vh;
+}
 
 .orange-button-1 {
     background-color: #ff8511;
@@ -76,8 +79,16 @@ html, body {
 
 .side-panel-container {
     flex: 35%;
-    padding: 1rem 1rem 0 0;
-    max-width: 25rem;
+    max-width: 29rem;
+    overflow-x: hidden;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: row;
+    height: calc(100% - 3rem);
+    margin-left: 1rem;
+    padding-top: .5rem;
 }
 
 .nav-bar {
