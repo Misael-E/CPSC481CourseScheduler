@@ -52,45 +52,60 @@
 
 
 @code {
+    private static string GenerateHexColor()
+    {
+        Random random = new Random();
+        byte red = (byte)random.Next(128, 192);
+        byte green = (byte)random.Next(128, 192);
+        byte blue = (byte)random.Next(128, 192);
+        return "#" + red.ToString("X2") + green.ToString("X2") + blue.ToString("X2");
+    }
+
     public class Course
     {
         public string Name { get; set; } = string.Empty;
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public List<DayOfWeek> DaysOfWeek { get; set; }
+        public string CourseColor { get; set; } = string.Empty;
     }
 
     private List<Course> Courses = new List<Course>
     {
-        new Course { 
-            Name = "CPSC 571", 
-            StartTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(0)), 
+        new Course {
+            Name = "CPSC 571",
+            StartTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(0)),
             EndTime = TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(15)),
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday } 
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
+            CourseColor=GenerateHexColor()
         },
         new Course { 
             Name = "CPSC 513", 
             StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
             EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday } 
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
+            CourseColor=GenerateHexColor()
         },
         new Course {
             Name = "SOCI 201", 
             StartTime = TimeSpan.FromHours(10),
             EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50)), 
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday } 
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+            CourseColor=GenerateHexColor()
         },
         new Course {
             Name = "CPSC 583",
             StartTime = TimeSpan.FromHours(14),
             EndTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(50)),
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+            CourseColor=GenerateHexColor()
         },
         new Course {
             Name = "GLGY 305",
             StartTime = TimeSpan.FromHours(12),
             EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50)),
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+            CourseColor=GenerateHexColor()
         },
     };
 
@@ -131,7 +146,7 @@
     {
         StringBuilder sb = new StringBuilder();
         var coursesOnDay = Courses.Where(c => c.DaysOfWeek.Contains(day)).ToList();
-        
+
 
         bool merged = false;
         bool friendCourseAdded = false;
@@ -171,7 +186,7 @@
                         }
                         else
                         {
-                            sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>");
+                            sb.Append($"<td style='background-color: {course.CourseColor}; border: 1px solid black; padding: 5px; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>");
                             sb.Append($"{course.Name}<button class='btn btn-x float-end px-2' style='position: absolute; top: 0; right: 0; padding: 0;'><i class='fa fa-times'></i></button></td>");
                         }
 
@@ -219,6 +234,8 @@
     private string GetLegend()
     {
         StringBuilder sb = new StringBuilder();
+        string[] location = NavigationManager.Uri.Split('/');
+        string currentPage = location[location.Length - 1];
 
         // Create a dictionary to store the colors and corresponding course types
         Dictionary<string, string> courseTypes = new Dictionary<string, string>();
@@ -238,7 +255,15 @@
         // Use the legend HTML in your page
         string legendHtml = sb.ToString();
 
-        return sb.ToString();
+        if (currentPage == "share")
+        {
+            return sb.ToString();
+        }
+        else
+        {
+            return "";
+        }
+
     }
 
 }
