@@ -18,33 +18,36 @@
 
 <div class="standard-card p-4">
     <table class="table">
-    <thead>
-        <tr>
-            <th></th>
-            <th class="text-center">Monday</th>
-            <th class="text-center">Tuesday</th>
-            <th class="text-center">Wednesday</th>
-            <th class="text-center">Thursday</th>
-            <th class="text-center">Friday</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 8; i <= 18; i++)
-        {
+        <thead>
             <tr>
-                <td class="text-center">@FormatTime(i)</td>
-                @foreach (DayOfWeek dayOfWeek in Enum.GetValues(typeof(DayOfWeek)))
-                {
-                    if (dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday)
-                    {
-                        @((MarkupString)GetCourseCell(dayOfWeek, i))
-                    }
-                    
-                }
+                <th></th>
+                <th class="text-center">Monday</th>
+                <th class="text-center">Tuesday</th>
+                <th class="text-center">Wednesday</th>
+                <th class="text-center">Thursday</th>
+                <th class="text-center">Friday</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @for (int i = 8; i <= 18; i++)
+            {
+                <tr>
+                    <td class="text-center">@FormatTime(i)</td>
+                    @foreach (DayOfWeek dayOfWeek in Enum.GetValues(typeof(DayOfWeek)))
+                    {
+                        if (dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday)
+                        {
+                            @((MarkupString)GetCourseCell(dayOfWeek, i))
+                        }
+                    
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @((MarkupString)GetLegend())
+    </div>
 </div>
 
 
@@ -127,10 +130,19 @@
     private string GetCourseCell(DayOfWeek day, int row)
     {
         StringBuilder sb = new StringBuilder();
-        var coursesOnDay = Courses.Where(c => c.DaysOfWeek.Contains(day));
+        var coursesOnDay = Courses.Where(c => c.DaysOfWeek.Contains(day)).ToList();
+        
+
         bool merged = false;
+        bool friendCourseAdded = false;
         string[] location = NavigationManager.Uri.Split('/');
         string currentPage = location[location.Length - 1];
+
+
+        if (currentPage == "share")
+        {
+            coursesOnDay.AddRange(FriendCourses.Where(c => c.DaysOfWeek.Contains(day)));
+        }
 
         foreach (var course in coursesOnDay)
         {
@@ -142,27 +154,54 @@
                 if (row == j)
                 {
                     int rowspan = endRow - startRow + 1;
+                    string bgColor = "background-color: #FFD16B;";
+                    string opacity = "opacity: 1;";
 
                     if (j == startRow)
                     {
+                        if (FriendCourses.Contains(course))
+                        {
+                            bgColor = "background-color: #64C2A6;";
+                            opacity = "opacity: 1;";
+                        }
+
                         if (currentPage == "share")
                         {
-                            sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>{course.Name}</td>");
-                        } 
+                            sb.Append($"<td style='{bgColor} {opacity}; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>{course.Name}</td>");
+                        }
                         else
                         {
                             sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>");
                             sb.Append($"{course.Name}<button class='btn btn-x float-end px-2' style='position: absolute; top: 0; right: 0; padding: 0;'><i class='fa fa-times'></i></button></td>");
                         }
 
+                        if (FriendCourses.Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
+                        {
+                            // if there is a friend course that overlaps with this course, set the background color of the existing cell to light blue
+                            sb.Replace("#FFD16B", "#BCE5F9");
+                        }
+
                         merged = true;
+                        friendCourseAdded = FriendCourses.Contains(course); // set flag to true if friend course is added to cell
+                        break; // exit inner loop to prevent additional courses from being added to cell
                     }
                     else
                     {
-                        merged = true;
-                    }
+                        if (!friendCourseAdded && FriendCourses.Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
+                        {
+                            // if there is a friend course that overlaps with this course, set the background color of the existing cell to light blue
+                            sb.Replace("#FFD16B", "#BCE5F9");
+                        }
 
+                        merged = true;
+                        break;
+                    }
                 }
+            }
+
+            if (merged)
+            {
+                break;
             }
         }
 
@@ -175,6 +214,31 @@
             sb.Append("<td></td>");
             return sb.ToString();
         }
+    }
+
+    private string GetLegend()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        // Create a dictionary to store the colors and corresponding course types
+        Dictionary<string, string> courseTypes = new Dictionary<string, string>();
+        courseTypes.Add("#FFD16B", "My Courses");
+        courseTypes.Add("#64C2A6", "Friend Courses");
+        courseTypes.Add("#BCE5F9", "Overlapping Courses");
+
+        // Generate the HTML for each course type in the legend
+        foreach (var courseType in courseTypes)
+        {
+            string color = courseType.Key;
+            string courseTypeName = courseType.Value;
+            sb.Append($"<div style='display: inline-block; margin-right: 5px; background-color: {color}; width: 20px; height: 20px; border-radius: 50%;'></div>");
+            sb.Append($"<div style='font-weight:bold; margin-right: 1rem;'>{courseTypeName}</div>");
+        }
+
+        // Use the legend HTML in your page
+        string legendHtml = sb.ToString();
+
+        return sb.ToString();
     }
 
 }
