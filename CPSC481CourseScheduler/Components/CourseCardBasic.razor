@@ -104,12 +104,6 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 				<b>Prerequisites: </b> @Prereq
 			</div>
 		}
-		@if (Review != null)
-		{
-			<div class="text-container">
-				<b>Reviews: </b> @Review
-			</div>
-		}
 
 		
 	</div>
@@ -143,6 +137,4 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 	[Parameter]
 	public bool bookmarked { get; set; } = false;
 
-	[Parameter]
-	public string Review { get; set; }
 }

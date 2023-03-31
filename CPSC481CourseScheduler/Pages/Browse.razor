@@ -127,7 +127,7 @@
 			<div class="courses-container-search">
 				@foreach (var course in coursesFromSearch)
 				{
-					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" Review="@course.Review" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
+					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
 				}
 			</div>
 		}
@@ -139,7 +139,7 @@
 				<div class="courses-container">
 				@foreach (var course in courses)
 				{
-					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" Review="@course.Review" Recommended="true" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
+					<CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" Recommended="true" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
 				}
 			</div>
 		</div>
@@ -159,7 +159,6 @@
 				CourseCode = "CPSC 481",
 				Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces",
 				prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311",
-				Review = "Good course. Gives you good food for thought on the right processes to take as you design things. Engaging prof. Likes to come up with interesting examples and keeps lectures unique and engaging. Ask the prof what technologies you will be allowed to use for your project, since that's a big part of what you will be learning. For us it was C# though I heard that it may be opening up in the future"
 			}
 		};
 	private bool searchClicked = false;
@@ -181,7 +180,6 @@
 			CourseCode = "CPSC 481",
 			Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces. Topics include: principles of design; methods for evaluating interfaces with or without user involvement; techniques for prototyping and implementing graphical user interfaces.",
 			prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311.",
-			Review = "Good course. Gives you good food for thought on the right processes to take as you design things. Engaging prof. Likes to come up with interesting examples and keeps lectures unique and engaging. Ask the prof what technologies you will be allowed to use for your project, since that's a big part of what you will be learning. For us it was C# though I heard that it may be opening up in the future"
 		};
 
 	protected override void OnInitialized()
@@ -195,7 +193,6 @@
 				CourseCode = "CPSC 481",
 				Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces",
 				prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311",
-				Review = "Good course. Gives you good food for thought on the right processes to take as you design things. Engaging prof. Likes to come up with interesting examples and keeps lectures unique and engaging. Ask the prof what technologies you will be allowed to use for your project, since that's a big part of what you will be learning. For us it was C# though I heard that it may be opening up in the future"
 			},
 			new BasicCourse
 			{
@@ -210,7 +207,6 @@
 				CourseCode = "SENG 513",
 				Description = "An overview of software engineering methods and technologies for developing web-based software systems.",
 				prereq = "3 units from Software Engineering 300, 301 or ENSF 480",
-				Review = "Mid tier course. Assignments are not super tough to do but can be frustrating to set up. Lots of people struggled on the assignments because they always had you downloading Java packages and some people couldn't bugfix them. Covers some important info on testing, but it's not life changing."		
 			},
 			new BasicCourse
 			{
@@ -218,7 +214,6 @@
 				CourseCode = "SENG 511",
 				Description = "Analysis of methods, tools, and techniques for software project management as an effort to achieve quality software products.",
 				prereq = "3 units from Software Engineering 300, 301, 403 or ENSF 480",
-				Review = "Amazing class, prof is extremely passionate and an incredible instructor. The tests were open book and fair."
 
 			},
 			/*
