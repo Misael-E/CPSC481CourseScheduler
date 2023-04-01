@@ -12,8 +12,15 @@ namespace CPSC481CourseScheduler.Services
 
 		public async Task AddToSelectedCourses(Course course)
 		{
-			await Task.Factory.StartNew(() => SelectedCourses.Add(course));
-			OnSelectedCoursesChanged?.Invoke(this, SelectedCourses);
+			if (SelectedCourses.Contains(course)) 
+			{
+				Console.Write("Course Already Selected");
+			}
+			else
+			{
+                await Task.Factory.StartNew(() => SelectedCourses.Add(course));
+                OnSelectedCoursesChanged?.Invoke(this, SelectedCourses);
+            }
 		}
 
 		public async Task AddToBookmarks(Course course)
@@ -30,7 +37,8 @@ namespace CPSC481CourseScheduler.Services
 
 		public List<Course> GetBookmarks() => Bookmarks;
 		public List<Course> GetAllCourses() => AllCourses;
-		public async Task RemoveFromSelectedCourses(Course course)
+        public List<Course> GetAllFriendCourses() => FriendCourses;
+        public async Task RemoveFromSelectedCourses(Course course)
 		{
 			await Task.Factory.StartNew(() => SelectedCourses.Remove(course));
 			OnSelectedCoursesChanged?.Invoke(this, SelectedCourses);
@@ -42,7 +50,16 @@ namespace CPSC481CourseScheduler.Services
 			OnBookmarksChanged?.Invoke(this, Bookmarks);
 		}
 
-		List<Course> AllCourses { get; set; } = new List<Course>
+        private static string GenerateHexColor()
+        {
+            Random random = new Random();
+            byte red = (byte)random.Next(128, 192);
+            byte green = (byte)random.Next(128, 192);
+            byte blue = (byte)random.Next(128, 192);
+            return "#" + red.ToString("X2") + green.ToString("X2") + blue.ToString("X2");
+        }
+
+        List<Course> AllCourses { get; set; } = new List<Course>
 		{
 			new Course
 			{
@@ -53,11 +70,15 @@ namespace CPSC481CourseScheduler.Services
 				LectureLocation = "ST 140",
 				LectureNumber = "Lec 01",
 				InstructorName = "Dr Ehud Sharlin",
-				Days = "MWF",
+				Days= "MWF",
+				DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
 				CourseTime = "10:00 - 10:50",
-				Seats = "45/90",
+				StartTime = TimeSpan.FromHours(10),
+				EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50)),
+                Seats = "45/90",
 				Map = "/MapImages/ST.png",
-				Status = "Enrolled"
+				Status = "Enrolled",
+				CourseColor = GenerateHexColor()
 			},
 			new Course
 			{
@@ -68,12 +89,16 @@ namespace CPSC481CourseScheduler.Services
 				LectureLocation = "MS 217",
 				LectureNumber = "Lec 01",
 				InstructorName = "Tamer Jarada",
-				Days = "TR",
+                Days= "TR",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
 				CourseTime = "14:00 - 15:15",
-				Seats = "40/90",
+                StartTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(0)),
+				EndTime = TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(15)),
+                Seats = "40/90",
 				Map = "/MapImages/MS.png",
-				Status = "Enrolled"
-			},
+				Status = "Enrolled",
+                CourseColor = GenerateHexColor()
+            },
 			new Course
 			{
 				CourseName = "Web-Based Systems",
@@ -83,12 +108,16 @@ namespace CPSC481CourseScheduler.Services
 				LectureLocation = "ICT 122",
 				LectureNumber = "Lec 01",
 				InstructorName = "Ahmad Nasri",
-				Days = "TR",
-				CourseTime = "12:30 - 13:45",
-				Seats = "20/50",
+                Days= "TR",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
+                CourseTime = "12:30 - 13:45",
+                StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
+				EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
+                Seats = "20/50",
 				Map = "/MapImages/ICT.png",
-				Status = "Not-Enrolled"
-			},
+				Status = "Not-Enrolled",
+                CourseColor = GenerateHexColor()
+            },
 			new Course
 			{
 				CourseName = "Introduction to Information Visualization",
@@ -98,12 +127,16 @@ namespace CPSC481CourseScheduler.Services
 				LectureLocation = "SB 148",
 				LectureNumber = "Lec 01",
 				InstructorName = "Emma Towlson",
-				Days = "MWF",
-				CourseTime = "14:00 - 14:50",
-				Seats = "33/50",
+                Days= "MWF",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+                CourseTime = "14:00 - 14:50",
+                StartTime = TimeSpan.FromHours(14),
+				EndTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(50)),
+                Seats = "33/50",
 				Map = "/MapImages/SB.png",
-				Status = "Not-Enrolled"
-			},
+				Status = "Not-Enrolled",
+                CourseColor = GenerateHexColor()
+            },
 			new Course
 			{
 				CourseName = "Introduction to Dinosaurs",
@@ -113,14 +146,40 @@ namespace CPSC481CourseScheduler.Services
 				LectureLocation = "CHC 119",
 				LectureNumber = "Lec 01",
 				InstructorName = "Darla Zelenitsky",
-				Days = "MF",
-				CourseTime = "12:00 - 12:50",
-				Seats = "10/100",
+                Days= "MWF",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+                CourseTime = "12:00 - 12:50",
+				StartTime = TimeSpan.FromHours(12),
+				EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50)),
+                Seats = "10/100",
 				Map = "/MapImages/CHC.png",
-				Status = "Waitlisted"
-			}
+				Status = "Waitlisted",
+                CourseColor = GenerateHexColor()
+            }
 		};
-	}
+
+        List<Course> FriendCourses = new List<Course>
+    {
+        new Course {
+            CourseCode = "CPSC 413",
+            StartTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(0)),
+            EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(50)),
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+        },
+        new Course {
+            CourseCode = "CPSC 513",
+            StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
+            EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday }
+        },
+        new Course {
+            CourseCode = "ASTR 201",
+            StartTime = TimeSpan.FromHours(9),
+            EndTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(50)),
+            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+        }
+    };
+    }
 
 
 }
