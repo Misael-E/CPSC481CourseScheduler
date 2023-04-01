@@ -1,3 +1,5 @@
+@inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
+
 <style>
 	.course-card-container {
 		width: 21rem;
@@ -73,41 +75,35 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 	<div class="header-container @(Recommended ? "shiny" : "")">
 		<div class="flex-row">
 			<div class="course-code">
-				@CourseCode
+				@Course.CourseCode
 			</div>
 			<div class=icons-container>
 				@if (showSelectCourseButton)
 				{
-					<div title="Add to selected courses" class="oi oi-plus action-icon" aria-hidden="true"></div>
+					<div title="Add to selected courses" class="oi oi-plus action-icon" aria-hidden="true" @onclick="() => AddCourse(Course)"></div>
 
 				}
 
 				@if (showBookmarkButton)
 				{
-						<div title="@(bookmarked ? "Remove bookmark" : "Add to bookmarks") " class="oi oi-star action-icon @(bookmarked ? "bookmarked" : "") " aria-hidden="true"></div>
+					<div title="@(bookmarked ? "Remove bookmark" : "Add to bookmarks") " class="oi oi-star action-icon @(bookmarked ? "bookmarked" : "") " aria-hidden="true" @onclick="() => Bookmark(bookmarked, Course)"></div>
 
 				}
 			</div>
 		</div>
 		
 		<div class="course-name">
-			@CourseName
+			@Course.CourseName
 		</div>
 	</div>
 	<div class="content-container">
 		<div class="text-container">
-			<b>Description: </b> @Description
+			<b>Description: </b> @Course.Description
 		</div>
-		@if (Prereq != null)
+		@if (Course.Prereq != null)
 		{
 			<div class="text-container">
-				<b>Prerequisites: </b> @Prereq
-			</div>
-		}
-		@if (Review != null)
-		{
-			<div class="text-container">
-				<b>Reviews: </b> @Review
+				<b>Prerequisites: </b> @Course.Prereq
 			</div>
 		}
 
@@ -119,17 +115,9 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 
 
 @code {
-	[Parameter]
-	public string CourseName { get; set; }
 
-	[Parameter]
-	public string CourseCode { get; set; }
-
-	[Parameter]
-	public string Description { get; set; }
-
-	[Parameter]
-	public string Prereq { get; set; } = "";
+	[Parameter] 
+	public Course Course { get; set; }
 
 	[Parameter]
 	public bool Recommended { get; set; } = false;
@@ -143,6 +131,24 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 	[Parameter]
 	public bool bookmarked { get; set; } = false;
 
-	[Parameter]
-	public string Review { get; set; }
+	async private void AddCourse(Course course)
+	{
+		await _CourseService.AddToSelectedCourses(course);
+	}
+
+	async private void Bookmark(bool bookmarked, Course course)
+	{
+		if (bookmarked)
+		{
+			await _CourseService.RemoveFromBookmarks(course);
+		} else
+		{
+			await _CourseService.AddToBookmarks(course);
+
+		}
+	}
+
+
+
+
 }
