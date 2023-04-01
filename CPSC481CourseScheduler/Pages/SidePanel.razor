@@ -1,5 +1,5 @@
 ﻿@page "/side-panel"
- 
+@inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
 
 <div class="panel-container">
     <div class="side-panel">
@@ -14,30 +14,35 @@
         @if (tab1)
         {
             <div class="tab-content">
-                @foreach (var course in courses)
+                @if (IsEmpty(courses))
                 {
+                    <div class="empty-message">None Selected</div>
+                } else
+                {
+                    @foreach (var course in courses.ToList())
+                    {
                         <div class="card border-secondary">
                             <div class="card-header " style="font-size:bold; background-color:#ffd66c;">
                                 <div class="container-fluid" style="padding:0">
                                     <div class="row">
                                         <div class="col-auto course-code">
-                                        @course.CourseCode
+                                            @course.CourseCode
 
                                         </div>
                                         <div class="col-auto">
-                                        @course.CourseName
+                                            @course.CourseName
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-body" style="padding-bottom:0">
                                 <p class="card-text" style="text-align:left">
-                                    <div class="container-fluid" style="padding:0" >
+                                    <div class="container-fluid" style="padding:0">
                                         <div class="row">
                                             <div class="col-6" style="margin-bottom:1%">
                                                 <b>Section: </b>@course.LectureNumber
                                             </div>
-                        
+
                                             <div class="col-6" style="margin-bottom:1%">
                                                 <b>Instructor: </b>@course.InstructorName
                                             </div>
@@ -51,43 +56,49 @@
                                             <div class="col-6">
                                                 <b>Seats: </b>@course.Seats
                                             </div>
-                                        <div class="col-6">
-                                            <b>Status:  </b>@if (course.Status == "Enrolled")
-                                            {
-                                                <p style="display:inline-block"><span class="dot-green"></span> Enrolled</p>
-                                            }
-                                            @if (course.Status == "Not-Enrolled")
-                                            {
-                                                <p style="display:inline-block"><span class="dot-grey"></span> Not-Enrolled</p>
-                                            }
+                                            <div class="col-6">
+                                                <b>Status:  </b>@if (course.Status == "Enrolled")
+                                                {
+                                                    <p style="display:inline-block"><span class="dot-green"></span> Enrolled</p>
+                                                }
+                                                @if (course.Status == "Not-Enrolled")
+                                                {
+                                                    <p style="display:inline-block"><span class="dot-grey"></span> Not-Enrolled</p>
+                                                }
 
-                                            @if (course.Status == "Waitlisted")
-                                            {
-                                                <p style="display:inline-block"><span class="dot-blue"></span> Waitlisted</p>
-                                            }
+                                                @if (course.Status == "Waitlisted")
+                                                {
+                                                    <p style="display:inline-block"><span class="dot-blue"></span> Waitlisted</p>
+                                                }
 
-                                        </div>
-                                        <div class="action-buttons-container">
-                                            <button title="Click to see campus location on map" type="button" class="util-button-1" @onclick="@(() => MapModal(@course.Map, @course.LectureLocation))">
-                                                Show Location
-                                            </button>
-                                            <div class="space"></div>
-                                            <button class="util-button-1" title="Remove course from selected courses"><span class="oi oi-trash" aria-hidden="true"></span></button>
-                                        </div>
+                                            </div>
+                                            <div class="action-buttons-container">
+                                                <button title="Click to see campus location on map" type="button" class="util-button-1" @onclick="@(() => MapModal(@course.Map, @course.LectureLocation))">
+                                                    Show Location
+                                                </button>
+                                                <div class="space"></div>
+                                                <button class="util-button-1" title="Remove course from selected courses" @onclick="() => RemoveCourse(course)"><span class="oi oi-trash" aria-hidden="true"></span></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </p>
                             </div>
                         </div>
+                    }
                 }
+                
             </div>
         }
         @if (tab2)
         {
           <div class="tab-content">
-                    @foreach (var course in BookmarkedCourses)
+                @if (IsEmpty(Bookmarks))
+                {
+                    <div class="empty-message">No Bookmarks</div>
+                }
+                @foreach (var course in Bookmarks.ToList())
                     {
-                                <CourseCardBasic CourseName="@course.CourseName" CourseCode="@course.CourseCode" Description="@course.Description" Prereq="@course.prereq" showBookmarkButton="true" showSelectCourseButton="true" bookmarked="true"></CourseCardBasic>
+                                <CourseCardBasic Course="course" showBookmarkButton="true" showSelectCourseButton="true" bookmarked="true"></CourseCardBasic>
                 
                     }
           </div>
@@ -189,14 +200,20 @@
         border-radius: 50%;
         display: inline-block;
     }
+
+    .empty-message {
+        margin-top: 2rem;
+        text-align: center;
+    }
 </style>
 
 @code {
     private bool tab1 = true;
     private bool tab2 = false;
+    private int numSelectedCourses = 0;
 
-    private List<BasicCourse> BookmarkedCourses;
-    private List<SelectCourse> courses;
+    private List<Course> Bookmarks = new List<Course>();
+    private List<Course> courses = new List<Course>();
 
     public void ActiveTab(int TabNumber)
     {
@@ -213,93 +230,61 @@
         }
     }
 
-    protected override void OnInitialized()
+    public bool IsEmpty(List<Course> list)
     {
-        base.OnInitialized();
-        BookmarkedCourses = new List<BasicCourse> {
-            new BasicCourse
+        if (list.Count == 0) return true;
+        return false;
+    }
+
+
+    protected override async void OnInitialized()
+    {
+        _CourseService.OnSelectedCoursesChanged += SelectedCoursesChanged;
+        _CourseService.OnBookmarksChanged += BookmarksChanged;
+        /*BookmarkedCourses = new List<Course> {
+            new Course
             {
                 CourseName = "Discrete Mathematics ",
                 CourseCode = "MATH 271",
                 Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
             },
-            new BasicCourse
+            new Course
             {
                 CourseName = "Principles of Software Design",
                 CourseCode = "ENSF 480",
                 Description = "Brief overview of typical software development lifecycles. Systematic methods for designing large-scale, quality software. Concepts such as abstraction, modularity, and software modelling will be covered. Designing for non-functional properties of software will be introduced. Emphasis on individual skills."
 
             }
-        };
+        };*/
+        Bookmarks = _CourseService.GetBookmarks();
+        courses = _CourseService.GetSelectedCourses();
+        base.OnInitialized();
 
-        courses = new List<SelectCourse>
+    }
+
+    private async void SelectedCoursesChanged(object sender, List<Course> NewSelectedCourses)
+    {
+        await InvokeAsync(() =>
         {
-            new SelectCourse
-            {
-                CourseName = "Introduction to Sociology",
-                CourseCode = "SOCI 201",
-                LectureLocation = "ST 140",
-                LectureNumber = "Lec 01",
-                InstructorName = "Dr Ehud Sharlin",
-                Days = "MWF",
-                CourseTime = "10:00 - 10:50",
-                Seats = "45/90",
-                Map = "/MapImages/ST.png",
-                Status = "Enrolled"
-            },
-            new SelectCourse
-            {
-                CourseName = "Design and Implementation of Database Systems",
-                CourseCode = "CPSC 571",
-                LectureLocation = "MS 217",
-                LectureNumber = "Lec 01",
-                InstructorName = "Tamer Jarada",
-                Days = "TR",
-                CourseTime = "14:00 - 15:15",
-                Seats = "40/90",
-                Map = "/MapImages/MS.png",
-                Status = "Enrolled"
-            },
-            new SelectCourse
-            {
-                CourseName = "Web-Based Systems",
-                CourseCode = "SENG 513",
-                LectureLocation = "ICT 122",
-                LectureNumber = "Lec 01",
-                InstructorName = "Ahmad Nasri",
-                Days = "TR",
-                CourseTime = "12:30 - 13:45",
-                Seats = "20/50",
-                Map = "/MapImages/ICT.png",
-                Status = "Not-Enrolled"
-            },
-            new SelectCourse
-            {
-                CourseName = "Introduction to Information Visualization",
-                CourseCode = "CPSC 583",
-                LectureLocation = "SB 148",
-                LectureNumber = "Lec 01",
-                InstructorName = "Emma Towlson",
-                Days = "MWF",
-                CourseTime = "14:00 - 14:50",
-                Seats = "33/50",
-                Map = "/MapImages/SB.png",
-                Status = "Not-Enrolled"
-            },
-            new SelectCourse
-            {
-                CourseName = "Introduction to Dinosaurs",
-                CourseCode = "GLGT 305",
-                LectureLocation = "CHC 119",
-                LectureNumber = "Lec 01",
-                InstructorName = "Darla Zelenitsky",
-                Days = "MF",
-                CourseTime = "12:00 - 12:50",
-                Seats = "10/100",
-                Map = "/MapImages/CHC.png",
-                Status = "Waitlisted"
-            }
-        };
+            ActiveTab(1);
+            courses = NewSelectedCourses;
+            StateHasChanged();
+        });
+    }
+
+    private async void BookmarksChanged(object sender, List<Course> NewBookmarks)
+    {
+        await InvokeAsync(() =>
+        {
+            Bookmarks = NewBookmarks;
+            ActiveTab(2);
+            StateHasChanged();
+        });
+    }
+
+    async private void RemoveCourse(Course course)
+    {
+        await _CourseService.RemoveFromSelectedCourses(course);
     }
 
 
