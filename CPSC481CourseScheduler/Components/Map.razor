@@ -1,0 +1,73 @@
+﻿@page "/map"
+@inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
+
+<PageTitle>Map</PageTitle>
+
+    <div class = "map">
+        <img class="blank" src="/MapImages/BlankCampusMap.png" />
+       
+        @if (!IsEmpty(courses)) {
+            @foreach (var course in courses.ToList()) {
+                
+                <img class="imageLocation" src=@course.Map />
+            }
+        }
+
+    </div>  
+
+
+
+<style>
+img {
+    max-width:100%;
+    height: 69vh;
+}
+.map {
+    flex-basis: 100%;
+    position: relative;
+    }
+
+.blank {
+    position: absolute;
+    z-index: 1;
+}
+.imageLocation{
+    position: absolute;
+    z-index: 2;
+}
+
+
+
+</style>
+
+@code {
+    private List<Course> courses = new List<Course>();
+
+    protected override async void OnInitialized()
+    {
+        _CourseService.OnSelectedCoursesChanged += SelectedCoursesChanged;
+        courses = _CourseService.GetSelectedCourses();
+        base.OnInitialized();
+
+    }
+
+    private async void SelectedCoursesChanged(object sender, List<Course> NewSelectedCourses)
+    {
+        await InvokeAsync(() =>
+        {
+            courses = NewSelectedCourses;
+            StateHasChanged();
+        });
+    }
+
+    public bool IsEmpty(List<Course> list)
+    {
+        if (list.Count == 0) return true;
+        return false;
+    }
+
+    async private void RemoveCourse(Course course)
+    {
+        await _CourseService.RemoveFromSelectedCourses(course);
+    }
+}

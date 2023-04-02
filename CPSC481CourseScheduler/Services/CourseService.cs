@@ -109,7 +109,8 @@ namespace CPSC481CourseScheduler.Services
 				StartTime = TimeSpan.FromHours(10),
 				EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50)),
                 Seats = "45/90",
-				Map = "/MapImages/ST.png",
+				Map = "/MapImages/ST-Transparent.png",
+				IndividualMap = "/MapImages/ST.png",
 				Status = "Enrolled",
 				CourseColor = GenerateHexColor()
 			},
@@ -128,7 +129,8 @@ namespace CPSC481CourseScheduler.Services
                 StartTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(0)),
 				EndTime = TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(15)),
                 Seats = "40/90",
-				Map = "/MapImages/MS.png",
+				Map = "/MapImages/MS-Transparent.png",
+				IndividualMap = "/MapImages/MS.png",
 				Status = "Enrolled",
                 CourseColor = GenerateHexColor()
             },
@@ -147,7 +149,8 @@ namespace CPSC481CourseScheduler.Services
                 StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
 				EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
                 Seats = "20/50",
-				Map = "/MapImages/ICT.png",
+				Map = "/MapImages/ICT-Transparent.png",
+				IndividualMap = "/MapImages/ICT.png",
 				Status = "Not-Enrolled",
                 CourseColor = GenerateHexColor()
             },
@@ -166,7 +169,8 @@ namespace CPSC481CourseScheduler.Services
                 StartTime = TimeSpan.FromHours(14),
 				EndTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(50)),
                 Seats = "33/50",
-				Map = "/MapImages/SB.png",
+				Map = "/MapImages/SB-Transparent.png",
+				IndividualMap = "/MapImages/SB.png",
 				Status = "Not-Enrolled",
                 CourseColor = GenerateHexColor()
             },
@@ -185,7 +189,8 @@ namespace CPSC481CourseScheduler.Services
 				StartTime = TimeSpan.FromHours(12),
 				EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50)),
                 Seats = "10/100",
-				Map = "/MapImages/CHC.png",
+				Map = "/MapImages/CHC-Transparent.png",
+				IndividualMap = "/MapImages/CHC.png",
 				Status = "Waitlisted",
                 CourseColor = GenerateHexColor()
             }
