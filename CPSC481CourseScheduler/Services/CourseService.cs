@@ -9,17 +9,46 @@ namespace CPSC481CourseScheduler.Services
 
 		List<Course> SelectedCourses { get; set; } = new List<Course>();
 		List<Course> Bookmarks { get; set; } = new List<Course>();
+		
 
 		public async Task AddToSelectedCourses(Course course)
 		{
-			await Task.Factory.StartNew(() => SelectedCourses.Add(course));
-			OnSelectedCoursesChanged?.Invoke(this, SelectedCourses);
+			bool duplicate = false;
+
+			foreach (var crs in SelectedCourses)
+			{
+				if (crs.CourseCode == course.CourseCode)
+				{
+					duplicate = true;
+					break;
+				}
+			}
+
+			if (!duplicate && SelectedCourses.Count < 7)
+			{
+				await Task.Factory.StartNew(() => SelectedCourses.Add(course));
+				OnSelectedCoursesChanged?.Invoke(this, SelectedCourses);
+			}
 		}
 
 		public async Task AddToBookmarks(Course course)
 		{
-			await Task.Factory.StartNew(() => Bookmarks.Add(course));
-			OnBookmarksChanged?.Invoke(this, Bookmarks);
+			bool duplicate = false;
+
+			foreach (var crs in Bookmarks)
+			{
+				if (crs.CourseCode == course.CourseCode)
+				{
+					duplicate = true;
+					break;
+				}
+			}
+
+			if (!duplicate)
+			{
+				await Task.Factory.StartNew(() => Bookmarks.Add(course));
+				OnBookmarksChanged?.Invoke(this, Bookmarks);
+			}
 		}
 
 
@@ -30,10 +59,12 @@ namespace CPSC481CourseScheduler.Services
 
 		public List<Course> GetBookmarks() => Bookmarks;
 		public List<Course> GetAllCourses() => AllCourses;
+
 		public async Task RemoveFromSelectedCourses(Course course)
 		{
-			await Task.Factory.StartNew(() => SelectedCourses.Remove(course));
-			OnSelectedCoursesChanged?.Invoke(this, SelectedCourses);
+
+				await Task.Factory.StartNew(() => SelectedCourses.Remove(course));
+				OnSelectedCoursesChanged?.Invoke(this, SelectedCourses);
 		}
 
 		public async Task RemoveFromBookmarks(Course course)

@@ -107,7 +107,6 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 			</div>
 		}
 
-		
 	</div>
 </div>
 
@@ -131,9 +130,17 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 	[Parameter]
 	public bool bookmarked { get; set; } = false;
 
+	[Parameter]
+	public bool courseSelected { get; set; } = false;
+
+	[Parameter]
+	public bool bookmarkedCourse { get; set; } = false;
+
 	async private void AddCourse(Course course)
 	{
+
 		await _CourseService.AddToSelectedCourses(course);
+
 	}
 
 	async private void Bookmark(bool bookmarked, Course course)

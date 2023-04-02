@@ -17,8 +17,6 @@
 	}
 
 
-
-
 	.recommended-courses-title {
 		font-weight: bold;
 		font-size: 20px;
@@ -116,23 +114,40 @@
 <div class="page-container">
 	<div class="browse-section-container">
 		<form class="flex-row search-bar" onsubmit="@(searchResults)">
-			<input class="search-input" type="text" placeholder="Search Courses" aria-label="Search">
+			<input class="search-input" type="text" onkeydown="@setSearchInput" placeholder="Search Courses" list="browsers"  aria-label="Search" @bind-value="CurrentSearchValue" @bind-value:event="oninput">
+			@if (setSearch)
+			{
+					<datalist id="browsers">
+					@foreach (var course in courses)
+					{
+						<option value="@course.CourseCode">@course.CourseCode </option>
+
+					}
+					</datalist>
+			}
 			<button class="util-button-1 small-margin-right" type="submit">Search</button>
 			@if (searchClicked)
 			{
-							<button class="white-button-1" type="button" onclick="@(searchResultsOff)">Clear Results</button>
+						<button class="white-button-1" type="button" onclick="@(searchResultsOff)">Clear Results</button>
 			}
 		</form>
 		@if(searchClicked)
 		{
-			<div class="courses-container-search">
-				@foreach (var course in coursesFromSearch)
-				{
-					<CourseCardBasic Course="@course" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
-				}
-			</div>
+			@if (checkResult)
+			{
+				<div class="courses-container-search">
+					<CourseCardBasic Course="@coursesFromSearch" showBookmarkButton="true" showSelectCourseButton="true"></CourseCardBasic>
+				</div>
+			}
+			else
+			{
+				<div>
+					<p style="color: red">Course is not found!!</p>
+				</div>
+			}
 		}
-		
+
+
 		<div class="flex-column standard-card med-top-margin">
 			<div class="recommended-courses-title">
 					Recommended Courses (Based on degree)
@@ -152,90 +167,80 @@
 
 @code {
 	private List<Course> courses;
-	private List<Course> coursesFromSearch = new List<Course>
-		{
-			new Course
-			{
-				CourseName = "Human Computer Interaction",
-				CourseCode = "CPSC 481",
-				Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces",
-				Prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311",
-			}
-		};
+	private bool setSearch = false;
+	private bool checkResult;
+	private string CurrentSearchValue { get; set; } 
+
+	private void setSearchInput()
+	{
+		setSearch = true;
+	}
+	private Course coursesFromSearch;
+
 	private bool searchClicked = false;
 
 
 	private void searchResults()
 	{
 		searchClicked = true;
+
+		checkResult = checkSearch();
+		if(checkResult)
+		{
+			setCourseSearchResults();
+		}
+	}
+
+	private void setCourseSearchResults()
+	{
+		foreach(var course in courses)
+		{
+			if(course.CourseCode == CurrentSearchValue)
+			{
+				coursesFromSearch = new Course
+				{
+						CourseName = course.CourseName,
+						CourseCode = course.CourseCode,
+						Description = course.Description,
+						Prereq = course.Prereq,
+						LectureLocation = course.LectureLocation,
+						InstructorName =  course.InstructorName,
+						CourseTime =course.CourseTime,
+						Seats = course.Seats,
+						Days = course.Days,
+						LectureNumber = course.LectureNumber,
+						Map = course.Map,
+						Status = course.Status
+				};
+
+				break;
+			}
+		}
+	}
+
+	private bool checkSearch()
+	{
+		foreach(var course in courses)
+		{
+			if (course.CourseCode == CurrentSearchValue)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void searchResultsOff()
 	{
 		searchClicked = false;
+		CurrentSearchValue = default;
 	}
-
-	private Course course = new Course
-		{
-			CourseName = "Human Computer Interaction",
-			CourseCode = "CPSC 481",
-			Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces. Topics include: principles of design; methods for evaluating interfaces with or without user involvement; techniques for prototyping and implementing graphical user interfaces.",
-			Prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311.",
-		};
 
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
-		/*courses = new List<Course>
-		{
-			new Course
-			{
-				CourseName = "Human Computer Interaction",
-				CourseCode = "CPSC 481",
-				Description = "Fundamental theory and practice of the design, implementation, and evaluation of human-computer interfaces",
-				Prereq = "3 units from Software Engineering 300, 301, Software Engineering 480 or Data Science 311",
-			},
-			new Course
-			{
-				CourseName = "Distributed Systems",
-				CourseCode = "CPSC 559",
-				Description = "Designing and implementing distributed systems that overcome challenges due to concurrent computation, ailure of components in the system",
-				Prereq = "Computer Science 441 and 457"
-			},
-			new Course
-			{
-				CourseName = "Web-Based Systems",
-				CourseCode = "SENG 513",
-				Description = "An overview of software engineering methods and technologies for developing web-based software systems.",
-				Prereq = "3 units from Software Engineering 300, 301 or ENSF 480",
-			},
-			new Course
-			{
-				CourseName = "Software Project Management",
-				CourseCode = "SENG 511",
-				Description = "Analysis of methods, tools, and techniques for software project management as an effort to achieve quality software products.",
-				Prereq = "3 units from Software Engineering 300, 301, 403 or ENSF 480",
-
-			},
-
-			new Course
-			{
-				CourseName = "Programming Paradigms",
-				CourseCode = "CPSC 449",
-				Description = "Examination of the basic principles of the major programming language paradigms. Focus on declarative paradigms.",
-				Prereq = "Computer Science 319 or 331; and Philosophy 279 or 377.",
-			},
-			new Course
-			{
-				CourseName = "Artificial Intelligence",
-				CourseCode = "CPSC 433",
-				Description = "An examination of the objectives, key techniques and achievements of work on artificial intelligence in Computer Science.",
-				Prereq = "Computer Science 313 or 351; and Philosophy 279 or 377",
-			}
-		};*/
 		courses = _CourseService.GetAllCourses();
 
 	}
-	/* Course Reviews are based on ratemycourses.io reviews */
 }
 	

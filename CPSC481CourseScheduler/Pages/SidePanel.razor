@@ -77,7 +77,26 @@
                                                     Show Location
                                                 </button>
                                                 <div class="space"></div>
-                                                <button class="util-button-1" title="Remove course from selected courses" @onclick="() => RemoveCourse(course)"><span class="oi oi-trash" aria-hidden="true"></span></button>
+                                                <button class="util-button-1" title="Remove course from selected courses" @onclick="() => RemoveModal()"><span class="oi oi-trash" aria-hidden="true"></span></button>
+                                                @if (Show)
+                                                {
+                                                    <div class="modal" tabindex="-1" role="dialog" style="display: @(Show ? "block" : "none")">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header" style="display:flex; justify-content:center">
+                                                                    <h5 class="modal-title" >Confirm Dialog</h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p>Are you sure you want to delete the selected course ? </p>
+                                                                </div>
+                                                                <div class="modal-footer" style="display:flex; justify-content:center">
+                                                                    <button type="button" class="btn btn-warning" @onclick="() => RemoveCourse(course)">Yes</button>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="@(()=> this.Show=false)">No</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -211,6 +230,7 @@
     private bool tab1 = true;
     private bool tab2 = false;
     private int numSelectedCourses = 0;
+    private bool Show;
 
     private List<Course> Bookmarks = new List<Course>();
     private List<Course> courses = new List<Course>();
@@ -242,20 +262,20 @@
         _CourseService.OnSelectedCoursesChanged += SelectedCoursesChanged;
         _CourseService.OnBookmarksChanged += BookmarksChanged;
         /*BookmarkedCourses = new List<Course> {
-            new Course
-            {
-                CourseName = "Discrete Mathematics ",
-                CourseCode = "MATH 271",
-                Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
-            },
-            new Course
-            {
-                CourseName = "Principles of Software Design",
-                CourseCode = "ENSF 480",
-                Description = "Brief overview of typical software development lifecycles. Systematic methods for designing large-scale, quality software. Concepts such as abstraction, modularity, and software modelling will be covered. Designing for non-functional properties of software will be introduced. Emphasis on individual skills."
+        new Course
+        {
+        CourseName = "Discrete Mathematics ",
+        CourseCode = "MATH 271",
+        Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
+        },
+        new Course
+        {
+        CourseName = "Principles of Software Design",
+        CourseCode = "ENSF 480",
+        Description = "Brief overview of typical software development lifecycles. Systematic methods for designing large-scale, quality software. Concepts such as abstraction, modularity, and software modelling will be covered. Designing for non-functional properties of software will be introduced. Emphasis on individual skills."
 
-            }
-        };*/
+    }
+    };*/
         Bookmarks = _CourseService.GetBookmarks();
         courses = _CourseService.GetSelectedCourses();
         base.OnInitialized();
@@ -284,6 +304,7 @@
 
     async private void RemoveCourse(Course course)
     {
+        this.Show = false;
         await _CourseService.RemoveFromSelectedCourses(course);
     }
 
@@ -299,9 +320,12 @@
         parameters.Add(nameof(IndividualCourseMapModal.Building), building);
         parameters.Add(nameof(IndividualCourseMapModal.Location), mapPath);
         Modal.Show<IndividualCourseMapModal>("Course Location", parameters, options);
-
     }
 
+    private void RemoveModal()
+    {
+        this.Show = true;
+    }
 
     private ModalOptions options = new ModalOptions()
         {

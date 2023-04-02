@@ -15,6 +15,7 @@ namespace CPSC481CourseScheduler.Services
         List<Course> GetBookmarks();
         List<Course> GetAllCourses();
 
+
         public event EventHandler<List<Course>> OnSelectedCoursesChanged;
         public event EventHandler<List<Course>> OnBookmarksChanged;
     }
