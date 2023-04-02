@@ -178,25 +178,7 @@ input:checked + .slider:before {
 
 <div class="page-container">
     <div class="plan-section-container">
-        <form class="flex-row search-bar" onsubmit="">
-                        <div>
-                            <input onkeydown="@setSearchInput" role="combobox" class="search-input" list="browsers" type="text" placeholder="Search Courses" aria-label="Search">
-                @if (setSearch)
-                {
-                                    <datalist id="browsers">
-                                        <option style="font-size:30px">Cpsc 481</option>
-                                        <option value="Cpsc 411">Cpsc 411 </option>
-                                        <option  value="Cpsc 409">Cpsc 409 </option>
-                                        <option  value="SENG 501"> SENG 501 </option>
-                                        <option value="SENG 533"> SENG 533 </option>
-                                    </datalist>
-                }
-                        </div>
-                        <div>
-                            <button class="util-button-1 small-margin-right" type="submit">Search</button>
-                        </div>
-        </form>
-        <div class="switch-container container-fluid" style="margin-top: 1%">
+        <div class="switch-container container-fluid" style="margin-top: 2%">
             <div class="row" style="width: 100%">
             <div class="col-4">
             <div class="switch-title">Map view</div>
