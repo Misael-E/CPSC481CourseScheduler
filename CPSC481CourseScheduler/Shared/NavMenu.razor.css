@@ -50,6 +50,10 @@
     color: white;
 }
 
+.active-tab {
+    background-color: white !important;
+}
+
 @media (min-width: 641px) {
     .navbar-toggler {
         display: none;

@@ -77,7 +77,7 @@
                                                     Show Location
                                                 </button>
                                                 <div class="space"></div>
-                                                <button class="util-button-1" title="Remove course from selected courses" @onclick="() => RemoveModal()"><span class="oi oi-trash" aria-hidden="true"></span></button>
+                                                <button class="util-button-1" title="Remove course from selected courses" @onclick="() => RemoveModal(course)"><span class="oi oi-trash" aria-hidden="true"></span></button>
                                                 @if (Show)
                                                 {
                                                     <div class="modal" tabindex="-1" role="dialog" style="display: @(Show ? "block" : "none")">
@@ -90,7 +90,7 @@
                                                                     <p>Are you sure you want to delete the selected course ? </p>
                                                                 </div>
                                                                 <div class="modal-footer" style="display:flex; justify-content:center">
-                                                                    <button type="button" class="btn btn-warning" @onclick="() => RemoveCourse(course)">Yes</button>
+                                                                    <button type="button" class="btn btn-warning" @onclick="() => RemoveCourse(deleteCourse)">Yes</button>
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="@(()=> this.Show=false)">No</button>
                                                                 </div>
                                                             </div>
@@ -105,7 +105,6 @@
                         </div>
                     }
                 }
-                
             </div>
         }
         @if (tab2)
@@ -231,6 +230,7 @@
     private bool tab2 = false;
     private int numSelectedCourses = 0;
     private bool Show;
+    private Course deleteCourse;
 
     private List<Course> Bookmarks = new List<Course>();
     private List<Course> courses = new List<Course>();
@@ -322,9 +322,10 @@
         Modal.Show<IndividualCourseMapModal>("Course Location", parameters, options);
     }
 
-    private void RemoveModal()
+    private void RemoveModal(Course course)
     {
         this.Show = true;
+        deleteCourse = course;
     }
 
     private ModalOptions options = new ModalOptions()
