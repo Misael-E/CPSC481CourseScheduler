@@ -1,4 +1,4 @@
-﻿	
+﻿@inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
 <div class="nav-bar">
 	<div class="title">
 		<span>Schedule Builder</span>
@@ -7,7 +7,7 @@
 
 			@foreach (var semester in SemesterList)
 			{
-				<option class="semester-option" value="@semester.Season+@semester.Year"> @semester.Season @semester.Year </option>
+				<option class="semester-option" value="@semester.SemesterDisplayName"> @semester.Season @semester.Year </option>
 			}
 
 		</select>
@@ -32,13 +32,15 @@
 
 
 @code {
-	List<Semester> SemesterList = new List<Semester>()
-	{
-		new Semester("Winter", "2023"),
-		new Semester("Spring/Summer", "2023"),
-		new Semester("Fall", "2023")
-	};
+	List<Semester> SemesterList = new List<Semester>();
 
+	protected override void OnInitialized()
+	{
+		SemesterList = _CourseService.GetAllSemesters();
+	}
+
+	/*
+	 * 
 	string selectedSemesterID;
 
 	string SelectedSemesterID
@@ -49,16 +51,7 @@
 			selectedSemesterID = value;
 		}
 	}
+	*/
 
-	public class Semester {
-		public Semester(string season, string year)
-		{
-			Season = season;
-			Year = year;
-		}
-		
-	public string Season { get; set; }
-	public string Year { get; set; }
-	}
 
 }
