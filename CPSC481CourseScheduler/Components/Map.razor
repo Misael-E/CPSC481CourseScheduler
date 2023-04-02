@@ -7,10 +7,53 @@
         <img class="blank" src="/MapImages/BlankCampusMap.png" />
        
         @if (!IsEmpty(courses)) {
-            @foreach (var course in courses.ToList()) {
-                
-                <img class="imageLocation" src=@course.Map />
+            @for (int i = 0; i < courses.ToList().Count; i++) {
+                <img class="imageLocation" src=@courses[i].Map />
+                @if ((courses.ToList().Count >= 2) && (i < courses.ToList().Count - 1))  {
+                    @if (((courses[i].IndividualMap == "/MapImages/CHC.png") && (courses[i + 1].IndividualMap == "/MapImages/ICT.png")) || ((courses[i].IndividualMap == "/MapImages/ICT.png") && (courses[i + 1].IndividualMap == "/MapImages/CHC.png")))
+                    {
+                        <img class="imageRoute" src="/MapImages/ICT-CHC-Path-Transparent.png" />
+                    }
+                    @if (((courses[i].IndividualMap == "/MapImages/ICT.png") && (courses[i + 1].IndividualMap == "/MapImages/MS.png")) || ((courses[i].IndividualMap == "/MapImages/MS.png") && (courses[i + 1].IndividualMap == "/MapImages/ICT.png")))
+                    {
+                        <img class="imageRoute" src="/MapImages/ICT-MS-Path-Transparent.png" />
+                    }
+                    @if (((courses[i].IndividualMap == "/MapImages/ICT.png") && (courses[i + 1].IndividualMap == "/MapImages/SB.png")) || ((courses[i].IndividualMap == "/MapImages/SB.png") && (courses[i + 1].IndividualMap == "/MapImages/ICT.png")))
+                    {
+                        <img class="imageRoute" src="/MapImages/ICT-SB-Path-Transparent.png" />
+                    }
+                    @if (((courses[i].IndividualMap == "/MapImages/ICT.png") && (courses[i + 1].IndividualMap == "/MapImages/ST.png")) || ((courses[i].IndividualMap == "/MapImages/ST.png") && (courses[i + 1].IndividualMap == "/MapImages/ICT.png")))
+                    {
+                        <img class="imageRoute" src="/MapImages/ICT-ST-Path-Transparent.png" />
+                    }
+                    @if (((courses[i].IndividualMap == "/MapImages/MS.png") && (courses[i + 1].IndividualMap == "/MapImages/CHC.png")) || ((courses[i].IndividualMap == "/MapImages/CHC.png") && (courses[i + 1].IndividualMap == "/MapImages/MS.png")))
+                    {
+                        <img class="imageRoute" src="/MapImages/MS-CHC-Path-Transparent.png" />
+                    }
+                    @if (((courses[i].IndividualMap == "/MapImages/SB.png") && (courses[i + 1].IndividualMap == "/MapImages/CHC.png")) || ((courses[i].IndividualMap == "/MapImages/CHC.png") && (courses[i + 1].IndividualMap == "/MapImages/SB.png")))
+                    {
+                        <img class="imageRoute" src="/MapImages/SB-CHC-Path-Transparent.png" />
+                    }
+                    @if (((courses[i].IndividualMap == "/MapImages/SB.png") && (courses[i + 1].IndividualMap == "/MapImages/MS.png")) || ((courses[i].IndividualMap == "/MapImages/MS.png") && (courses[i + 1].IndividualMap == "/MapImages/SB.png")))
+                    {
+                        <img class="imageRoute" src="/MapImages/SB-MS-Path-Transparent.png" />
+                    }
+                    @if (((courses[i].IndividualMap == "/MapImages/ST.png") && (courses[i + 1].IndividualMap == "/MapImages/CHC.png")) || ((courses[i].IndividualMap == "/MapImages/CHC.png") && (courses[i + 1].IndividualMap == "/MapImages/ST.png")))
+                    {
+                        <img class="imageRoute" src="/MapImages/ST-CHC-Path-Transparent.png" />
+                    }
+                    @if (((courses[i].IndividualMap == "/MapImages/ST.png") && (courses[i + 1].IndividualMap == "/MapImages/MS.png")) || ((courses[i].IndividualMap == "/MapImages/MS.png") && (courses[i + 1].IndividualMap == "/MapImages/ST.png")))
+                    {
+                        <img class="imageRoute" src="/MapImages/ST-MS-Path-Transparent.png" />
+                    }
+                    @if (((courses[i].IndividualMap == "/MapImages/ST.png") && (courses[i + 1].IndividualMap == "/MapImages/SB.png")) || ((courses[i].IndividualMap == "/MapImages/SB.png") && (courses[i + 1].IndividualMap == "/MapImages/ST.png")))
+                    {
+                        <img class="imageRoute" src="/MapImages/ST-SB-Path-Transparent.png" />
+                    }
+               
+                }
             }
+
         }
 
     </div>  
@@ -18,23 +61,28 @@
 
 
 <style>
-img {
-    max-width:100%;
-    height: 69vh;
-}
-.map {
-    flex-basis: 100%;
-    position: relative;
+    img {
+        max-width:100%;
+        height: 69vh;
+    }
+    .map {
+        flex-basis: 100%;
+        position: relative;
+        }
+
+    .blank {
+        position: absolute;
+        z-index: 1;
+    }
+    .imageLocation{
+        position: absolute;
+        z-index: 2;
     }
 
-.blank {
-    position: absolute;
-    z-index: 1;
-}
-.imageLocation{
-    position: absolute;
-    z-index: 2;
-}
+    .imageRoute {
+        position: absolute;
+        z-index: 3;
+    }
 
 
 
