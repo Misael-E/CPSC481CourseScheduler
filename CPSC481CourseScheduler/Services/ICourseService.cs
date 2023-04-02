@@ -7,8 +7,8 @@ namespace CPSC481CourseScheduler.Services
 {
     public interface ICourseService
     {
-        Task AddToSelectedCourses(Course course);
-        Task AddToBookmarks(Course course);
+        Task<int> AddToSelectedCourses(Course course);
+        Task<int> AddToBookmarks(Course course);
         Task RemoveFromSelectedCourses(Course course);
         Task RemoveFromBookmarks(Course course);
         List<Course> GetSelectedCourses();
