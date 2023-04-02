@@ -12,18 +12,18 @@
 
 		</select>
 	<nav class="nav-bar-items">
-		<div class="nav-button">
-			<NavLink class="nav-button-link" title="Search Recommended Courses and Add them to Selections/Bookmarks" href="browse" Match="NavLinkMatch.All">
+		<div class="nav-button @(tab1 ? "active-tab" : "")">
+			<NavLink class="nav-button-link" @onclick="x=>ActiveTab(1)" title="Search Recommended Courses and Add them to Selections/Bookmarks" href="browse" Match="NavLinkMatch.All">
 				<span class="oi oi-grid-three-up" aria-hidden="true"></span> Browse
 			</NavLink>
 		</div>
-		<div class="nav-button">
-			<NavLink class="nav-button-link" title="Add the Selected/Bookmarked Courses to the timetable and Finalize them" href="plan">
+		<div class="nav-button @(tab2 ? "active-tab" : "")">
+			<NavLink class="nav-button-link " @onclick="x=>ActiveTab(2)" title="Add the Selected/Bookmarked Courses to the timetable and Finalize them" href="plan">
 				<span class="oi oi-calendar" aria-hidden="true"></span> Plan
 			</NavLink>
 		</div>
-		<div class="nav-button">
-			<NavLink class="nav-button-link" title="Share the schedule with friends" href="share">
+		<div class="nav-button @(tab3 ? "active-tab" : "")">
+			<NavLink class="nav-button-link " @onclick="x=>ActiveTab(3)" title="Share the schedule with friends" href="share">
 				<span class="oi oi-share" aria-hidden="true"></span> Share
 			</NavLink>
 		</div>
@@ -32,6 +32,12 @@
 
 
 @code {
+
+	private bool tab1 = true;
+	private bool tab2 = false;
+	private bool tab3 = false;
+
+
 	List<Semester> SemesterList = new List<Semester>();
 
 	protected override void OnInitialized()
@@ -39,19 +45,26 @@
 		SemesterList = _CourseService.GetAllSemesters();
 	}
 
-	/*
-	 * 
-	string selectedSemesterID;
-
-	string SelectedSemesterID
+	public void ActiveTab(int TabNumber)
 	{
-		get => selectedSemesterID;
-		set
+		switch (TabNumber)
 		{
-			selectedSemesterID = value;
+			case 1:
+				this.tab1 = true;
+				this.tab2 = false;
+				this.tab3 = false;
+				break;
+			case 2:
+				this.tab1 = false;
+				this.tab2 = true;
+				this.tab3 = false;
+				break;
+			case 3:
+				this.tab1 = false;
+				this.tab2 = false;
+				this.tab3 = true;
+				break;
 		}
 	}
-	*/
-
 
 }
