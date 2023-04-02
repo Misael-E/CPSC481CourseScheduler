@@ -1,5 +1,6 @@
 ﻿@using System.Globalization
 @inject NavigationManager NavigationManager
+@inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
 
 <style>
     .fa-times {
@@ -52,70 +53,24 @@
 
 
 @code {
-    public class Course
+    private List<Course> courses = new List<Course>();
+
+    protected override async void OnInitialized()
     {
-        public string Name { get; set; } = string.Empty;
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
-        public List<DayOfWeek> DaysOfWeek { get; set; }
+        _CourseService.OnSelectedCoursesChanged += SelectedCoursesChanged;
+        courses = _CourseService.GetSelectedCourses();
+        base.OnInitialized();
+
     }
 
-    private List<Course> Courses = new List<Course>
+    private async void SelectedCoursesChanged(object sender, List<Course> NewSelectedCourses)
     {
-        new Course { 
-            Name = "CPSC 571", 
-            StartTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(0)), 
-            EndTime = TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(15)),
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday } 
-        },
-        new Course { 
-            Name = "CPSC 513", 
-            StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
-            EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday } 
-        },
-        new Course {
-            Name = "SOCI 201", 
-            StartTime = TimeSpan.FromHours(10),
-            EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50)), 
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday } 
-        },
-        new Course {
-            Name = "CPSC 583",
-            StartTime = TimeSpan.FromHours(14),
-            EndTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(50)),
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
-        },
-        new Course {
-            Name = "GLGY 305",
-            StartTime = TimeSpan.FromHours(12),
-            EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50)),
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
-        },
-    };
-
-    private List<Course> FriendCourses = new List<Course>
-    {
-        new Course {
-            Name = "CPSC 413",
-            StartTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(0)),
-            EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(50)),
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
-        },
-        new Course {
-            Name = "CPSC 513",
-            StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
-            EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday }
-        },
-        new Course {
-            Name = "ASTR 201",
-            StartTime = TimeSpan.FromHours(9),
-            EndTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(50)),
-            DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
-        }
-    };
-
+        await InvokeAsync(() =>
+        {
+            courses = NewSelectedCourses;
+            StateHasChanged();
+        });
+    }
 
     private string FormatTime(int hour)
     {
@@ -130,8 +85,8 @@
     private string GetCourseCell(DayOfWeek day, int row)
     {
         StringBuilder sb = new StringBuilder();
-        var coursesOnDay = Courses.Where(c => c.DaysOfWeek.Contains(day)).ToList();
-        
+        var coursesOnDay = courses.Where(c => c.DaysOfWeek.Contains(day)).ToList();
+
 
         bool merged = false;
         bool friendCourseAdded = false;
@@ -141,7 +96,7 @@
 
         if (currentPage == "share")
         {
-            coursesOnDay.AddRange(FriendCourses.Where(c => c.DaysOfWeek.Contains(day)));
+            coursesOnDay.AddRange(_CourseService.GetAllFriendCourses().Where(c => c.DaysOfWeek.Contains(day)));
         }
 
         foreach (var course in coursesOnDay)
@@ -159,7 +114,7 @@
 
                     if (j == startRow)
                     {
-                        if (FriendCourses.Contains(course))
+                        if (_CourseService.GetAllFriendCourses().Contains(course))
                         {
                             bgColor = "background-color: #64C2A6;";
                             opacity = "opacity: 1;";
@@ -167,27 +122,27 @@
 
                         if (currentPage == "share")
                         {
-                            sb.Append($"<td style='{bgColor} {opacity}; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>{course.Name}</td>");
+                            sb.Append($"<td style='{bgColor} {opacity}; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>{course.CourseCode}</td>");
                         }
                         else
                         {
-                            sb.Append($"<td style='background-color: #FFD16B; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>");
-                            sb.Append($"{course.Name}<button class='btn btn-x float-end px-2' style='position: absolute; top: 0; right: 0; padding: 0;'><i class='fa fa-times'></i></button></td>");
+                            sb.Append($"<td style='background-color: {course.CourseColor}; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>");
+                            sb.Append($"{course.CourseCode}<button class='btn btn-x float-end px-2' style='position: absolute; top: 0; right: 0; padding: 0;><i class='fa fa-times'></i></button></td>");
                         }
 
-                        if (FriendCourses.Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
+                        if (_CourseService.GetAllFriendCourses().Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
                         {
                             // if there is a friend course that overlaps with this course, set the background color of the existing cell to light blue
                             sb.Replace("#FFD16B", "#BCE5F9");
                         }
 
                         merged = true;
-                        friendCourseAdded = FriendCourses.Contains(course); // set flag to true if friend course is added to cell
+                        friendCourseAdded = _CourseService.GetAllFriendCourses().Contains(course); // set flag to true if friend course is added to cell
                         break; // exit inner loop to prevent additional courses from being added to cell
                     }
                     else
                     {
-                        if (!friendCourseAdded && FriendCourses.Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
+                        if (!friendCourseAdded && _CourseService.GetAllFriendCourses().Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
                         {
                             // if there is a friend course that overlaps with this course, set the background color of the existing cell to light blue
                             sb.Replace("#FFD16B", "#BCE5F9");
@@ -216,9 +171,16 @@
         }
     }
 
+    async private void RemoveCourse(Course course)
+    {
+        await _CourseService.RemoveFromSelectedCourses(course);
+    }
+
     private string GetLegend()
     {
         StringBuilder sb = new StringBuilder();
+        string[] location = NavigationManager.Uri.Split('/');
+        string currentPage = location[location.Length - 1];
 
         // Create a dictionary to store the colors and corresponding course types
         Dictionary<string, string> courseTypes = new Dictionary<string, string>();
@@ -238,7 +200,15 @@
         // Use the legend HTML in your page
         string legendHtml = sb.ToString();
 
-        return sb.ToString();
+        if (currentPage == "share")
+        {
+            return sb.ToString();
+        }
+        else
+        {
+            return "";
+        }
+
     }
 
 }
