@@ -3,7 +3,9 @@
 <PageTitle>Map</PageTitle>
 
     <div class = "map">
-        <img src="/MapImages/All.png" alt="Campus Map">
+        <img class="blank" src="/MapImages/BlankCampusMap.png" />
+        <img class="ms" src="/MapImages/MS-Transparent.png" alt="Campus Map" />
+        <img class="chc" src="/MapImages/CHC-Transparent.png" />
     </div>  
 
 
@@ -15,8 +17,40 @@ img {
 }
 .map {
     flex-basis: 100%;
-    text-align: center;
+    position: relative;
     }
+
+.blank {
+    position: absolute;
+    z-index: 1;
+}
+.ms {
+    position: absolute;
+    z-index: 2;
+}
+
+.chc {
+    position: absolute;
+    z-index: 3;
+}
+
+.ict {
+    position: absolute;
+    z-index: 4;
+}
+
+.sb {
+    position: absolute;
+    z-index: 5;
+}
+
+.st {
+    position: absolute;
+    z-index: 6;
+}
+
+
+
 </style>
 
 @code {
