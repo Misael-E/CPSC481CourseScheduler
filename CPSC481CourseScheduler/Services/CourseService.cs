@@ -11,7 +11,7 @@ namespace CPSC481CourseScheduler.Services
 		List<Course> Bookmarks { get; set; } = new List<Course>();
 		
 
-		public async Task AddToSelectedCourses(Course course)
+		public async Task<int> AddToSelectedCourses(Course course)
 		{
 			bool duplicate = false;
 
@@ -28,10 +28,15 @@ namespace CPSC481CourseScheduler.Services
 			{
 				await Task.Factory.StartNew(() => SelectedCourses.Add(course));
 				OnSelectedCoursesChanged?.Invoke(this, SelectedCourses);
+				return 0;
+			}
+			else
+			{
+				return -1;
 			}
 		}
 
-		public async Task AddToBookmarks(Course course)
+		public async Task<int> AddToBookmarks(Course course)
 		{
 			bool duplicate = false;
 
@@ -48,6 +53,11 @@ namespace CPSC481CourseScheduler.Services
 			{
 				await Task.Factory.StartNew(() => Bookmarks.Add(course));
 				OnBookmarksChanged?.Invoke(this, Bookmarks);
+				return 0;
+			}
+			else
+			{
+				return -1;
 			}
 		}
 

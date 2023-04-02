@@ -81,12 +81,20 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 				@if (showSelectCourseButton)
 				{
 					<div title="Add to selected courses" class="oi oi-plus action-icon" aria-hidden="true" @onclick="() => AddCourse(Course)"></div>
-
+					<Snackbar @ref="SelectedErrorSnackBar" Color="Blazorise.Snackbar.SnackbarColor.Warning">
+						<SnackbarBody>
+							Course in already in Selection List
+						</SnackbarBody>
+					</Snackbar>
 				}
-
 				@if (showBookmarkButton)
 				{
 					<div title="@(bookmarked ? "Remove bookmark" : "Add to bookmarks") " class="oi oi-star action-icon @(bookmarked ? "bookmarked" : "") " aria-hidden="true" @onclick="() => Bookmark(bookmarked, Course)"></div>
+						<Snackbar @ref="BookmarkErrorSnackBar" Color="Blazorise.Snackbar.SnackbarColor.Warning">
+							<SnackbarBody>
+								Course in already in Bookmark List
+							</SnackbarBody>
+						</Snackbar>
 
 				}
 			</div>
@@ -114,6 +122,9 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 
 
 @code {
+	Snackbar? BookmarkErrorSnackBar;
+
+	Snackbar? SelectedErrorSnackBar;
 
 	[Parameter] 
 	public Course Course { get; set; }
@@ -136,11 +147,17 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 	[Parameter]
 	public bool bookmarkedCourse { get; set; } = false;
 
+	private int duplicateCourse;
+	private int duplicateBookmarkedCourse;
+
 	async private void AddCourse(Course course)
 	{
 
-		await _CourseService.AddToSelectedCourses(course);
-
+		duplicateCourse = await _CourseService.AddToSelectedCourses(course);
+		if(duplicateCourse == -1)
+		{
+			await SelectedErrorSnackBar.Show();
+		}
 	}
 
 	async private void Bookmark(bool bookmarked, Course course)
@@ -150,12 +167,11 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 			await _CourseService.RemoveFromBookmarks(course);
 		} else
 		{
-			await _CourseService.AddToBookmarks(course);
-
+			duplicateBookmarkedCourse = await _CourseService.AddToBookmarks(course);
+			if (duplicateBookmarkedCourse == -1)
+			{
+				await BookmarkErrorSnackBar.Show();
+			}
 		}
 	}
-
-
-
-
 }

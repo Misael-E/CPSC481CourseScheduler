@@ -1,6 +1,7 @@
 ﻿@page "/"
 @layout SelectionSemesterLayout
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
 <body style="background-color:#F4F6F7">
 	<div class="selection-container">
@@ -13,13 +14,13 @@
 				<a href="browse" class="btn btn-lg btn-primary" >Winter 2023</a>
 			</div>
 			<div class="butbox">
-					<a href="browse" class="btn btn-lg btn-primary">Spring/Summer 2023</a>
+					<a href="browse" class="btn btn-lg btn-primary" >Spring/Summer 2023</a>
 			</div>
 			<div class="butbox">
-					<a href="browse" class="btn btn-lg btn-primary">Fall 2023</a>
+					<a href="browse" class="btn btn-lg btn-primary" >Fall 2023</a>
 			</div>
 			<div class="butbox">
-					<a href="browse" class="btn btn-lg btn-primary">Winter 2024 </a>
+					<a href="browse" class="btn btn-lg btn-primary" >Winter 2024 </a>
 			</div>
 		</div>
 	</div>
@@ -27,5 +28,4 @@
 </body>
 
 @code {
-
 }
