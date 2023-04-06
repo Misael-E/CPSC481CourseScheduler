@@ -1,13 +1,14 @@
 ﻿@inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
+
 <div class="nav-bar">
 	<div class="title">
 		<span>Schedule Builder</span>
 	</div>
-		<select class="semester-select">
+	<select class="semester-select" value="@SelectedSemester" id="navSelect" name="navSelect" @onchange="SelectSemester">
 
 			@foreach (var semester in SemesterList)
 			{
-				<option class="semester-option" value="@semester.SemesterDisplayName"> @semester.Season @semester.Year </option>
+			<option class="semester-option" value="@semester.SemesterDisplayName">@semester.SemesterDisplayName</option>
 			}
 
 		</select>
@@ -36,13 +37,13 @@
 	private bool tab1 = true;
 	private bool tab2 = false;
 	private bool tab3 = false;
-
-
 	List<Semester> SemesterList = new List<Semester>();
+	Semester SelectedSemester;
 
 	protected override void OnInitialized()
 	{
 		SemesterList = _CourseService.GetAllSemesters();
+		SelectedSemester = _CourseService.GetSelectedSemester();
 	}
 
 	public void ActiveTab(int TabNumber)
@@ -65,6 +66,12 @@
 				this.tab3 = true;
 				break;
 		}
+	}
+
+	private async void SelectSemester(ChangeEventArgs e)
+	{
+		SelectedSemester = new Semester(e.Value.ToString());
+		await _CourseService.SelectSemester(SelectedSemester);
 	}
 
 }

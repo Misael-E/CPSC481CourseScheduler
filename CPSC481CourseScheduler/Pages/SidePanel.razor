@@ -261,6 +261,7 @@
     {
         _CourseService.OnSelectedCoursesChanged += SelectedCoursesChanged;
         _CourseService.OnBookmarksChanged += BookmarksChanged;
+        _CourseService.OnSelectedSemesterChanged += OnSelectedSemesterChanged;
         /*BookmarkedCourses = new List<Course> {
         new Course
         {
@@ -280,6 +281,16 @@
         courses = _CourseService.GetSelectedCourses();
         base.OnInitialized();
 
+    }
+
+    private async void OnSelectedSemesterChanged(object sender, Semester semester)
+    {
+        await InvokeAsync(() =>
+        {
+            courses = _CourseService.GetSelectedCourses();
+            Bookmarks = _CourseService.GetBookmarks();
+            StateHasChanged();
+        });
     }
 
     private async void SelectedCoursesChanged(object sender, List<Course> NewSelectedCourses)
