@@ -2,30 +2,37 @@
 @layout SelectionSemesterLayout
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
+@inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
 
-<body style="background-color:#F4F6F7">
+<body>
 	<div class="selection-container">
 	<div>
 	<h1 >Choose Your Semester</h1>
 	</div>
 	<div class="sem">
 		<div class="sembox">
-			<div class="butbox">
-				<a href="browse" class="btn btn-lg btn-primary" >Winter 2023</a>
-			</div>
-			<div class="butbox">
-					<a href="browse" class="btn btn-lg btn-primary" >Spring/Summer 2023</a>
-			</div>
-			<div class="butbox">
-					<a href="browse" class="btn btn-lg btn-primary" >Fall 2023</a>
-			</div>
-			<div class="butbox">
-					<a href="browse" class="btn btn-lg btn-primary" >Winter 2024 </a>
-			</div>
+				@foreach (var semester in SemesterList)
+				{
+					<div class="butbox" @onclick="() => SelectSemester(semester)">
+						<a href="browse" class="btn btn-lg btn-primary">@semester.SemesterDisplayName</a>
+					</div>
+				}
 		</div>
 	</div>
 	</div>
 </body>
 
 @code {
+
+	List<Semester> SemesterList = new List<Semester>();
+
+	protected override void OnInitialized()
+	{
+		SemesterList = _CourseService.GetAllSemesters();
+	}
+
+	private async void SelectSemester(Semester semester)
+	{
+		await _CourseService.SelectSemester(semester);
+	}
 }

@@ -1,13 +1,14 @@
-﻿	
+﻿@inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
+
 <div class="nav-bar">
 	<div class="title">
 		<span>Schedule Builder</span>
 	</div>
-		<select class="semester-select">
+	<select class="semester-select" value="@SelectedSemester" id="navSelect" name="navSelect" @onchange="SelectSemester">
 
 			@foreach (var semester in SemesterList)
 			{
-				<option class="semester-option" value="@semester.Season+@semester.Year"> @semester.Season @semester.Year </option>
+			<option class="semester-option" value="@semester.SemesterDisplayName">@semester.SemesterDisplayName</option>
 			}
 
 		</select>
@@ -36,13 +37,14 @@
 	private bool tab1 = true;
 	private bool tab2 = false;
 	private bool tab3 = false;
+	List<Semester> SemesterList = new List<Semester>();
+	Semester SelectedSemester;
 
-	List<Semester> SemesterList = new List<Semester>()
+	protected override void OnInitialized()
 	{
-		new Semester("Winter", "2023"),
-		new Semester("Spring/Summer", "2023"),
-		new Semester("Fall", "2023")
-	};
+		SemesterList = _CourseService.GetAllSemesters();
+		SelectedSemester = _CourseService.GetSelectedSemester();
+	}
 
 	public void ActiveTab(int TabNumber)
 	{
@@ -66,26 +68,10 @@
 		}
 	}
 
-	string selectedSemesterID;
-
-	string SelectedSemesterID
+	private async void SelectSemester(ChangeEventArgs e)
 	{
-		get => selectedSemesterID;
-		set
-		{
-			selectedSemesterID = value;
-		}
-	}
-
-	public class Semester {
-		public Semester(string season, string year)
-		{
-			Season = season;
-			Year = year;
-		}
-		
-	public string Season { get; set; }
-	public string Year { get; set; }
+		SelectedSemester = new Semester(e.Value.ToString());
+		await _CourseService.SelectSemester(SelectedSemester);
 	}
 
 }
