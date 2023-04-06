@@ -13,7 +13,7 @@
 		<div class="sembox">
 				@foreach (var semester in SemesterList)
 				{
-					<div class="butbox">
+					<div class="butbox" @onclick="() => SelectSemester(semester)">
 						<a href="browse" class="btn btn-lg btn-primary">@semester.SemesterDisplayName</a>
 					</div>
 				}
@@ -29,5 +29,10 @@
 	protected override void OnInitialized()
 	{
 		SemesterList = _CourseService.GetAllSemesters();
+	}
+
+	private async void SelectSemester(Semester semester)
+	{
+		await _CourseService.SelectSemester(semester);
 	}
 }

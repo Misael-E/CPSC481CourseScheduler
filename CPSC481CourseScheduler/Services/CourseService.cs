@@ -7,21 +7,38 @@ namespace CPSC481CourseScheduler.Services
 	public class CourseService : ICourseService
 	{
 
-		List<Course> SelectedCourses { get; set; } = new List<Course>();
-		List<Course> Bookmarks { get; set; } = new List<Course>();
+		Dictionary<string, List<Course>> SelectedCourses { get; set; } = new Dictionary<string, List<Course>>
+		{
+			{ "Fall", new List<Course>() },
+			{ "Spring", new List<Course>() },
+			{ "Summer", new List<Course>() },
+			{ "Winter", new List<Course>() }
+		};
+		Dictionary<string, List<Course>> Bookmarks { get; set; } = new Dictionary<string, List<Course>>
+		{
+			{ "Fall", new List<Course>() },
+			{ "Spring", new List<Course>() },
+			{ "Summer", new List<Course>() },
+			{ "Winter", new List<Course>() }
+		};
 
 		Semester SelectedSemester { get; set; } = new Semester("Winter", "2023");
 		public async Task SelectSemester(Semester semester)
 		{
-			await Task.Factory.StartNew(() => { SelectedSemester = semester; });
+			await Task.Factory.StartNew(() =>
+			{
+				SelectedSemester = semester;
+			});
 			OnSelectedSemesterChanged?.Invoke(this, SelectedSemester);
+			OnBookmarksChanged?.Invoke(this, GetBookmarks());
+			OnSelectedCoursesChanged?.Invoke(this, GetSelectedCourses());
 		}
 
 		public async Task<int> AddToSelectedCourses(Course course)
 		{
 			bool duplicate = false;
 
-			foreach (var crs in SelectedCourses)
+			foreach (var crs in SelectedCourses[SelectedSemester.Season])
 			{
 				if (crs.CourseCode == course.CourseCode)
 				{
@@ -30,10 +47,10 @@ namespace CPSC481CourseScheduler.Services
 				}
 			}
 
-			if (!duplicate && SelectedCourses.Count < 7)
+			if (!duplicate && SelectedCourses[SelectedSemester.Season].Count < 7)
 			{
-				await Task.Factory.StartNew(() => SelectedCourses.Add(course));
-				OnSelectedCoursesChanged?.Invoke(this, SelectedCourses);
+				await Task.Factory.StartNew(() => SelectedCourses[SelectedSemester.Season].Add(course));
+				OnSelectedCoursesChanged?.Invoke(this, SelectedCourses[SelectedSemester.Season]);
 				return 0;
 			}
 			else
@@ -46,7 +63,7 @@ namespace CPSC481CourseScheduler.Services
 		{
 			bool duplicate = false;
 
-			foreach (var crs in Bookmarks)
+			foreach (var crs in Bookmarks[SelectedSemester.Season])
 			{
 				if (crs.CourseCode == course.CourseCode)
 				{
@@ -57,8 +74,8 @@ namespace CPSC481CourseScheduler.Services
 
 			if (!duplicate)
 			{
-				await Task.Factory.StartNew(() => Bookmarks.Add(course));
-				OnBookmarksChanged?.Invoke(this, Bookmarks);
+				await Task.Factory.StartNew(() => Bookmarks[SelectedSemester.Season].Add(course));
+				OnBookmarksChanged?.Invoke(this, Bookmarks[SelectedSemester.Season]);
 				return 0;
 			}
 			else
@@ -72,9 +89,14 @@ namespace CPSC481CourseScheduler.Services
 		public event EventHandler<List<Course>> OnBookmarksChanged;
 		public event EventHandler<Semester> OnSelectedSemesterChanged;
 
-		public List<Course> GetSelectedCourses() => SelectedCourses;
-
-		public List<Course> GetBookmarks() => Bookmarks;
+		public List<Course> GetSelectedCourses()
+		{
+			return SelectedCourses[SelectedSemester.Season];
+		}
+		public List<Course> GetBookmarks()
+		{
+			return Bookmarks[SelectedSemester.Season];
+		}
 		public List<Course> GetAllCourses() => AllCourses;
 		public List<Course> GetAllFriendCourses() => FriendCourses;
 
@@ -84,14 +106,14 @@ namespace CPSC481CourseScheduler.Services
 		public async Task RemoveFromSelectedCourses(Course course)
 		{
 
-			await Task.Factory.StartNew(() => SelectedCourses.Remove(course));
-			OnSelectedCoursesChanged?.Invoke(this, SelectedCourses);
+			await Task.Factory.StartNew(() => SelectedCourses[SelectedSemester.Season].Remove(course));
+			OnSelectedCoursesChanged?.Invoke(this, SelectedCourses[SelectedSemester.Season]);
 		}
 
 		public async Task RemoveFromBookmarks(Course course)
 		{
-			await Task.Factory.StartNew(() => Bookmarks.Remove(course));
-			OnBookmarksChanged?.Invoke(this, Bookmarks);
+			await Task.Factory.StartNew(() => Bookmarks[SelectedSemester.Season].Remove(course));
+			OnBookmarksChanged?.Invoke(this, Bookmarks[SelectedSemester.Season]);
 		}
 
 		private static string GenerateHexColor()
@@ -237,6 +259,30 @@ namespace CPSC481CourseScheduler.Services
 			DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
 		}
 	};
+
+		List<Course> Fall2023Courses { get; set; } = new List<Course>
+		{
+			new Course
+			{
+				CourseName = "Introduction to Sociology",
+				CourseCode = "SOCI 201",
+				Description = "Sociology as a discipline examines how the society in which we live influences our thinking and behaviour. An introduction to sociology through the study of society, social institutions, group behaviour and social change.",
+				Prereq = "None",
+				LectureLocation = "ST 140",
+				LectureNumber = "Lec 01",
+				InstructorName = "Dr Ehud Sharlin",
+				Days= "MWF",
+				DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+				CourseTime = "10:00 - 10:50",
+				StartTime = TimeSpan.FromHours(10),
+				EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50)),
+				Seats = "45/90",
+				Map = "/MapImages/ST-Transparent.png",
+				IndividualMap = "/MapImages/ST.png",
+				Status = "Enrolled",
+				CourseColor = GenerateHexColor()
+			}
+		};
 	}
 
 
