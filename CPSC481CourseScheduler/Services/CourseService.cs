@@ -30,8 +30,8 @@ namespace CPSC481CourseScheduler.Services
 				SelectedSemester = semester;
 			});
 			OnSelectedSemesterChanged?.Invoke(this, SelectedSemester);
-			OnSelectedCoursesChanged?.Invoke(this, GetSelectedCourses());
 			OnBookmarksChanged?.Invoke(this, GetBookmarks());
+			OnSelectedCoursesChanged?.Invoke(this, GetSelectedCourses());
 		}
 
 		public async Task<int> AddToSelectedCourses(Course course)
