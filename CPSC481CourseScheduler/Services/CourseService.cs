@@ -28,9 +28,10 @@ namespace CPSC481CourseScheduler.Services
 			await Task.Factory.StartNew(() =>
 			{
 				SelectedSemester = semester;
-				Console.WriteLine(semester);
 			});
 			OnSelectedSemesterChanged?.Invoke(this, SelectedSemester);
+			OnSelectedCoursesChanged?.Invoke(this, GetSelectedCourses());
+			OnBookmarksChanged?.Invoke(this, GetBookmarks());
 		}
 
 		public async Task<int> AddToSelectedCourses(Course course)
