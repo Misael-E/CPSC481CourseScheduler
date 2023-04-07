@@ -22,6 +22,8 @@ namespace CPSC481CourseScheduler.Services
 			{ "Winter", new List<Course>() }
 		};
 
+
+
 		Semester SelectedSemester { get; set; } = new Semester("Winter", "2023");
 		public async Task SelectSemester(Semester semester)
 		{
@@ -98,6 +100,11 @@ namespace CPSC481CourseScheduler.Services
 			return Bookmarks[SelectedSemester.Season];
 		}
 		public List<Course> GetAllCourses() => AllCourses;
+
+		public List<Course> GetRecommendedCourses()
+		{
+			return RecommendedCourses[SelectedSemester.Season];
+		}
 		public List<Course> GetAllFriendCourses() => FriendCourses;
 
 		public List<Semester> GetAllSemesters() => AllSemesters;
@@ -131,7 +138,6 @@ namespace CPSC481CourseScheduler.Services
 			new Semester("Spring", "2023"),
 			new Semester("Summer", "2023"),
 			new Semester("Fall", "2023"),
-			new Semester("Winter", "2024"),
 		};
 
 		List<Course> AllCourses { get; set; } = new List<Course>
@@ -260,27 +266,95 @@ namespace CPSC481CourseScheduler.Services
 		}
 	};
 
-		List<Course> Fall2023Courses { get; set; } = new List<Course>
+		Dictionary<string, List<Course>> RecommendedCourses { get; set; } = new Dictionary<string, List<Course>>
 		{
-			new Course
-			{
-				CourseName = "Introduction to Sociology",
-				CourseCode = "SOCI 201",
-				Description = "Sociology as a discipline examines how the society in which we live influences our thinking and behaviour. An introduction to sociology through the study of society, social institutions, group behaviour and social change.",
-				Prereq = "None",
-				LectureLocation = "ST 140",
-				LectureNumber = "Lec 01",
-				InstructorName = "Dr Ehud Sharlin",
-				Days= "MWF",
-				DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
-				CourseTime = "10:00 - 10:50",
-				StartTime = TimeSpan.FromHours(10),
-				EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50)),
-				Seats = "45/90",
-				Map = "/MapImages/ST-Transparent.png",
-				IndividualMap = "/MapImages/ST.png",
-				Status = "Enrolled",
-				CourseColor = GenerateHexColor()
+			{ "Fall", new List<Course>{
+				new Course
+					{
+						CourseName = "Introduction to Sociology",
+						CourseCode = "SOCI 201",
+						Description = "Sociology as a discipline examines how the society in which we live influences our thinking and behaviour. An introduction to sociology through the study of society, social institutions, group behaviour and social change.",
+						Prereq = "None",
+						LectureLocation = "ST 140",
+						LectureNumber = "Lec 01",
+						InstructorName = "Dr Ehud Sharlin",
+						Days= "MWF",
+						DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+						CourseTime = "10:00 - 10:50",
+						StartTime = TimeSpan.FromHours(10),
+						EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50)),
+						Seats = "45/90",
+						Map = "/MapImages/ST-Transparent.png",
+						IndividualMap = "/MapImages/ST.png",
+						Status = "Enrolled",
+						CourseColor = GenerateHexColor()
+					},
+					new Course
+					{
+						CourseName = "Introduction to Information Visualization",
+						CourseCode = "CPSC 583",
+						Description ="Principles of information representation, presentation and interaction. Development of mappings from data to visual structures and exploration, navigation, cues, distortion and emphasis techniques.",
+						Prereq = "3 units from Computer Science 319, 331 or Data Science 311.",
+						LectureLocation = "SB 148",
+						LectureNumber = "Lec 01",
+						InstructorName = "Emma Towlson",
+						Days= "MWF",
+						DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+						CourseTime = "14:00 - 14:50",
+						StartTime = TimeSpan.FromHours(14),
+						EndTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(50)),
+						Seats = "33/50",
+						Map = "/MapImages/SB-Transparent.png",
+						IndividualMap = "/MapImages/SB.png",
+						Status = "Not-Enrolled",
+						CourseColor = GenerateHexColor()
+					}
+				}
+			},
+			{ "Spring", new List<Course>() },
+			{ "Summer", new List<Course>() },
+			{ "Winter", new List<Course>{
+				new Course
+					{
+						CourseName = "Design and Implementation of Database Systems",
+						CourseCode = "CPSC 571",
+						Description = "Implementation and design of modern database systems including query modification/optimization, recovery, concurrency, integrity, and distribution.",
+						Prereq = "Computer Science 471",
+						LectureLocation = "MS 217",
+						LectureNumber = "Lec 01",
+						InstructorName = "Tamer Jarada",
+						Days= "TR",
+						DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
+						CourseTime = "14:00 - 15:15",
+						StartTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(0)),
+						EndTime = TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(15)),
+						Seats = "40/90",
+						Map = "/MapImages/MS-Transparent.png",
+						IndividualMap = "/MapImages/MS.png",
+						Status = "Enrolled",
+						CourseColor = GenerateHexColor()
+					},
+					new Course
+					{
+						CourseName = "Web-Based Systems",
+						CourseCode = "SENG 513",
+						Description ="An overview of software engineering methods and technologies for developing web-based software systems.",
+						Prereq = "3 units from Software Engineering 300, 301 or Software Engineering for Engineers 480",
+						LectureLocation = "ICT 122",
+						LectureNumber = "Lec 01",
+						InstructorName = "Ahmad Nasri",
+						Days= "TR",
+						DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
+						CourseTime = "12:30 - 13:45",
+						StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
+						EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
+						Seats = "20/50",
+						Map = "/MapImages/ICT-Transparent.png",
+						IndividualMap = "/MapImages/ICT.png",
+						Status = "Not-Enrolled",
+						CourseColor = GenerateHexColor()
+					},
+				}
 			}
 		};
 	}
