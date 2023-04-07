@@ -171,6 +171,7 @@
 	private bool checkResult;
 	private string CurrentSearchValue { get; set; } 
 
+
 	private void setSearchInput()
 	{
 		setSearch = true;
@@ -238,9 +239,18 @@
 
 	protected override void OnInitialized()
 	{
+		courses = _CourseService.GetRecommendedCourses();
+		_CourseService.OnSelectedSemesterChanged += OnSelectedSemesterChanged;
 		base.OnInitialized();
-		courses = _CourseService.GetAllCourses();
+	}
 
+	private async void OnSelectedSemesterChanged(object sender, Semester semester)
+	{
+		await InvokeAsync(() =>
+		{
+			courses = _CourseService.GetRecommendedCourses();
+			StateHasChanged();
+		});
 	}
 }
 	
