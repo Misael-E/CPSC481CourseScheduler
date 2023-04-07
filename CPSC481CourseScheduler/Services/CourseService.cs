@@ -1,6 +1,7 @@
 ﻿
 
 using CPSC481CourseScheduler.Data;
+using System.Collections.Generic;
 
 namespace CPSC481CourseScheduler.Services
 {
@@ -105,7 +106,7 @@ namespace CPSC481CourseScheduler.Services
 		{
 			return RecommendedCourses[SelectedSemester.Season];
 		}
-		public List<Course> GetAllFriendCourses() => FriendCourses;
+        public Dictionary<string, List<Course>> GetAllFriendsCourses() => FriendCourses;
 
 		public List<Semester> GetAllSemesters() => AllSemesters;
 
@@ -244,27 +245,79 @@ namespace CPSC481CourseScheduler.Services
 			}
 		};
 
-		List<Course> FriendCourses = new List<Course>
-	{
-		new Course {
-			CourseCode = "CPSC 413",
-			StartTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(0)),
-			EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(50)),
-			DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
-		},
-		new Course {
-			CourseCode = "CPSC 513",
-			StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
-			EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
-			DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday }
-		},
-		new Course {
-			CourseCode = "ASTR 201",
-			StartTime = TimeSpan.FromHours(9),
-			EndTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(50)),
-			DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
-		}
-	};
+		Dictionary<string, List<Course>> FriendCourses { get; set; } = new Dictionary<string, List<Course>>
+		{
+			{
+				"Kyle", new List<Course>
+				{
+					new Course {
+						CourseCode = "CPSC 413",
+						StartTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(0)),
+						EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(50)),
+						DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+					},
+					new Course {
+						CourseCode = "CPSC 513",
+						StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
+						EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
+						DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday }
+					},
+					new Course {
+						CourseCode = "ASTR 201",
+						StartTime = TimeSpan.FromHours(9),
+						EndTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(50)),
+						DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+					}
+				}
+			},
+			{
+                "Victor", new List<Course>
+                {
+                    new Course {
+                        CourseCode = "CPSC 583",
+						StartTime = TimeSpan.FromHours(14),
+						EndTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(50)),
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+                    },
+                    new Course {
+                        CourseCode = "ASTR 201",
+						StartTime = TimeSpan.FromHours(9),
+                        EndTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(50)),
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+                    },
+                    new Course {
+                        CourseCode = "CPSC 513",
+                        StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
+                        EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday }
+                    }
+                }
+            }, 
+			{
+				"James", new List<Course>
+                {
+                    new Course {
+                        CourseCode = "CPSC 571",
+						 StartTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(0)),
+						EndTime = TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(15)),
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday }
+                    },
+                    new Course {
+                        CourseCode = "ASTR 201",
+                        StartTime = TimeSpan.FromHours(9),
+                        EndTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(50)),
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday }
+                    },
+                    new Course {
+                        CourseCode = "GLGY 305",
+						StartTime = TimeSpan.FromHours(12),
+						EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50)),
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+                    }
+                }
+            }
+		};
+        
 
 		Dictionary<string, List<Course>> RecommendedCourses { get; set; } = new Dictionary<string, List<Course>>
 		{

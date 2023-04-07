@@ -1,6 +1,7 @@
 ﻿@using System.Globalization
 @inject NavigationManager NavigationManager
 @inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
+@inject CPSC481CourseScheduler.Services.IFriendService _FriendService;
 
 <style>
     .fa-times {
@@ -54,13 +55,16 @@
 
 @code {
     private List<Course> courses = new List<Course>();
+    private List<Course> friendCourses = new List<Course>();
+
 
     protected override async void OnInitialized()
     {
         _CourseService.OnSelectedCoursesChanged += SelectedCoursesChanged;
+        _FriendService.OnSelectedFriendChanged += SelectedFriendCourseChanged;
         courses = _CourseService.GetSelectedCourses();
+        friendCourses = _FriendService.GetFriendCourses();
         base.OnInitialized();
-
     }
 
     private async void SelectedCoursesChanged(object sender, List<Course> NewSelectedCourses)
@@ -68,6 +72,15 @@
         await InvokeAsync(() =>
         {
             courses = NewSelectedCourses;
+            StateHasChanged();
+        });
+    }
+
+    private async void SelectedFriendCourseChanged(object sender, List<Course> NewFriendCourses)
+    {
+        await InvokeAsync(() =>
+        {
+            friendCourses = NewFriendCourses;
             StateHasChanged();
         });
     }
@@ -96,7 +109,7 @@
 
         if (currentPage == "share")
         {
-            coursesOnDay.AddRange(_CourseService.GetAllFriendCourses().Where(c => c.DaysOfWeek.Contains(day)));
+            coursesOnDay.AddRange(friendCourses.Where(c => c.DaysOfWeek.Contains(day)));
         }
 
         foreach (var course in coursesOnDay)
@@ -114,7 +127,7 @@
 
                     if (j == startRow)
                     {
-                        if (_CourseService.GetAllFriendCourses().Contains(course))
+                        if (friendCourses.Contains(course))
                         {
                             bgColor = "background-color: #64C2A6;";
                             opacity = "opacity: 1;";
@@ -127,22 +140,23 @@
                         else
                         {
                             sb.Append($"<td style='background-color: {course.CourseColor}; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>");
-                            sb.Append($"{course.CourseCode}<button class='btn btn-x float-end px-2' style='position: absolute; top: 0; right: 0; padding: 0;><i class='fa fa-times'></i></button></td>");
+                            sb.Append($"{course.CourseCode}<button class='btn btn-x float-end px-2' style='position: absolute; top: 0; right: 0; padding: 0;' @onclick='()=>RemoveCourse(course)'>");
+                            sb.Append($"<i class='fa fa-times'></i></button></td>");
                         }
 
-                        if (_CourseService.GetAllFriendCourses().Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
+                        if (_FriendService.GetFriendCourses().Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
                         {
                             // if there is a friend course that overlaps with this course, set the background color of the existing cell to light blue
                             sb.Replace("#FFD16B", "#BCE5F9");
                         }
 
                         merged = true;
-                        friendCourseAdded = _CourseService.GetAllFriendCourses().Contains(course); // set flag to true if friend course is added to cell
+                        friendCourseAdded = friendCourses.Contains(course); // set flag to true if friend course is added to cell
                         break; // exit inner loop to prevent additional courses from being added to cell
                     }
                     else
                     {
-                        if (!friendCourseAdded && _CourseService.GetAllFriendCourses().Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
+                        if (!friendCourseAdded && friendCourses.Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
                         {
                             // if there is a friend course that overlaps with this course, set the background color of the existing cell to light blue
                             sb.Replace("#FFD16B", "#BCE5F9");
@@ -173,6 +187,7 @@
 
     async private void RemoveCourse(Course course)
     {
+        Console.WriteLine(course.CourseCode);
         await _CourseService.RemoveFromSelectedCourses(course);
     }
 

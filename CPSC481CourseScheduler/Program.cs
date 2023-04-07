@@ -21,6 +21,7 @@ builder.Services
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();
 builder.Services.AddSingleton<ICourseService, CourseService>();
+builder.Services.AddSingleton<IFriendService, FriendService>();
 
 var app = builder.Build();
 
