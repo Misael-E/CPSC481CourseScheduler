@@ -4,31 +4,41 @@
     font-style: italic;
     font-weight: bold;
     font-size: 3rem;
-    margin: 10% auto"
 }
 
 .sem {
-    margin: 2% auto;
+    margin: 2%;
+    padding-bottom: 2%;
 }
 
 .sembox {
     margin: auto;
-    border-style: solid;
     border-radius: 10px;
     height: 400px;
     width: 300px;
-    background-color: #85929E;
+    background-color: #F5B041;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 1%;
+    box-shadow: 10px 10px 5px lightyellow inset;
+    margin-bottom: 2%;
 }
 
 .butbox {
     margin: 2% auto;
 }
 
-.selection-container 
-{
+.selection-container {
+    margin: auto;
     margin-top: 10%;
+    width: 30%;
+}
+
+.semester-selection-title {
+    font-weight: bold;
+    font-size: 20px;
+    padding: .5rem 0 .5rem 1rem;
+    border: 3px solid orange;
+    border-radius: 8px 8px 0 0;
 }
