@@ -17,12 +17,16 @@ namespace CPSC481CourseScheduler.Services
 		List<Course> GetBookmarks();
 		List<Course> GetAllCourses();
 
+		List<Course> GetCoursesToDrop();
+
 		List<Semester> GetAllSemesters();
 
 		Semester GetSelectedSemester();
 		List<Course> GetAllFriendCourses();
 
 		List<Course> GetRecommendedCourses();
+
+		void FinalizedSchedule();
 
 
 

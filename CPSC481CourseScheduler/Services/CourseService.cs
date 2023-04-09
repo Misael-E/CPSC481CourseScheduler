@@ -22,6 +22,14 @@ namespace CPSC481CourseScheduler.Services
 			{ "Winter", new List<Course>() }
 		};
 
+		Dictionary<string, List<Course>> CoursesToDrop { get; set; } = new Dictionary<string, List<Course>>
+		{
+			{ "Fall", new List<Course>() },
+			{ "Spring", new List<Course>() },
+			{ "Summer", new List<Course>() },
+			{ "Winter", new List<Course>() }
+		};
+
 
 
 		Semester SelectedSemester { get; set; } = new Semester("Winter", "2023");
@@ -47,6 +55,20 @@ namespace CPSC481CourseScheduler.Services
 					duplicate = true;
 					break;
 				}
+			}
+
+			bool removeCourse = false;
+			foreach (var crs in CoursesToDrop[SelectedSemester.Season])
+			{
+				if (crs.CourseCode == course.CourseCode)
+				{
+					removeCourse = true;
+					break;
+				}
+			}
+			if (removeCourse)
+			{
+				CoursesToDrop[SelectedSemester.Season].Remove(course);
 			}
 
 			if (!duplicate && SelectedCourses[SelectedSemester.Season].Count < 7)
@@ -91,9 +113,20 @@ namespace CPSC481CourseScheduler.Services
 		public event EventHandler<List<Course>> OnBookmarksChanged;
 		public event EventHandler<Semester> OnSelectedSemesterChanged;
 
+		public void FinalizedSchedule()
+		{
+			CoursesToDrop[SelectedSemester.Season].Clear();
+			OnSelectedCoursesChanged?.Invoke(this, SelectedCourses[SelectedSemester.Season]);
+		}
+
 		public List<Course> GetSelectedCourses()
 		{
 			return SelectedCourses[SelectedSemester.Season];
+		}
+
+		public List<Course> GetCoursesToDrop()
+		{
+			return CoursesToDrop[SelectedSemester.Season];
 		}
 		public List<Course> GetBookmarks()
 		{
@@ -113,7 +146,14 @@ namespace CPSC481CourseScheduler.Services
 		public async Task RemoveFromSelectedCourses(Course course)
 		{
 
-			await Task.Factory.StartNew(() => SelectedCourses[SelectedSemester.Season].Remove(course));
+			await Task.Factory.StartNew(() =>
+			{
+				if (course.Status == "Enrolled")
+				{
+					CoursesToDrop[SelectedSemester.Season].Add(course);
+				}
+				SelectedCourses[SelectedSemester.Season].Remove(course);
+			});
 			OnSelectedCoursesChanged?.Invoke(this, SelectedCourses[SelectedSemester.Season]);
 		}
 
@@ -159,7 +199,7 @@ namespace CPSC481CourseScheduler.Services
 				Seats = "45/90",
 				Map = "/MapImages/ST-Transparent.png",
 				IndividualMap = "/MapImages/ST.png",
-				Status = "Enrolled",
+				Status = "Not enrolled",
 				CourseColor = GenerateHexColor()
 			},
 			new Course
@@ -179,7 +219,7 @@ namespace CPSC481CourseScheduler.Services
 				Seats = "40/90",
 				Map = "/MapImages/MS-Transparent.png",
 				IndividualMap = "/MapImages/MS.png",
-				Status = "Enrolled",
+				Status = "Not enrolled",
 				CourseColor = GenerateHexColor()
 			},
 			new Course
@@ -199,7 +239,7 @@ namespace CPSC481CourseScheduler.Services
 				Seats = "20/50",
 				Map = "/MapImages/ICT-Transparent.png",
 				IndividualMap = "/MapImages/ICT.png",
-				Status = "Not-Enrolled",
+				Status = "Not enrolled",
 				CourseColor = GenerateHexColor()
 			},
 			new Course
@@ -219,7 +259,7 @@ namespace CPSC481CourseScheduler.Services
 				Seats = "33/50",
 				Map = "/MapImages/SB-Transparent.png",
 				IndividualMap = "/MapImages/SB.png",
-				Status = "Not-Enrolled",
+				Status = "Not enrolled",
 				CourseColor = GenerateHexColor()
 			},
 			new Course
@@ -286,7 +326,7 @@ namespace CPSC481CourseScheduler.Services
 						Seats = "45/90",
 						Map = "/MapImages/ST-Transparent.png",
 						IndividualMap = "/MapImages/ST.png",
-						Status = "Enrolled",
+						Status = "Not enrolled",
 						CourseColor = GenerateHexColor()
 					},
 					new Course
@@ -306,7 +346,7 @@ namespace CPSC481CourseScheduler.Services
 						Seats = "33/50",
 						Map = "/MapImages/SB-Transparent.png",
 						IndividualMap = "/MapImages/SB.png",
-						Status = "Not-Enrolled",
+						Status = "Not enrolled",
 						CourseColor = GenerateHexColor()
 					}
 				}
@@ -331,7 +371,7 @@ namespace CPSC481CourseScheduler.Services
 						Seats = "40/90",
 						Map = "/MapImages/MS-Transparent.png",
 						IndividualMap = "/MapImages/MS.png",
-						Status = "Enrolled",
+						Status = "Not enrolled",
 						CourseColor = GenerateHexColor()
 					},
 					new Course
@@ -351,7 +391,7 @@ namespace CPSC481CourseScheduler.Services
 						Seats = "20/50",
 						Map = "/MapImages/ICT-Transparent.png",
 						IndividualMap = "/MapImages/ICT.png",
-						Status = "Not-Enrolled",
+						Status = "Not enrolled",
 						CourseColor = GenerateHexColor()
 					},
 				}
