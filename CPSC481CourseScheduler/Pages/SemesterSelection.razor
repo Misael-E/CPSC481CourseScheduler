@@ -5,8 +5,8 @@
 @inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
 
 <body>
-	<div class="selection-container">
-	<div>
+	<div class="selection-container standard-card">
+	<div class="semester-selection-title">
 	<h1 >Choose Your Semester</h1>
 	</div>
 	<div class="sem">
@@ -14,7 +14,7 @@
 				@foreach (var semester in SemesterList)
 				{
 					<div class="butbox" @onclick="() => SelectSemester(semester)">
-						<a href="browse" class="btn btn-lg btn-primary">@semester.SemesterDisplayName</a>
+						<a href="browse" class="btn btn-lg btn-info">@semester.SemesterDisplayName</a>
 					</div>
 				}
 		</div>

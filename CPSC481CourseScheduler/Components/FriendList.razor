@@ -1,4 +1,6 @@
-﻿<div class="standard-card" style="background-color: #ffd16b;">
+﻿@inject CPSC481CourseScheduler.Services.IFriendService _FriendService;
+
+<div class="standard-card" style="background-color: #ffd16b;">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4>Compare Schedules</h4>
@@ -46,38 +48,37 @@
 @code {
     private int nextId = 4;
     private bool IsEditMode = false;
+    private List<Friend> friends = new List<Friend>();
 
-    private List<Friend> friends = new List<Friend> {
-        new Friend { Id = 1, Name = "Kyle", IsSelected = true},
-        new Friend { Id = 2, Name = "Victor", IsSelected = false},
-        new Friend { Id = 3, Name = "James", IsSelected = true }
-    };
+    protected override async void OnInitialized()
+    {
+        friends = _FriendService.GetAllFriends();
+        base.OnInitialized();
+
+    }
 
     private void ToggleEditMode()
     {
         IsEditMode = !IsEditMode;
     }
 
-    private void SelectFriend(Friend friend, ChangeEventArgs e)
+    private async void SelectFriend(Friend selectedFriend, ChangeEventArgs e)
     {
-        friend.IsSelected = (bool)e.Value;
+        await _FriendService.SelectFriend(selectedFriend);
     }
 
-    private void AddFriend()
+    private async void AddFriend()
     {
-        friends.Add(new Friend { Id = nextId++, Name = "New Friend", IsSelected = false});
-    }
-    private void RemoveFriend(Friend friend)
-    {
-        friends.Remove(friend);
+        Friend newFriend = new Friend (nextId++, "New Friend", false);
+        await _FriendService.AddFriend(newFriend);
     }
 
-    private class Friend
+    private async void RemoveFriend(Friend friend)
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public bool IsSelected { get; set; }
+        await _FriendService.RemoveFriend(friend);
     }
+
+
 
     [CascadingParameter] public Blazored.Modal.Services.IModalService Modal { get; set; }
     Snackbar? finalizeSuccessSnackBar;
