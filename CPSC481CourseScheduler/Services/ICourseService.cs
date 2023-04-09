@@ -20,6 +20,8 @@ namespace CPSC481CourseScheduler.Services
 
 		List<Semester> GetAllSemesters();
 
+		List<Course> GetCoursesBySemester();
+
 		Semester GetSelectedSemester();
 
 		List<Course> GetRecommendedCourses();
