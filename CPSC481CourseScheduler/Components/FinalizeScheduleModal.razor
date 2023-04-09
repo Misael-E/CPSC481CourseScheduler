@@ -1,44 +1,90 @@
-﻿<div class="modal-container">
+﻿@inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
+<div class="modal-container">
+
+	@if(coursesToDrop.Count > 0)
+	{
 		<div class="list-header">You are dropping the following courses:</div>
 
-	<div class="list-container">
-		@foreach (var course in coursesToDrop)
-		{
-			<div class="list-item" >
-				@course
-			</div>
-		}
-		
-	</div>
-	<br />
+		<div class="list-container">
+			@foreach (var course in coursesToDrop)
+			{
+				<div class="list-item">
+					@course.CourseCode
+				</div>
+			}
+
+		</div>
+		<br />
+	}
+
+
+	@if(coursesToEnrollIn.Count > 0)
+	{
 		<div class="list-header">You are enrolling in the following courses:</div>
 
-	<div class="list-container">
-		@foreach (var course in coursesToEnrollIn)
-		{
-			<div class="list-item" >
-				@course
-			</div>
-		}
-	</div>
-	<div class="buttons-container">
-		<button class="white-button-1" @onclick="Cancel">CANCEL</button>
-		<button class="orange-button-1" @onclick="SubmitForm">CONFIRM</button>
-	</div>
+		<div class="list-container">
+			@foreach (var course in coursesToEnrollIn)
+			{
+				<div class="list-item">
+					@course.CourseCode
+				</div>
+			}
+		</div>
+	}
+
+	@if(coursesToEnrollIn.Count > 0 || coursesToDrop.Count > 0)
+	{
+		<div class="buttons-container">
+			<button class="white-button-1" @onclick="Cancel">CANCEL</button>
+			<button class="orange-button-1" @onclick="SubmitForm">CONFIRM</button>
+		</div>
+	} else
+	{
+		<span>No actions to be taken</span>
+		<div class="buttons-container">
+			<button class="white-button-1" @onclick="Cancel">Close</button>
+		</div>
+	}
+
 </div>
 
 @code {
-	private List<string> coursesToDrop = new List<string> {
-		"CPSC 449",
-		"CPSC 433"
-	};
+	private List<Course> coursesToDrop = new List<Course>();
+	private List<Course> coursesToEnrollIn = new List<Course>();
 
-	private List<string> coursesToEnrollIn = new List<string> {
-		"SOC 201",
-		"CPSC 481",
-	};
+	protected override void OnInitialized()
+	{
+		foreach(var course in _CourseService.GetSelectedCourses())
+		{
+			if (course.Status == "Not enrolled")
+			{
+				coursesToEnrollIn.Add(course);
+			}
+		}
+
+		coursesToDrop = _CourseService.GetCoursesToDrop();
+		StateHasChanged();
+	}
+
 	[CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
-	private async Task SubmitForm() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
+
+	private async Task SubmitForm()
+	{
+		foreach (var course in coursesToEnrollIn)
+		{
+			course.enroll();
+		}
+
+		foreach (var course in coursesToDrop)
+		{
+			course.drop();
+		}
+
+		_CourseService.FinalizedSchedule();
+		StateHasChanged();
+		await BlazoredModal.CloseAsync(ModalResult.Ok(true));
+	}
+
 	private async Task Cancel() => await BlazoredModal.CancelAsync();
 
 }

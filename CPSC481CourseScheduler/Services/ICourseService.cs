@@ -9,18 +9,21 @@ namespace CPSC481CourseScheduler.Services
 	{
 		Task<int> AddToSelectedCourses(Course course);
 		Task<int> AddToBookmarks(Course course);
-        Task SelectSemester(Semester semester);
+		Task SelectSemester(Semester semester);
 		Task RemoveFromSelectedCourses(Course course);
 		Task RemoveFromBookmarks(Course course);
 		List<Course> GetSelectedCourses();
 		List<Course> GetBookmarks();
 		List<Course> GetAllCourses();
 
+		List<Course> GetCoursesToDrop();
+
 		List<Semester> GetAllSemesters();
 
 		Semester GetSelectedSemester();
 
 		List<Course> GetRecommendedCourses();
+		void FinalizedSchedule();
 
 		public event EventHandler<List<Course>> OnSelectedCoursesChanged;
 		public event EventHandler<List<Course>> OnBookmarksChanged;
