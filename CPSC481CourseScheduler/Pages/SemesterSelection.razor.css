@@ -1,7 +1,6 @@
 ﻿h1 {
     text-align: center;
     font-size: larger;
-    font-style: italic;
     font-weight: bold;
     font-size: 3rem;
 }
@@ -21,7 +20,6 @@
     flex-direction: column;
     justify-content: center;
     gap: 1%;
-    box-shadow: 10px 10px 5px lightyellow inset;
     margin-bottom: 2%;
 }
 
