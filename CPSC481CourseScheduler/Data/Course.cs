@@ -12,7 +12,11 @@
 		public string? CourseTime { get; set; }
 		public TimeSpan StartTime { get; set; }
 		public TimeSpan EndTime { get; set; }
-		public string? Seats { get; set; }
+		public string? Seats { get; set; } // DEPRECATED
+
+		public int? SeatsTaken { get; set; }
+
+		public int? TotalSeats { get; set; }
 		public string? Days { get; set; }
 		public List<DayOfWeek> DaysOfWeek { get; set; }
 		public string? LectureNumber { get; set; }
@@ -20,9 +24,14 @@
 		public string? IndividualMap { get; set; }
 		public string? Status { get; set; }
 
+		public bool dropCourse { get; set; } = false;
 		public void enroll()
 		{
 			this.Status = "Enrolled";
+			if (this.SeatsTaken != null)
+			{
+				this.SeatsTaken++;
+			}
 		}
 
 		public void waitlist()
@@ -33,6 +42,10 @@
 		public void drop()
 		{
 			this.Status = "Not enrolled";
+			if (this.SeatsTaken != null)
+			{
+				this.SeatsTaken--;
+			}
 		}
 
 	}
