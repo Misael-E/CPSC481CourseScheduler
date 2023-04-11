@@ -1,6 +1,8 @@
 ﻿
 
+using CPSC481CourseScheduler.Components;
 using CPSC481CourseScheduler.Data;
+using System;
 using System.Collections.Generic;
 
 namespace CPSC481CourseScheduler.Services
@@ -140,6 +142,11 @@ namespace CPSC481CourseScheduler.Services
 		public List<Course> GetRecommendedCourses()
 		{
 			return RecommendedCourses[SelectedSemester.Season];
+		}
+
+		public List<Course> GetSearchedCourses()
+		{
+			return CoursesBySemester[SelectedSemester.Season];
 		}
 		public Dictionary<string, List<Course>> GetAllFriendsCourses() => FriendCourses;
 
@@ -363,60 +370,283 @@ namespace CPSC481CourseScheduler.Services
 
 		Dictionary<string, List<Course>> CoursesBySemester { get; set; } = new Dictionary<string, List<Course>>
 		{
-			{ "Fall", new List<Course>() },
+			{ "Fall", new List<Course>{
+            new Course
+                    {
+                        CourseName = "Introduction to Sociology",
+                        CourseCode = "SOCI 201",
+                        Description = "Sociology as a discipline examines how the society in which we live influences our thinking and behaviour. An introduction to sociology through the study of society, social institutions, group behaviour and social change.",
+                        Prereq = "None",
+                        LectureLocation = "ST 140",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Dr Ehud Sharlin",
+                        Days= "MWF",
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+                        CourseTime = "10:00 - 10:50",
+                        StartTime = TimeSpan.FromHours(10),
+                        EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50)),
+                        Seats = "45/90",
+                        SeatsTaken = 45,
+                        TotalSeats = 90,
+                        Map = "/MapImages/ST-Transparent.png",
+                        IndividualMap = "/MapImages/ST.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    },
+                    new Course
+                    {
+                        CourseName = "Introduction to Information Visualization",
+                        CourseCode = "CPSC 583",
+                        Description ="Principles of information representation, presentation and interaction. Development of mappings from data to visual structures and exploration, navigation, cues, distortion and emphasis techniques.",
+                        Prereq = "3 units from Computer Science 319, 331 or Data Science 311.",
+                        LectureLocation = "SB 148",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Emma Towlson",
+                        Days= "MWF",
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+                        CourseTime = "14:00 - 14:50",
+                        StartTime = TimeSpan.FromHours(14),
+                        EndTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(50)),
+                        Seats = "33/50",
+                        SeatsTaken = 33,
+                        TotalSeats = 50,
+                        Map = "/MapImages/SB-Transparent.png",
+                        IndividualMap = "/MapImages/SB.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    },
+                     new Course
+                    {
+                        CourseName = "Programming Paradigms",
+                        CourseCode = "CPSC 449",
+                        Description ="Examination of the basic principles of the major programming language paradigms. Focus on declarative paradigms such as functional and logic programming. Data types, control expressions, loops, types of references, lazy evaluation, different interpretation principles, information hiding.",
+                        Prereq = "Computer Science 319 or 331; and Philosophy 279 or 377",
+                        LectureLocation = "SB 141",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Robin Cockett",
+                        Days= "TR",
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday},
+                        CourseTime = "09:30 - 10:45",
+                        StartTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(30)),
+                        EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(45)),
+                        Seats = "37/45",
+                        SeatsTaken = 37,
+                        TotalSeats = 45,
+                        Map = "/MapImages/SB-Transparent.png",
+                        IndividualMap = "/MapImages/SB.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    },
+                     new Course
+                    {
+                        CourseName = "Computer Networks",
+                        CourseCode = "CPSC 441",
+                        Description ="Principles and practice in modern telecommunications, computer communications and networks. Layered communication protocols and current physical, data link, network and Internet protocol layers. Circuit switching, packet switching, and an introduction to broadband multimedia networking.",
+                        Prereq = "Computer Science 319 or 331; and Computer Science 355 or Computer Engineering 369",
+                        LectureLocation = "ICT 148",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Majid Ghaderi",
+                        Days= "MWF",
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday},
+                        CourseTime = "12 - 12:50",
+                        StartTime = TimeSpan.FromHours(12),
+                        EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50)),
+                        Seats = "100/106",
+                        SeatsTaken = 100,
+                        TotalSeats = 106,
+                        Map = "/MapImages/ICT-Transparent.png",
+                        IndividualMap = "/MapImages/ICT.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    },
+                     new Course
+                    {
+                        CourseName = "Computing Machinery I",
+                        CourseCode = "CPSC 355",
+                        Description ="An introduction to computing machinery establishing the connection between programs expressed in a compiled language, an assembly language, and machine code, and how such code is executed. Includes the detailed study of a modern CPU architecture, its assembly language and internal data representation, and the relationship between high-level program constructs and machine operations.",
+                        Prereq = "3 units from Computer Science 219, 233 or 235",
+                        LectureLocation = "MS 322",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Tamer Jarada",
+                        Days= "MWF",
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday},
+                        CourseTime = "08 - 08:50",
+                        StartTime = TimeSpan.FromHours(8),
+                        EndTime = TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50)),
+                        Seats = "50/100",
+                        SeatsTaken = 50,
+                        TotalSeats = 100,
+                        Map = "/MapImages/MS-Transparent.png",
+                        IndividualMap = "/MapImages/MS.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    },
+                     new Course
+                    {
+                        CourseName = "Data Structures, Algorithms, and Their Applications",
+                        CourseCode = "CPSC 319",
+                        Description ="Fundamental data structures, including arrays, lists, stacks, queues, trees, hash tables, and graphs. Algorithms for searching and sorting. Introduction to analysis of algorithms. Applications of these data structures and algorithms. For students wishing to combine studies in computer science with studies in other disciplines.",
+                        Prereq = "3 units from Computer Science 219, 233, 235, Computer Engineering 335, 339 or Software Engineering for Engineers 337.",
+                        LectureLocation = "CHC 102",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Jorg Denzinger",
+                        Days= "MWF",
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday},
+                        CourseTime = "16 - 16:50",
+                        StartTime = TimeSpan.FromHours(16),
+                        EndTime = TimeSpan.FromHours(16).Add(TimeSpan.FromMinutes(50)),
+                        Seats = "20/80",
+                        SeatsTaken = 20,
+                        TotalSeats = 80,
+                        Map = "/MapImages/CHC-Transparent.png",
+                        IndividualMap = "/MapImages/CHC.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    },
+                     new Course
+                    {
+                        CourseName = "Web-Based Systems",
+                        CourseCode = "SENG 513",
+                        Description ="An overview of software engineering methods and technologies for developing web-based software systems.",
+                        Prereq = "3 units from Software Engineering 300, 301 or Software Engineering for Engineers 480",
+                        LectureLocation = "ICT 122",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Ahmad Nasri",
+                        Days= "TR",
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday},
+                        CourseTime = "15 - 16:45",
+                        StartTime = TimeSpan.FromHours(15),
+                        EndTime = TimeSpan.FromHours(16).Add(TimeSpan.FromMinutes(45)),
+                        Seats = "100/130",
+                        SeatsTaken = 100,
+                        TotalSeats = 130,
+                        Map = "/MapImages/ICT-Transparent.png",
+                        IndividualMap = "/MapImages/ICT.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    },
+                      new Course
+                    {
+                        CourseName = "Principles of Macroeconomics",
+                        CourseCode = "ECON 203",
+                        Description ="Measurement of economic activity, economic growth, money and financial systems, international economy and exchange rates, business cycles, unemployment and inflation, and macroeconomic policies.",
+                        Prereq = "Economics 201",
+                        LectureLocation = "ICT 121",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Aamir Hashmi",
+                        Days= "TR",
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday},
+                        CourseTime = "18 - 19:45",
+                        StartTime = TimeSpan.FromHours(18),
+                        EndTime = TimeSpan.FromHours(19).Add(TimeSpan.FromMinutes(45)),
+                        Seats = "140/160",
+                        SeatsTaken = 140,
+                        TotalSeats = 160,
+                        Map = "/MapImages/ICT-Transparent.png",
+                        IndividualMap = "/MapImages/ICT.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    }
+            } },
 			{ "Spring", new List<Course>() },
 			{ "Summer", new List<Course>() },
-			{ "Winter", new List<Course>() }
+			{ "Winter", new List<Course>{
+			
+			
+			} }
 		};
 
 		Dictionary<string, List<Course>> RecommendedCourses { get; set; } = new Dictionary<string, List<Course>>
 		{
 			{ "Fall", new List<Course>{
-				new Course
-					{
-						CourseName = "Introduction to Sociology",
-						CourseCode = "SOCI 201",
-						Description = "Sociology as a discipline examines how the society in which we live influences our thinking and behaviour. An introduction to sociology through the study of society, social institutions, group behaviour and social change.",
-						Prereq = "None",
-						LectureLocation = "ST 140",
-						LectureNumber = "Lec 01",
-						InstructorName = "Dr Ehud Sharlin",
+                new Course  {
+                        CourseName = "Introduction to Sociology",
+                        CourseCode = "SOCI 201",
+                        Description = "Sociology as a discipline examines how the society in which we live influences our thinking and behaviour. An introduction to sociology through the study of society, social institutions, group behaviour and social change.",
+                        Prereq = "None",
+                        LectureLocation = "ST 140",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Dr Ehud Sharlin",
 						Days= "MWF",
-						DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
-						CourseTime = "10:00 - 10:50",
-						StartTime = TimeSpan.FromHours(10),
-						EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50)),
-						Seats = "45/90",
-						SeatsTaken = 45,
-						TotalSeats = 90,
-						Map = "/MapImages/ST-Transparent.png",
-						IndividualMap = "/MapImages/ST.png",
-						Status = "Not enrolled",
-						CourseColor = GenerateHexColor()
-					},
-					new Course
-					{
-						CourseName = "Introduction to Information Visualization",
-						CourseCode = "CPSC 583",
-						Description ="Principles of information representation, presentation and interaction. Development of mappings from data to visual structures and exploration, navigation, cues, distortion and emphasis techniques.",
-						Prereq = "3 units from Computer Science 319, 331 or Data Science 311.",
-						LectureLocation = "SB 148",
-						LectureNumber = "Lec 01",
-						InstructorName = "Emma Towlson",
-						Days= "MWF",
-						DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
-						CourseTime = "14:00 - 14:50",
-						StartTime = TimeSpan.FromHours(14),
-						EndTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(50)),
-						Seats = "33/50",
-						SeatsTaken = 33,
-						TotalSeats = 50,
-						Map = "/MapImages/SB-Transparent.png",
-						IndividualMap = "/MapImages/SB.png",
-						Status = "Not enrolled",
-						CourseColor = GenerateHexColor()
-					}
-				}
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+                        CourseTime = "10:00 - 10:50",
+                        StartTime = TimeSpan.FromHours(10),
+                        EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50)),
+                        Seats = "45/90",
+                        SeatsTaken = 45,
+                        TotalSeats = 90,
+                        Map = "/MapImages/ST-Transparent.png",
+                        IndividualMap = "/MapImages/ST.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    },
+                    new Course
+                    {
+                        CourseName = "Introduction to Information Visualization",
+                        CourseCode = "CPSC 583",
+                        Description ="Principles of information representation, presentation and interaction. Development of mappings from data to visual structures and exploration, navigation, cues, distortion and emphasis techniques.",
+                        Prereq = "3 units from Computer Science 319, 331 or Data Science 311.",
+                        LectureLocation = "SB 148",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Emma Towlson",
+                        Days= "MWF",
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+                        CourseTime = "14:00 - 14:50",
+                        StartTime = TimeSpan.FromHours(14),
+                        EndTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(50)),
+                        Seats = "33/50",
+                        SeatsTaken = 33,
+                        TotalSeats = 50,
+                        Map = "/MapImages/SB-Transparent.png",
+                        IndividualMap = "/MapImages/SB.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    },
+                     new Course
+                    {
+                        CourseName = "Programming Paradigms",
+                        CourseCode = "CPSC 449",
+                        Description ="Examination of the basic principles of the major programming language paradigms. Focus on declarative paradigms such as functional and logic programming. Data types, control expressions, loops, types of references, lazy evaluation, different interpretation principles, information hiding.",
+                        Prereq = "Computer Science 319 or 331; and Philosophy 279 or 377",
+                        LectureLocation = "SB 141",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Robin Cockett",
+                        Days= "TR",
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday},
+                        CourseTime = "09:30 - 10:45",
+                        StartTime = TimeSpan.FromHours(9),
+                        EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(45)),
+                        Seats = "37/45",
+                        SeatsTaken = 37,
+                        TotalSeats = 45,
+                        Map = "/MapImages/SB-Transparent.png",
+                        IndividualMap = "/MapImages/SB.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    },
+                     new Course
+                    {
+                        CourseName = "Computer Networks",
+                        CourseCode = "CPSC 441",
+                        Description ="Principles and practice in modern telecommunications, computer communications and networks. Layered communication protocols and current physical, data link, network and Internet protocol layers. Circuit switching, packet switching, and an introduction to broadband multimedia networking.",
+                        Prereq = "Computer Science 319 or 331; and Computer Science 355 or Computer Engineering 369",
+                        LectureLocation = "ICT 148",
+                        LectureNumber = "Lec 01",
+                        InstructorName = "Majid Ghaderi",
+                        Days= "MWF",
+                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday},
+                        CourseTime = "12 - 12:50",
+                        StartTime = TimeSpan.FromHours(12),
+                        EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(45)),
+                        Seats = "100/106",
+                        SeatsTaken = 100,
+                        TotalSeats = 106,
+                        Map = "/MapImages/ICT-Transparent.png",
+                        IndividualMap = "/MapImages/ICT.png",
+                        Status = "Not enrolled",
+                        CourseColor = GenerateHexColor()
+                    }
+                }
 			},
 			{ "Spring", new List<Course>() },
 			{ "Summer", new List<Course>() },
