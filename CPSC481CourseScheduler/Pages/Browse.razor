@@ -118,7 +118,7 @@
 			@if (setSearch)
 			{
 					<datalist id="browsers">
-					@foreach (var course in courses)
+					@foreach (var course in searchCourses)
 					{
 						<option value="@course.CourseCode">@course.CourseCode </option>
 
@@ -167,9 +167,10 @@
 
 @code {
 	private List<Course> courses;
+	private List<Course> searchCourses;
 	private bool setSearch = false;
 	private bool checkResult;
-	private string CurrentSearchValue { get; set; } 
+	private string CurrentSearchValue { get; set;} 
 
 
 	private void setSearchInput()
@@ -194,25 +195,11 @@
 
 	private void setCourseSearchResults()
 	{
-		foreach(var course in courses)
+		foreach (var course in searchCourses)
 		{
 			if(course.CourseCode == CurrentSearchValue)
 			{
-				coursesFromSearch = new Course
-				{
-						CourseName = course.CourseName,
-						CourseCode = course.CourseCode,
-						Description = course.Description,
-						Prereq = course.Prereq,
-						LectureLocation = course.LectureLocation,
-						InstructorName =  course.InstructorName,
-						CourseTime =course.CourseTime,
-						Seats = course.Seats,
-						Days = course.Days,
-						LectureNumber = course.LectureNumber,
-						Map = course.Map,
-						Status = course.Status
-				};
+				coursesFromSearch = course;
 
 				break;
 			}
@@ -221,7 +208,7 @@
 
 	private bool checkSearch()
 	{
-		foreach(var course in courses)
+		foreach (var course in searchCourses)
 		{
 			if (course.CourseCode == CurrentSearchValue)
 			{
@@ -240,6 +227,7 @@
 	protected override void OnInitialized()
 	{
 		courses = _CourseService.GetRecommendedCourses();
+		searchCourses = _CourseService.GetSearchedCourses();
 		_CourseService.OnSelectedSemesterChanged += OnSelectedSemesterChanged;
 		base.OnInitialized();
 	}
@@ -249,6 +237,7 @@
 		await InvokeAsync(() =>
 		{
 			courses = _CourseService.GetRecommendedCourses();
+			searchCourses = _CourseService.GetSearchedCourses();
 			StateHasChanged();
 		});
 	}

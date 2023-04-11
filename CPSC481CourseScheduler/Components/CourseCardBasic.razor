@@ -81,20 +81,32 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 				@if (showSelectCourseButton)
 				{
 					<div title="Add to selected courses" class="oi oi-plus action-icon" aria-hidden="true" @onclick="() => AddCourse(Course)"></div>
-					<Snackbar @ref="SelectedErrorSnackBar" Color="Blazorise.Snackbar.SnackbarColor.Warning">
+					<Snackbar @ref="SelectedErrorSnackBar" Color="Blazorise.Snackbar.SnackbarColor.Warning" Interval="1000">
 						<SnackbarBody>
 							Course in already in Selection List
+						</SnackbarBody>
+					</Snackbar>
+
+					<Snackbar @ref="SelectionSucsessSnackBar" Color="Blazorise.Snackbar.SnackbarColor.Success" Interval="1000">
+						<SnackbarBody>
+							Course has been added to selection list
 						</SnackbarBody>
 					</Snackbar>
 				}
 				@if (showBookmarkButton)
 				{
 					<div title="@(bookmarked ? "Remove bookmark" : "Add to bookmarks") " class="oi oi-star action-icon @(bookmarked ? "bookmarked" : "") " aria-hidden="true" @onclick="() => Bookmark(bookmarked, Course)"></div>
-						<Snackbar @ref="BookmarkErrorSnackBar" Color="Blazorise.Snackbar.SnackbarColor.Warning">
+					<Snackbar @ref="BookmarkErrorSnackBar" Color="Blazorise.Snackbar.SnackbarColor.Warning" Interval="1000">
 							<SnackbarBody>
 								Course in already in Bookmark List
 							</SnackbarBody>
 						</Snackbar>
+
+					<Snackbar @ref="BookMarkSucsessSnackBar" Color="Blazorise.Snackbar.SnackbarColor.Success" Interval="1000">
+						<SnackbarBody>
+							Course has been added to Bookmark list
+						</SnackbarBody>
+					</Snackbar>
 
 				}
 			</div>
@@ -125,6 +137,10 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 	Snackbar? BookmarkErrorSnackBar;
 
 	Snackbar? SelectedErrorSnackBar;
+
+	Snackbar? SelectionSucsessSnackBar;
+
+	Snackbar? BookMarkSucsessSnackBar;
 
 	[Parameter] 
 	public Course Course { get; set; }
@@ -158,6 +174,10 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 		{
 			await SelectedErrorSnackBar.Show();
 		}
+		else if(duplicateCourse == 0)
+		{
+			await SelectionSucsessSnackBar.Show();
+		}
 	}
 
 	async private void Bookmark(bool bookmarked, Course course)
@@ -171,6 +191,10 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 			if (duplicateBookmarkedCourse == -1)
 			{
 				await BookmarkErrorSnackBar.Show();
+			}
+			else if (duplicateBookmarkedCourse == 0)
+			{
+				await BookMarkSucsessSnackBar.Show();
 			}
 		}
 	}
