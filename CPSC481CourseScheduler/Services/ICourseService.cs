@@ -25,6 +25,8 @@ namespace CPSC481CourseScheduler.Services
 		Semester GetSelectedSemester();
 
 		List<Course> GetRecommendedCourses();
+
+		List<Course> GetSearchedCourses();
 		void FinalizedSchedule();
 
 		public event EventHandler<List<Course>> OnSelectedCoursesChanged;
