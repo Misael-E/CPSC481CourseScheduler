@@ -72,6 +72,21 @@ html, body {
         background: white;
     }
 
+.gray-button-1 {
+    background-color: #b5b5b5;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    box-shadow: 0 1px 2px 1px #dbdbdb;
+    padding: 8px 14px 8px 14px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+    .gray-button-1:hover {
+        background: #c7c7c7;
+    }
+
 .search-input {
     width: 500px;
     height: 35px;
