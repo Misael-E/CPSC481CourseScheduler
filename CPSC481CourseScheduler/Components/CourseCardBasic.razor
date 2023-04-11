@@ -92,6 +92,12 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 							Course has been added to selection list
 						</SnackbarBody>
 					</Snackbar>
+
+					<Snackbar @ref="CourseLimitSnackBar" Color="Blazorise.Snackbar.SnackbarColor.Danger">
+						<SnackbarBody>
+							You have exceeded the limit of the number of selected courses.
+						</SnackbarBody>
+					</Snackbar>
 				}
 				@if (showBookmarkButton)
 				{
@@ -142,6 +148,9 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 
 	Snackbar? BookMarkSucsessSnackBar;
 
+	Snackbar? CourseLimitSnackBar;
+
+
 	[Parameter] 
 	public Course Course { get; set; }
 
@@ -177,6 +186,10 @@ background: linear-gradient(90deg, rgba(255,214,108,1) 0%, rgba(255,209,120,1) 2
 		else if(duplicateCourse == 0)
 		{
 			await SelectionSucsessSnackBar.Show();
+		}
+		else if(duplicateCourse == -2)
+		{
+			await CourseLimitSnackBar.Show();
 		}
 	}
 

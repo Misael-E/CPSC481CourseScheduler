@@ -75,15 +75,19 @@ namespace CPSC481CourseScheduler.Services
 				CoursesToDrop[SelectedSemester.Season].Remove(course);
 			}
 
-			if (!duplicate && SelectedCourses[SelectedSemester.Season].Count < 7)
+			if (!duplicate && SelectedCourses[SelectedSemester.Season].Count < 6)
 			{
 				await Task.Factory.StartNew(() => SelectedCourses[SelectedSemester.Season].Add(course));
 				OnSelectedCoursesChanged?.Invoke(this, SelectedCourses[SelectedSemester.Season]);
 				return 0;
 			}
-			else
+			else if(duplicate)
 			{
 				return -1;
+			}
+			else
+			{
+				return -2;
 			}
 		}
 
