@@ -22,7 +22,7 @@
                     @foreach (var course in courses.ToList())
                     {
                         <div class="card border-secondary">
-                            <div class="card-header " style="font-size:bold; background-color:#ffd66c;">
+                            <div class="card-header " style="font-size:bold; background-color: @(course.DropCourse ? "#b5b5b5;" : "#ffd66c;" )" >
                                 <div class="container-fluid" style="padding:0">
                                     <div class="row">
                                         <div class="col-auto course-code">
@@ -77,7 +77,14 @@
                                                     Show Location
                                                 </button>
                                                 <div class="space"></div>
-                                                <button class="util-button-1" title="Remove course from selected courses" @onclick="() => RemoveModal(course)"><span class="oi oi-trash" aria-hidden="true"></span></button>
+                                                @if (course.DropCourse)
+                                                {
+                                                    <button class="gray-button-1" title="Keep this course" @onclick="() => KeepCourse(course)"><span class="oi oi-action-undo" aria-hidden="true"></span></button>
+                                                } else
+                                                {
+                                                    <button class="util-button-1" title="Remove course from selected courses" @onclick="() => RemoveModal(course)"><span class="oi oi-trash" aria-hidden="true"></span></button>
+
+                                                }
                                                 @if (Show)
                                                 {
                                                     <div class="modal" tabindex="-1" role="dialog" style="display: @(Show ? "block" : "none")">
@@ -98,6 +105,13 @@
                                                     </div>
                                                 }
                                             </div>
+                                            @if (course.DropCourse)
+                                            {
+                                                <div class="finalize-warning">
+                                                    Warning! You are still enrolled in this course. Finalize the schedule to drop the course.
+                                                </div>
+                                            }
+                                            
                                         </div>
                                     </div>
                                 </p>
@@ -126,6 +140,11 @@
 </div>
 
 <style>
+    .finalize-warning {
+        margin-top: 0.5rem;
+        color: red;
+        font-size: 14px;
+    }
     .action-buttons-container {
         display: flex;
         height: fit-content;
@@ -262,21 +281,7 @@
         _CourseService.OnSelectedCoursesChanged += SelectedCoursesChanged;
         _CourseService.OnBookmarksChanged += BookmarksChanged;
         _CourseService.OnSelectedSemesterChanged += OnSelectedSemesterChanged;
-        /*BookmarkedCourses = new List<Course> {
-        new Course
-        {
-        CourseName = "Discrete Mathematics ",
-        CourseCode = "MATH 271",
-        Description = "An introduction to proof techniques and abstract mathematical reasoning: sets, relations and functions; mathematical induction; integers, primes, divisibility and modular arithmetic; counting and combinatorics; elements of probability, discrete random variables and Bayes' theorem."
-        },
-        new Course
-        {
-        CourseName = "Principles of Software Design",
-        CourseCode = "ENSF 480",
-        Description = "Brief overview of typical software development lifecycles. Systematic methods for designing large-scale, quality software. Concepts such as abstraction, modularity, and software modelling will be covered. Designing for non-functional properties of software will be introduced. Emphasis on individual skills."
 
-    }
-    };*/
         Bookmarks = _CourseService.GetBookmarks();
         courses = _CourseService.GetSelectedCourses();
         base.OnInitialized();
@@ -319,6 +324,11 @@
         await _CourseService.RemoveFromSelectedCourses(course);
     }
 
+    async private void KeepCourse(Course course)
+    {
+        course.enroll();
+        await _CourseService.AddToSelectedCourses(course);
+    }
 
 
     [CascadingParameter] public Blazored.Modal.Services.IModalService Modal { get; set; }
