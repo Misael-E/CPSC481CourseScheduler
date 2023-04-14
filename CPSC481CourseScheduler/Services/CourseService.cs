@@ -577,7 +577,159 @@ namespace CPSC481CourseScheduler.Services
             { "Spring", new List<Course>() },
             { "Summer", new List<Course>() },
             { "Winter", new List<Course>{
-
+                new Course
+            {
+                CourseName = "Design and Implementation of Database Systems",
+                CourseCode = "CPSC 571",
+                Description = "Implementation and design of modern database systems including query modification/optimization, recovery, concurrency, integrity, and distribution.",
+                Prereq = "Computer Science 471",
+                LectureLocation = "MS 217",
+                LectureNumber = "Lec 01",
+                InstructorName = "Tamer Jarada",
+                Days= "TR",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
+                CourseTime = "14:00 - 15:15",
+                StartTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(0)),
+                EndTime = TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(15)),
+                Seats = "40/90",
+                SeatsTaken = 40,
+                TotalSeats = 90,
+                Map = "/MapImages/MS-Transparent.png",
+                IndividualMap = "/MapImages/MS.png",
+                Status = "Not enrolled",
+                CourseColor = GenerateHexColor()
+            },
+            new Course
+            {
+                CourseName = "Web-Based Systems",
+                CourseCode = "SENG 513",
+                Description ="An overview of software engineering methods and technologies for developing web-based software systems.",
+                Prereq = "3 units from Software Engineering 300, 301 or Software Engineering for Engineers 480",
+                LectureLocation = "ICT 122",
+                LectureNumber = "Lec 01",
+                InstructorName = "Ahmad Nasri",
+                Days= "TR",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
+                CourseTime = "12:30 - 13:45",
+                StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
+                EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
+                Seats = "20/50",
+                SeatsTaken = 20,
+                TotalSeats = 50,
+                Map = "/MapImages/ICT-Transparent.png",
+                IndividualMap = "/MapImages/ICT.png",
+                Status = "Not enrolled",
+                CourseColor = GenerateHexColor()
+            },
+            new Course
+            {
+                CourseName = "Introduction to Dinosaurs",
+                CourseCode = "GLGY 305",
+                Description ="Biology, evolution, and extinction of dinosaurs; geographic and temporal distribution, habitats, and ecology of the various dinosaur groups; preservation, exploration, collection, preparation, and identification of dinosaur fossils.",
+                Prereq = "None",
+                LectureLocation = "CHC 119",
+                LectureNumber = "Lec 01",
+                InstructorName = "Darla Zelenitsky",
+                Days= "MWF",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+                CourseTime = "12:00 - 12:50",
+                StartTime = TimeSpan.FromHours(12),
+                EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50)),
+                Seats = "10/100",
+                SeatsTaken = 10,
+                TotalSeats = 100,
+                Map = "/MapImages/CHC-Transparent.png",
+                IndividualMap = "/MapImages/CHC.png",
+                Status = "Not enrolled",
+                CourseColor = GenerateHexColor()
+            }, new Course
+            {
+                CourseName = "Compiler Construction",
+                CourseCode = "CPSC 411",
+                Description ="Introduction to compilers, interpreters, and the tools for parsing and translation. Lexical analysis, context free grammars and software tools for their recognition. Attribute grammars and their applications in translation and compiling.",
+                Prereq = "Computer Science 319 or 331; and Computer Science 355 or Computer Engineering 369",
+                LectureLocation = "CHC 101",
+                LectureNumber = "Lec 01",
+                InstructorName = "John Aycock",
+                Days= "TR",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday},
+                CourseTime = "09:30 - 10:45",
+                StartTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(30)),
+                EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(45)),
+                Seats = "35/72",
+                SeatsTaken = 35,
+                TotalSeats = 72,
+                Map = "/MapImages/CHC-Transparent.png",
+                IndividualMap = "/MapImages/CHC.png",
+                Status = "Not enrolled",
+                CourseColor = GenerateHexColor()
+            },
+             new Course
+            {
+                CourseName = "Computing Machinery I",
+                CourseCode = "CPSC 355",
+                Description ="An introduction to computing machinery establishing the connection between programs expressed in a compiled language, an assembly language, and machine code, and how such code is executed. Includes the detailed study of a modern CPU architecture, its assembly language and internal data representation, and the relationship between high-level program constructs and machine operations.",
+                Prereq = "3 units from Computer Science 219, 233 or 235",
+                LectureLocation = "ICT 212",
+                LectureNumber = "Lec 01",
+                InstructorName = "Tamer Jarada",
+                Days= "MWF",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+                CourseTime = "10:00 - 10:50",
+                StartTime = TimeSpan.FromHours(10),
+                EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50)),
+                Seats = "10/100",
+                SeatsTaken = 10,
+                TotalSeats = 100,
+                Map = "/MapImages/ICT-Transparent.png",
+                IndividualMap = "/MapImages/ICT.png",
+                Status = "Not enrolled",
+                CourseColor = GenerateHexColor()
+            },
+               new Course
+            {
+                CourseName = "The Classical Period",
+                CourseCode = "PHIL 301",
+                Description ="The study of a selection of philosophers from the Pre-Socratics, through Plato and Aristotle, to the Hellenistic and Roman philosophers.",
+                Prereq = "None",
+                LectureLocation = "CHC-112",
+                LectureNumber = "Lec 01",
+                InstructorName = "Yoshiki Kobasigawa",
+                Days= "T",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday},
+                CourseTime = "17:00 - 19:50",
+                StartTime = TimeSpan.FromHours(17),
+                EndTime = TimeSpan.FromHours(19).Add(TimeSpan.FromMinutes(50)),
+                Seats = "20/35",
+                SeatsTaken = 20,
+                TotalSeats = 35,
+                Map = "/MapImages/CHC-Transparent.png",
+                IndividualMap = "/MapImages/CHC.png",
+                Status = "Not enrolled",
+                CourseColor = GenerateHexColor()
+            },
+               new Course
+            {
+                CourseName = "Combinatorics and Graph Theory",
+                CourseCode = "MATH 371",
+                Description ="Counting techniques, generating functions, inclusion-exclusion, introduction to graph theory.",
+                Prereq = "Mathematics 271 or 273; and one of Mathematics 249, 265 or 275. Also known as: (formerly Pure Mathematics 471)",
+                LectureLocation = "SB-215",
+                LectureNumber = "Lec 01",
+                InstructorName = "Karoly Bezdek",
+                Days= "MWF",
+                DaysOfWeek = new List<DayOfWeek>{  DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday},
+                CourseTime = "09:00 - 09:50",
+                StartTime = TimeSpan.FromHours(9),
+                EndTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(50)),
+                Seats = "27/42",
+                SeatsTaken = 27,
+                TotalSeats = 42,
+                Map = "/MapImages/SB-Transparent.png",
+                IndividualMap = "/MapImages/SB.png",
+                Status = "Not enrolled",
+                CourseColor = GenerateHexColor()
+            }
 
             } }
         };
@@ -585,7 +737,8 @@ namespace CPSC481CourseScheduler.Services
         Dictionary<string, List<Course>> RecommendedCourses { get; set; } = new Dictionary<string, List<Course>>
         {
             { "Fall", new List<Course>{
-                new Course  {
+                 new Course
+                    {
                         CourseName = "Introduction to Sociology",
                         CourseCode = "SOCI 201",
                         Description = "Sociology as a discipline examines how the society in which we live influences our thinking and behaviour. An introduction to sociology through the study of society, social institutions, group behaviour and social change.",
@@ -627,52 +780,6 @@ namespace CPSC481CourseScheduler.Services
                         IndividualMap = "/MapImages/SB.png",
                         Status = "Not enrolled",
                         CourseColor = GenerateHexColor()
-                    }
-                }
-            },
-            { "Spring", new List<Course>() },
-            { "Summer", new List<Course>() },
-            { "Winter", new List<Course>{
-                new Course
-                    {
-                        CourseName = "Design and Implementation of Database Systems",
-                        CourseCode = "CPSC 571",
-                        Description = "Implementation and design of modern database systems including query modification/optimization, recovery, concurrency, integrity, and distribution.",
-                        Prereq = "Computer Science 471",
-                        LectureLocation = "MS 217",
-                        LectureNumber = "Lec 01",
-                        InstructorName = "Tamer Jarada",
-                        Days= "TR",
-                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
-                        CourseTime = "14:00 - 15:15",
-                        StartTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(0)),
-                        EndTime = TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(15)),
-                        Seats = "40/90",
-                        SeatsTaken = 40,
-                        TotalSeats = 90,
-                        Map = "/MapImages/MS-Transparent.png",
-                        IndividualMap = "/MapImages/MS.png",
-                        Status = "Not enrolled",
-                        CourseColor = GenerateHexColor()
-                    },
-                    new Course
-                    {
-                        CourseName = "Web-Based Systems",
-                        CourseCode = "SENG 513",
-                        Description ="An overview of software engineering methods and technologies for developing web-based software systems.",
-                        Prereq = "3 units from Software Engineering 300, 301 or Software Engineering for Engineers 480",
-                        LectureLocation = "ICT 122",
-                        LectureNumber = "Lec 01",
-                        InstructorName = "Ahmad Nasri",
-                        Days= "TR",
-                        DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
-                        CourseTime = "12:30 - 13:45",
-                        StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
-                        EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
-                        Seats = "20/50",
-                        Status = "Not enrolled",
-                        SeatsTaken = 20,
-                        TotalSeats = 50,
                     },
                      new Course
                     {
@@ -686,7 +793,7 @@ namespace CPSC481CourseScheduler.Services
                         Days= "TR",
                         DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday},
                         CourseTime = "09:30 - 10:45",
-                        StartTime = TimeSpan.FromHours(9),
+                        StartTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(30)),
                         EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(45)),
                         Seats = "37/45",
                         SeatsTaken = 37,
@@ -709,7 +816,7 @@ namespace CPSC481CourseScheduler.Services
                         DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday},
                         CourseTime = "12 - 12:50",
                         StartTime = TimeSpan.FromHours(12),
-                        EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(45)),
+                        EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50)),
                         Seats = "100/106",
                         SeatsTaken = 100,
                         TotalSeats = 106,
@@ -717,7 +824,99 @@ namespace CPSC481CourseScheduler.Services
                         IndividualMap = "/MapImages/ICT.png",
                         Status = "Not enrolled",
                         CourseColor = GenerateHexColor()
-                    },
+                    }
+                }
+            },
+            { "Spring", new List<Course>() },
+            { "Summer", new List<Course>() },
+            { "Winter", new List<Course>{
+                new Course
+            {
+                CourseName = "Design and Implementation of Database Systems",
+                CourseCode = "CPSC 571",
+                Description = "Implementation and design of modern database systems including query modification/optimization, recovery, concurrency, integrity, and distribution.",
+                Prereq = "Computer Science 471",
+                LectureLocation = "MS 217",
+                LectureNumber = "Lec 01",
+                InstructorName = "Tamer Jarada",
+                Days= "TR",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
+                CourseTime = "14:00 - 15:15",
+                StartTime = TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(0)),
+                EndTime = TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(15)),
+                Seats = "40/90",
+                SeatsTaken = 40,
+                TotalSeats = 90,
+                Map = "/MapImages/MS-Transparent.png",
+                IndividualMap = "/MapImages/MS.png",
+                Status = "Not enrolled",
+                CourseColor = GenerateHexColor()
+            },
+            new Course
+            {
+                CourseName = "Web-Based Systems",
+                CourseCode = "SENG 513",
+                Description ="An overview of software engineering methods and technologies for developing web-based software systems.",
+                Prereq = "3 units from Software Engineering 300, 301 or Software Engineering for Engineers 480",
+                LectureLocation = "ICT 122",
+                LectureNumber = "Lec 01",
+                InstructorName = "Ahmad Nasri",
+                Days= "TR",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday },
+                CourseTime = "12:30 - 13:45",
+                StartTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)),
+                EndTime = TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(45)),
+                Seats = "20/50",
+                SeatsTaken = 20,
+                TotalSeats = 50,
+                Map = "/MapImages/ICT-Transparent.png",
+                IndividualMap = "/MapImages/ICT.png",
+                Status = "Not enrolled",
+                CourseColor = GenerateHexColor()
+            },
+            new Course
+            {
+                CourseName = "Introduction to Dinosaurs",
+                CourseCode = "GLGY 305",
+                Description ="Biology, evolution, and extinction of dinosaurs; geographic and temporal distribution, habitats, and ecology of the various dinosaur groups; preservation, exploration, collection, preparation, and identification of dinosaur fossils.",
+                Prereq = "None",
+                LectureLocation = "CHC 119",
+                LectureNumber = "Lec 01",
+                InstructorName = "Darla Zelenitsky",
+                Days= "MWF",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
+                CourseTime = "12:00 - 12:50",
+                StartTime = TimeSpan.FromHours(12),
+                EndTime = TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50)),
+                Seats = "10/100",
+                SeatsTaken = 10,
+                TotalSeats = 100,
+                Map = "/MapImages/CHC-Transparent.png",
+                IndividualMap = "/MapImages/CHC.png",
+                Status = "Not enrolled",
+                CourseColor = GenerateHexColor()
+            }, new Course
+            {
+                CourseName = "Compiler Construction",
+                CourseCode = "CPSC 411",
+                Description ="Introduction to compilers, interpreters, and the tools for parsing and translation. Lexical analysis, context free grammars and software tools for their recognition. Attribute grammars and their applications in translation and compiling.",
+                Prereq = "Computer Science 319 or 331; and Computer Science 355 or Computer Engineering 369",
+                LectureLocation = "CHC 101",
+                LectureNumber = "Lec 01",
+                InstructorName = "John Aycock",
+                Days= "TR",
+                DaysOfWeek = new List<DayOfWeek>{ DayOfWeek.Tuesday, DayOfWeek.Thursday},
+                CourseTime = "09:30 - 10:45",
+                StartTime = TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(30)),
+                EndTime = TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(45)),
+                Seats = "35/72",
+                SeatsTaken = 35,
+                TotalSeats = 72,
+                Map = "/MapImages/CHC-Transparent.png",
+                IndividualMap = "/MapImages/CHC.png",
+                Status = "Not enrolled",
+                CourseColor = GenerateHexColor()
+            }
                 }
             }
         };
