@@ -243,15 +243,15 @@ input:checked + .slider:before {
     List<(TimeSpan, TimeSpan)> mwfTimes = new List<(TimeSpan, TimeSpan)> 
     { 
         (TimeSpan.FromHours(8), TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50))),
-        (TimeSpan.FromHours(9), TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50))),
-        (TimeSpan.FromHours(10), TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50))),
-        (TimeSpan.FromHours(11), TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50))),
-        (TimeSpan.FromHours(12), TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50))),
-        (TimeSpan.FromHours(13), TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50))),
-        (TimeSpan.FromHours(14), TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50))),
-        (TimeSpan.FromHours(15), TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50))),
-        (TimeSpan.FromHours(16), TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50))),
-        (TimeSpan.FromHours(17), TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(9), TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(10), TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(11), TimeSpan.FromHours(11).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(12), TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(13), TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(14), TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(15), TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(16), TimeSpan.FromHours(16).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(17), TimeSpan.FromHours(17).Add(TimeSpan.FromMinutes(50))),
     };
 
     List<(TimeSpan, TimeSpan)> ttrTimes = new List<(TimeSpan, TimeSpan)>
@@ -308,7 +308,7 @@ input:checked + .slider:before {
     {
         Console.WriteLine("Next Schedule");
 
-        
+
 
         if (numNextButtonPresses < 6)
         {
@@ -346,6 +346,11 @@ input:checked + .slider:before {
                     continue;
                 }
 
+                if (scheduledCourse.Days != currentCourse.Days)
+                {
+                    continue;
+                }
+
                 var scheduledTimes = scheduledCourse.Days == "TR" ? ttrTimes : mwfTimes;
 
                 allTimes = allTimes.Where(timeSlot =>
@@ -358,21 +363,25 @@ input:checked + .slider:before {
                     return !overlaps;
                 }).ToList();
             }
+            int totalSeats = (int)currentCourse.TotalSeats;
 
             Random random = new Random();
             int timeIdx = random.Next(0, mwfTimes.Count);
+            int seatNumber = random.Next(2, totalSeats);
 
-            if (currentCourse.Days == "MWf")
+            if (currentCourse.Days == "MWF")
             {
                 var newTime = mwfTimes[timeIdx];
                 currentCourse.StartTime = newTime.Item1;
                 currentCourse.EndTime = newTime.Item2;
+                currentCourse.SeatsTaken = seatNumber;
             }
             else if (currentCourse.Days == "TR")
             {
                 var newTime = ttrTimes[timeIdx];
                 currentCourse.StartTime = newTime.Item1;
                 currentCourse.EndTime = newTime.Item2;
+                currentCourse.SeatsTaken = seatNumber;
             }
         }
 
