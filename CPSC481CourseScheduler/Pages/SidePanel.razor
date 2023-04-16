@@ -327,7 +327,7 @@
     async private void KeepCourse(Course course)
     {
         course.enroll();
-        await _CourseService.AddToSelectedCourses(course);
+        await _CourseService.KeepCourse(course);
     }
 
 
