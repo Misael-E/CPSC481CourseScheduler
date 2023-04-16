@@ -10,6 +10,7 @@ namespace CPSC481CourseScheduler.Services
         List<Friend> GetAllFriends();
         List<Course> GetFriendCourses();
 
-        public event EventHandler<List<Course>> OnSelectedFriendChanged;
+        public event EventHandler<List<Course>> OnSelectedFriendCourseChanged;
+        public event EventHandler<List<Friend>> OnSelectedFriendChanged;
     }
 }
