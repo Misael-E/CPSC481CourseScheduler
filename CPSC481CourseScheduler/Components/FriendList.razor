@@ -22,7 +22,7 @@
                 <li class="list-group-item">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="@friend.Id" value="@friend.Name" checked="@friend.IsSelected" @onchange="e => SelectFriend(friend, e)">
+                            <input class="form-check-input" type="radio" id="@friend.Id" value="@friend.Name" checked="@friend.IsSelected" @onchange="e => SelectFriend(friend, e)">
                             <label class="form-check-label" for="friend-@friend.Id">
                                 @friend.Name
                             </label>
@@ -53,6 +53,7 @@
     protected override async void OnInitialized()
     {
         friends = _FriendService.GetAllFriends();
+        _FriendService.OnSelectedFriendChanged += OnSelectedFriendChanged;
         base.OnInitialized();
 
     }
@@ -60,6 +61,15 @@
     private void ToggleEditMode()
     {
         IsEditMode = !IsEditMode;
+    }
+
+    private async void OnSelectedFriendChanged(object sender, List<Friend> friends)
+    {
+        await InvokeAsync(() =>
+        {
+            friends = _FriendService.GetAllFriends();
+            StateHasChanged();
+        });
     }
 
     private async void SelectFriend(Friend selectedFriend, ChangeEventArgs e)

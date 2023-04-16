@@ -4,7 +4,8 @@ namespace CPSC481CourseScheduler.Services
 {
     public class FriendService: IFriendService
     {
-        public event EventHandler<List<Course>> OnSelectedFriendChanged;
+        public event EventHandler<List<Course>> OnSelectedFriendCourseChanged;
+        public event EventHandler<List<Friend>> OnSelectedFriendChanged;
 
         private List<Friend> friends = new List<Friend> 
         {
@@ -41,7 +42,8 @@ namespace CPSC481CourseScheduler.Services
                 }
                 selectedFriendInit = selectedFriend;
             });
-            OnSelectedFriendChanged?.Invoke(this, FriendCourses[selectedFriendInit.Name]);
+            OnSelectedFriendCourseChanged?.Invoke(this, FriendCourses[selectedFriendInit.Name]);
+            OnSelectedFriendChanged?.Invoke(this, friends);
         }
 
         public List<Friend> GetAllFriends() 
