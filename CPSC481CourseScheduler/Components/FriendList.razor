@@ -39,7 +39,7 @@
         </ul>
 
         <div class="mt-3 d-flex justify-content-center">
-            <button class="orange-button-1" @onclick="ShowAddFriendModal">Add Friend</button>
+            <button class="orange-button-1" @onclick="() => ShowAddFriendModal()">Add Friend</button>
         </div>
 
 
@@ -84,12 +84,6 @@
         await _FriendService.SelectFriend(selectedFriend);
     }
 
-    private async void AddFriend()
-    {
-        Friend newFriend = new Friend (nextId++, "New Friend", false);
-        await _FriendService.AddFriend(newFriend);
-    }
-
     private async void RemoveFriend(Friend friend)
     {
         await _FriendService.RemoveFriend(friend);
@@ -110,7 +104,10 @@
 
     private async Task ShowAddFriendModal()
     {
-        var modal = Modal.Show<AddFriendModal>("Add Friend", options);
+        var props = new ModalParameters();
+        props.Add("friends", friends);
+        var modal = Modal.Show<AddFriendModal>("Add Friend", props,options);
+
         var result = await modal.Result;
         
         if (result.Cancelled)

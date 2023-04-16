@@ -375,6 +375,7 @@ input:checked + .slider:before {
                 currentCourse.StartTime = newTime.Item1;
                 currentCourse.EndTime = newTime.Item2;
                 currentCourse.SeatsTaken = seatNumber;
+                currentCourse.CourseTime = $"{newTime.Item1:hh\\:mm} - {newTime.Item2:hh\\:mm}";
             }
             else if (currentCourse.Days == "TR")
             {
@@ -382,6 +383,7 @@ input:checked + .slider:before {
                 currentCourse.StartTime = newTime.Item1;
                 currentCourse.EndTime = newTime.Item2;
                 currentCourse.SeatsTaken = seatNumber;
+                currentCourse.CourseTime = $"{newTime.Item1:hh\\:mm} - {newTime.Item2:hh\\:mm}";
             }
         }
 
