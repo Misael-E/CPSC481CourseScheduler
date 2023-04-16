@@ -1,4 +1,5 @@
 ﻿@page "/plan"
+@inject CPSC481CourseScheduler.Services.ICourseService _CourseService;
 <style>
 .map-and-cards {
     display:flex;
@@ -191,8 +192,8 @@ input:checked + .slider:before {
             @if (!mapView)
             {
                 <div class="flex justtify-content-center align-items-center pl-5 col-4">
-                    <button title="Previous Schedule" class="btn btn-warning"><i class="arrow left" style="margin-top:20%"></i></button>
-                    <button title="Next Schedule" class="btn btn-warning"><i class="arrow right" style="margin-top:20%"></i></button>
+                        <button title="Previous Schedule" class="btn btn-warning" @onclick="() => OnPreviousScheduleClick()"><i class="arrow left" style="margin-top:20%"></i></button>
+                        <button title="Next Schedule" class="btn btn-warning" @onclick="() => OnNextScheduleClick()"><i class="arrow right" style="margin-top:20%"></i></button>
                 </div>
                 <div class="col-4" style="text-align:right; margin: auto">
                 <button title="Click for summary of changes" type="button" class="orange-button-1 finalize-button" @onclick="ShowFinalizeModal">FINALIZE SCHEDULE</button>
@@ -234,6 +235,45 @@ input:checked + .slider:before {
     private bool setSearch = false;
     private bool mapView = false;
     private string toggleSwitchText = "Off";
+    string[] lectureNumbers = { "Lec 01", "Lec 02" };
+    private int ttrIndex = 0;
+    private int numNextButtonPresses = 0;
+    private List<Course> courses = new List<Course>();
+
+    List<(TimeSpan, TimeSpan)> mwfTimes = new List<(TimeSpan, TimeSpan)> 
+    { 
+        (TimeSpan.FromHours(8), TimeSpan.FromHours(8).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(9), TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(10), TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(11), TimeSpan.FromHours(11).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(12), TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(13), TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(14), TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(15), TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(16), TimeSpan.FromHours(16).Add(TimeSpan.FromMinutes(50))),
+        (TimeSpan.FromHours(17), TimeSpan.FromHours(17).Add(TimeSpan.FromMinutes(50))),
+    };
+
+    List<(TimeSpan, TimeSpan)> ttrTimes = new List<(TimeSpan, TimeSpan)>
+    {
+        (TimeSpan.FromHours(8), TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(15))),
+        (TimeSpan.FromHours(9).Add(TimeSpan.FromMinutes(30)), TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(15))),
+        (TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(30)), TimeSpan.FromHours(11).Add(TimeSpan.FromMinutes(15))),
+        (TimeSpan.FromHours(11).Add(TimeSpan.FromMinutes(30)), TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(15))),
+        (TimeSpan.FromHours(12).Add(TimeSpan.FromMinutes(30)), TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(15))),
+        (TimeSpan.FromHours(13).Add(TimeSpan.FromMinutes(30)), TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(15))),
+        (TimeSpan.FromHours(14).Add(TimeSpan.FromMinutes(30)), TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(15))),
+        (TimeSpan.FromHours(15).Add(TimeSpan.FromMinutes(30)), TimeSpan.FromHours(16).Add(TimeSpan.FromMinutes(15))),
+        (TimeSpan.FromHours(16).Add(TimeSpan.FromMinutes(30)), TimeSpan.FromHours(17).Add(TimeSpan.FromMinutes(15))),
+        (TimeSpan.FromHours(17).Add(TimeSpan.FromMinutes(30)), TimeSpan.FromHours(18).Add(TimeSpan.FromMinutes(15))),
+    };
+
+    protected override async void OnInitialized()
+    {
+        courses = _CourseService.GetSelectedCourses();
+        base.OnInitialized();
+    }
+
 
     private void setSearchInput ()
     {
@@ -249,6 +289,104 @@ input:checked + .slider:before {
         {
             toggleSwitchText = "Off";
         }
+    }
+
+    async private void OnPreviousScheduleClick()
+    {
+        Console.WriteLine("Previous Schedule");
+        if (numNextButtonPresses > 0)
+        {
+            numNextButtonPresses--;
+        }
+
+        Console.WriteLine(numNextButtonPresses);
+        UpdateLectureNumberAndTime(false);
+        await _CourseService.setSelectedCourses(courses);
+    }
+
+    async private void OnNextScheduleClick()
+    {
+        Console.WriteLine("Next Schedule");
+
+
+
+        if (numNextButtonPresses < 6)
+        {
+            numNextButtonPresses++;
+            UpdateLectureNumberAndTime(true);
+        }
+        Console.WriteLine(numNextButtonPresses);
+        await _CourseService.setSelectedCourses(courses);
+    }
+
+    async private void UpdateLectureNumberAndTime(bool isNext)
+    {
+        List<Course> newCourses = courses;
+
+        for (var i = 0; i < courses.Count; i++)
+        {
+            Course currentCourse = newCourses[i];
+
+            // Update lecture number
+            if (isNext)
+            {
+                currentCourse.LectureNumber = currentCourse.LectureNumber == "Lec 01" ? "Lec 02" : "Lec 01";
+            }
+            else
+            {
+                currentCourse.LectureNumber = currentCourse.LectureNumber == "Lec 02" ? "Lec 01" : "Lec 02";
+            }
+
+            List<(TimeSpan, TimeSpan)> allTimes = currentCourse.Days == "TR" ? ttrTimes : mwfTimes;
+
+            foreach (var scheduledCourse in newCourses)
+            {
+                if (scheduledCourse == currentCourse)
+                {
+                    continue;
+                }
+
+                if (scheduledCourse.Days != currentCourse.Days)
+                {
+                    continue;
+                }
+
+                var scheduledTimes = scheduledCourse.Days == "TR" ? ttrTimes : mwfTimes;
+
+                allTimes = allTimes.Where(timeSlot =>
+                {
+                    var overlaps = scheduledTimes.Any(scheduledTimeSlot =>
+                    {
+                        return scheduledCourse.StartTime < timeSlot.Item2 && scheduledCourse.EndTime > timeSlot.Item1;
+                    });
+
+                    return !overlaps;
+                }).ToList();
+            }
+            int totalSeats = (int)currentCourse.TotalSeats;
+
+            Random random = new Random();
+            int timeIdx = random.Next(0, mwfTimes.Count);
+            int seatNumber = random.Next(2, totalSeats);
+
+            if (currentCourse.Days == "MWF")
+            {
+                var newTime = mwfTimes[timeIdx];
+                currentCourse.StartTime = newTime.Item1;
+                currentCourse.EndTime = newTime.Item2;
+                currentCourse.SeatsTaken = seatNumber;
+            }
+            else if (currentCourse.Days == "TR")
+            {
+                var newTime = ttrTimes[timeIdx];
+                currentCourse.StartTime = newTime.Item1;
+                currentCourse.EndTime = newTime.Item2;
+                currentCourse.SeatsTaken = seatNumber;
+            }
+        }
+
+        await _CourseService.setSelectedCourses(newCourses);
+
     }
 
     [CascadingParameter] public Blazored.Modal.Services.IModalService Modal { get; set; }

@@ -133,6 +133,12 @@ namespace CPSC481CourseScheduler.Services
             }
         }
 
+        public async Task<int> setSelectedCourses(List<Course> courses) 
+        {
+            await Task.Factory.StartNew(() => SelectedCourses[SelectedSemester.Season] = courses);
+            OnSelectedCoursesChanged?.Invoke(this, SelectedCourses[SelectedSemester.Season]);
+            return 0;
+        }
 
         public List<Course> GetSearchedCourses()
         {

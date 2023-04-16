@@ -61,11 +61,12 @@
     protected override async void OnInitialized()
     {
         _CourseService.OnSelectedCoursesChanged += SelectedCoursesChanged;
-        _FriendService.OnSelectedFriendChanged += SelectedFriendCourseChanged;
+        _FriendService.OnSelectedFriendCourseChanged += SelectedFriendCourseChanged;
         courses = this.filterCoursesToDrop(_CourseService.GetSelectedCourses());
 
 
         friendCourses = this.filterCoursesToDrop(_FriendService.GetFriendCourses());
+
         base.OnInitialized();
     }
 
@@ -151,8 +152,7 @@
                         else
                         {
                             sb.Append($"<td style='background-color: {course.CourseColor}; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>");
-                            sb.Append($"{course.CourseCode}<button class='btn btn-x float-end px-2' style='position: absolute; top: 0; right: 0; padding: 0;' @onclick='()=>RemoveCourse(course)'>");
-                            sb.Append($"<i class='fa fa-times'></i></button></td>");
+                            sb.Append($"{course.CourseCode}</td>");
                         }
 
                         if (_FriendService.GetFriendCourses().Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
@@ -198,7 +198,6 @@
 
     async private void RemoveCourse(Course course)
     {
-        Console.WriteLine(course.CourseCode);
         await _CourseService.RemoveFromSelectedCourses(course);
     }
 
