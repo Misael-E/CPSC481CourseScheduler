@@ -62,16 +62,28 @@
     {
         _CourseService.OnSelectedCoursesChanged += SelectedCoursesChanged;
         _FriendService.OnSelectedFriendCourseChanged += SelectedFriendCourseChanged;
-        courses = _CourseService.GetSelectedCourses();
-        friendCourses = _FriendService.GetFriendCourses();
+        courses = this.filterCoursesToDrop(_CourseService.GetSelectedCourses());
+
+
+        friendCourses = this.filterCoursesToDrop(_FriendService.GetFriendCourses());
+
         base.OnInitialized();
     }
 
+    private List<Course> filterCoursesToDrop(List<Course> list) 
+    {
+        var filteredCourses = new List<Course>();
+        foreach (var course in list)
+        {
+            if (!course.DropCourse) filteredCourses.Add(course);
+        }
+        return filteredCourses;
+    }
     private async void SelectedCoursesChanged(object sender, List<Course> NewSelectedCourses)
     {
         await InvokeAsync(() =>
         {
-            courses = NewSelectedCourses;
+            courses = this.filterCoursesToDrop(NewSelectedCourses);
             StateHasChanged();
         });
     }
@@ -80,7 +92,7 @@
     {
         await InvokeAsync(() =>
         {
-            friendCourses = NewFriendCourses;
+            friendCourses = this.filterCoursesToDrop(NewFriendCourses);
             StateHasChanged();
         });
     }
