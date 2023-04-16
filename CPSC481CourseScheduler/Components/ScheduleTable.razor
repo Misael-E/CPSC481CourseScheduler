@@ -147,7 +147,9 @@
 
                         if (currentPage == "share")
                         {
-                            sb.Append($"<td style='{bgColor} {opacity}; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>{course.CourseCode}</td>");
+                            var overlappingCourseCodes = friendCourses.Where(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime).Select(c => c.CourseCode);
+                            var overlappingCourseCodeString = string.Join(" / ", overlappingCourseCodes);
+                            sb.Append($"<td style='{bgColor} {opacity}; text-align: center; vertical-align: middle; position: relative;' rowspan={rowspan}>{course.CourseCode}{(!string.IsNullOrEmpty(overlappingCourseCodeString) ? $" / {overlappingCourseCodeString}" : "")}</td>");
                         }
                         else
                         {
@@ -155,8 +157,9 @@
                             sb.Append($"{course.CourseCode}</td>");
                         }
 
-                        if (_FriendService.GetFriendCourses().Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
+                        if (friendCourses.Any(c => c != course && c.DaysOfWeek.Contains(day) && c.StartTime < course.EndTime && c.EndTime > course.StartTime) && currentPage == "share")
                         {
+
                             // if there is a friend course that overlaps with this course, set the background color of the existing cell to light blue
                             sb.Replace("#FFD16B", "#BCE5F9");
                         }

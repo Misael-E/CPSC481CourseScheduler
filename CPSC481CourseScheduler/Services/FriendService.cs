@@ -14,9 +14,16 @@ namespace CPSC481CourseScheduler.Services
             new Friend (3, "James",false )
         };
 
+        private List<Friend> friendsToShare = new List<Friend>
+        {
+            new Friend(1, "Albert", true),
+            new Friend ( 2, "Stephanie", false),
+            new Friend (3, "Matt",false )
+        };
+
         public async Task AddFriend(Friend friend) 
         {
-            await Task.Factory.StartNew(() => friends.Add(friend));
+            await Task.Factory.StartNew(() => friendsToShare.Add(friend));
         }
 
         public async Task RemoveFriend(Friend friend)
@@ -50,6 +57,12 @@ namespace CPSC481CourseScheduler.Services
         {
             return friends;
         }
+
+        public List<Friend> GetAllFriendsToShare()
+        {
+            return friendsToShare;
+        }
+
         public List<Course> GetFriendCourses()
         {
             return FriendCourses[selectedFriendInit.Name];

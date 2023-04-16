@@ -56,10 +56,12 @@
     private int nextId = 4;
     private bool IsEditMode = false;
     private List<Friend> friends = new List<Friend>();
+    private List<Friend> friendsToShare = new List<Friend>();
 
     protected override async void OnInitialized()
     {
         friends = _FriendService.GetAllFriends();
+        friendsToShare = _FriendService.GetAllFriendsToShare();
         _FriendService.OnSelectedFriendChanged += OnSelectedFriendChanged;
         base.OnInitialized();
 
@@ -105,8 +107,8 @@
     private async Task ShowAddFriendModal()
     {
         var props = new ModalParameters();
-        props.Add("friends", friends);
-        var modal = Modal.Show<AddFriendModal>("Add Friend", props,options);
+        props.Add("friends", friendsToShare);
+        var modal = Modal.Show<AddFriendModal>("Add Friend", props, options);
 
         var result = await modal.Result;
         

@@ -8,6 +8,7 @@ namespace CPSC481CourseScheduler.Services
         Task RemoveFriend(Friend friend);
         Task SelectFriend(Friend selectedFriend);
         List<Friend> GetAllFriends();
+        List<Friend> GetAllFriendsToShare();
         List<Course> GetFriendCourses();
 
         public event EventHandler<List<Course>> OnSelectedFriendCourseChanged;
