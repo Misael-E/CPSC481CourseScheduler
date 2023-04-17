@@ -14,5 +14,8 @@ Ayoub Bin Nakhi<br/>
 
 ### Limitations
 * A limited number of courses are available for searching and recommendations.
-* Course time slots have no time conflicts.
+* No error handling for courses with time conflicts.
 * No courses are available for the Spring and Summer semesters.
+* Courses are missing tutorial/lab information.
+* Swapping between course time slots is a little buggy.
+
